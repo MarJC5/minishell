@@ -18,15 +18,20 @@ FILES	=	main.c \
 SRC 	=	$(addprefix $(FOLDER), $(FILES))
 OBJ 	=	$(SRC:.c=.o)
 
+LIBFT = ./newlibft/libft.a
+
 all: $(OBJ)
-	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ)
+	@$(MAKE) -C ./newlibft
+	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIBFT)
 	@echo "[$(GREEN)created$(RESET)]: $(NAME)"
 
 clean:
+	@$(MAKE) -C ./newlibft clean
 	@$(RM) $(OBJ)
 	@echo "[$(RED)deleted$(RESET)]: *.o files"
 
 fclean: clean
+	@$(MAKE) -C ./newlibft fclean
 	@$(RM) $(NAME)
 	@echo "[$(RED)deleted$(RESET)]: $(NAME)"
 

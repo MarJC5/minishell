@@ -14,11 +14,12 @@ RM		=	rm -rf
 FOLDER	=	src/
 
 FILES	=	main.c \
+			pwd.c
 
 SRC 	=	$(addprefix $(FOLDER), $(FILES))
 OBJ 	=	$(SRC:.c=.o)
 
-LIBFT = ./newlibft/libft.a
+LIBFT 	= ./newlibft/libft.a
 
 all: $(OBJ)
 	@$(MAKE) -C ./newlibft

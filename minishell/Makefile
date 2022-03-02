@@ -14,7 +14,8 @@ RM		=	rm -rf
 FOLDER	=	src/
 
 FILES	=	main.c \
-			pwd.c
+			pwd.c \
+			export.c
 
 SRC 	=	$(addprefix $(FOLDER), $(FILES))
 OBJ 	=	$(SRC:.c=.o)

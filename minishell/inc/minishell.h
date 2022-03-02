@@ -12,4 +12,7 @@
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+
+#include "../newlibft/libft.h"
+
 #endif

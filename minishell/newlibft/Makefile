@@ -12,9 +12,8 @@ PNTC = ft_striteri.c ft_strmapi.c ft_itoa.c ft_strcmp.c ft_split.c ft_strtrim.c 
 
 PNTO = $(PNTC:.c=.o)
 
-Green = \033[0;32m
-
-ORANGE	= \033[0;35m
+GREEN	= \033[0;32m
+ORANGE	= \033[0;33m
 
 NC = \033[0m
 
@@ -22,17 +21,16 @@ all : make
 
 make : $(PNTC)
 	@$(CC) $(CFLAG) -c $(PNTC)
-	@echo "[$(ORANGE)libft$(NC)] Compilation : $(Green)OK$(NC)"
 	@ar $(ARFLAGS) $(NAME) $(PNTO)
-	@echo "[$(ORANGE)libft$(NC)] creation des points *O : $(Green)OK$(NC)"
+	@echo "[$(ORANGE)libft$(NC)] Creation *.o files & compilation : $(GREEN)OK$(NC)"
 
 clean :
 	@/bin/$(RM) $(PNTO)
-	@echo "[$(ORANGE)libft$(NC)] Clean : $(Green)OK$(NC)"
+	@echo "[$(ORANGE)libft$(NC)] clean *.o files : $(GREEN)OK$(NC)"
 
 fclean : clean
 	@/bin/$(RM) $(NAME)
-	@echo "[$(ORANGE)libft$(NC)] Fclean : $(Green)OK$(NC)"
+	@echo "[$(ORANGE)libft$(NC)] fclean : $(GREEN)OK$(NC)"
 
 re : clean fclean all
 

@@ -6,25 +6,23 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 20:27:21 by jmartin           #+#    #+#             */
-/*   Updated: 2022/03/03 09:10:34 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/03/03 16:54:16 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
 /**
- * @brief Get the export env object
- *
- * @param envp
+ * @brief Get the export env object, count his size and print if needed
  */
 
-static void	get_export_env(char **envp)
+void	get_export_env(char **envp)
 {
 	int	i;
 
-	i = 0;
-	while (envp[i])
-		ft_printf("%s\n", envp[i++]);
+	i = -1;
+	while (envp[++i])
+		ft_printf("%s\n", envp[i]);
 }
 
 /**
@@ -34,10 +32,13 @@ static void	get_export_env(char **envp)
  * @param envp
  */
 
-void	set_export(t_cmd *command, char **envp)
+void	set_export(t_shell *shell)
 {
-	if (command->args_count == 1)
-		get_export_env(envp);
-	else if (command->args_count > 1)
-		ft_printf("%s", command->args[0]);
+	int	i;
+
+	i = -1;
+	if (shell->cmd->args_count == 1)
+		get_export_env(shell->envp);
+	else if (shell->cmd->args_count > 1)
+		;
 }

@@ -17,7 +17,8 @@ FOLDER	=	src/
 FILES	=	main.c \
 			init_utils.c \
 			builtin_export.c \
-			builtin_pwd.c
+			builtin_pwd.c \
+			builtin_env.c
 
 SRC 	=	$(addprefix $(FOLDER), $(FILES))
 OBJ 	=	$(SRC:.c=.o)

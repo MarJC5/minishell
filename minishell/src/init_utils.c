@@ -6,38 +6,78 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 21:16:18 by jmartin           #+#    #+#             */
-/*   Updated: 2022/03/03 09:22:42 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/03/03 14:27:24 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
 /**
+ * @brief Args counter for malloc size
+ *
+ * @param args
+ * @return int
+ */
+
+static int	args_counter(char **args)
+{
+	int	i;
+
+	i = 0;
+	while (args[i])
+		i++;
+	return (i);
+}
+
+/**
+ * @brief Set the envp object
+ *
+ * @param shell
+ * @param envp
+ */
+
+void	set_envp(t_shell *shell, char **envp)
+{
+	int	i;
+
+	i = -1;
+	if (!shell->envp)
+	{
+		shell->envp = malloc(args_counter(envp) * sizeof(char *));
+		while (++i < args_counter(envp))
+			shell->envp[i] = ft_strdup(envp[i]);
+	}
+}
+
+/**
  * @brief Save a command and his agruments passed through user input
  *
  * @param command
- * @param argv
- * @param argc
+ * @param args
+ * @param size
  * @return char*
  */
 
-char	*init_cmd(t_cmd	*command, char **argv, int argc)
+char	*init_cmd(t_shell *shell, char **args, int start)
 {
 	int	i;
 	int	j;
+	int	size;
 
 	i = 2;
 	j = 0;
-	command->args = malloc((argc) * sizeof(char *));
-	if (!command->args)
+	size = args_counter(args);
+	if (size > 1)
+		shell->cmd->args = malloc((size) * sizeof(char *));
+	if (!shell->cmd->args)
 		return (NULL);
-	if (argv[1])
+	if (args[start])
 	{
-		command->name = ft_strdup(argv[1]);
-		command->args_count = argc - 1;
+		shell->cmd->name = ft_strdup(args[1]);
+		shell->cmd->args_count = size - start;
 	}
-	while (argv[i])
-		command->args[j++] = argv[i++];
-	command->args[j] = "\0";
-	return (command->name);
+	while (args[i])
+		shell->cmd->args[j++] = args[i++];
+	shell->cmd->args[j] = "\0";
+	return (shell->cmd->name);
 }

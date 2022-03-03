@@ -1,6 +1,7 @@
 # Others
 .DS_Store
 .vscode
+./minishell/minishell
 
 # Prerequisites
 *.d

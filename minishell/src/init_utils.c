@@ -6,26 +6,46 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 21:16:18 by jmartin           #+#    #+#             */
-/*   Updated: 2022/03/03 14:27:24 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/03/07 08:07:07 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-/**
- * @brief Args counter for malloc size
- *
- * @param args
- * @return int
- */
-
-static int	args_counter(char **args)
+void	*ft_free_env(char **ptr)
 {
 	int	i;
 
-	i = 0;
-	while (args[i])
-		i++;
+	i = -1;
+	while (ptr[++i])
+		free(ptr[i]);
+	free(ptr);
+	return (NULL);
+}
+
+void	*ft_realloc_env(char **ptr, int size)
+{
+	int		i;
+	char	**ret;
+
+	i = -1;
+	ret = malloc(size + 1);
+	if (!ret)
+		return (NULL);
+	while (ptr[++i])
+		ft_me
+	ret[i] = "\0";
+	ft_free_env(ptr);
+	return (ret);
+}
+
+int	args_counter(char **args)
+{
+	int	i;
+
+	i = -1;
+	while (args[++i])
+		;
 	return (i);
 }
 
@@ -43,7 +63,7 @@ void	set_envp(t_shell *shell, char **envp)
 	i = -1;
 	if (!shell->envp)
 	{
-		shell->envp = malloc(args_counter(envp) * sizeof(char *));
+		shell->envp = malloc((args_counter(envp) + 1) * sizeof(char *));
 		while (++i < args_counter(envp))
 			shell->envp[i] = ft_strdup(envp[i]);
 	}
@@ -68,7 +88,7 @@ char	*init_cmd(t_shell *shell, char **args, int start)
 	j = 0;
 	size = args_counter(args);
 	if (size > 1)
-		shell->cmd->args = malloc((size) * sizeof(char *));
+		shell->cmd->args = malloc((size + 1) * sizeof(char *));
 	if (!shell->cmd->args)
 		return (NULL);
 	if (args[start])

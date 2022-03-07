@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 12:54:56 by jmartin           #+#    #+#             */
-/*   Updated: 2022/03/07 07:58:16 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/03/07 10:59:35 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,17 +31,31 @@ typedef struct s_shell
 	t_cmd	*cmd;
 }	t_shell;
 
+
+/**
+ * UTILS
+ */
 char	*init_cmd(t_shell	*shell, char **args, int start);
 
 int		args_counter(char **args);
 
+void	*ft_free_multi_tab(char **ptr);
+
+/**
+ * PWD
+ */
+void	get_pwd(void);
+
+/**
+ * ENV
+ */
+void	env_comp(t_shell *shell);
 void	set_export(t_shell *shell);
 void	set_envp(t_shell *shell, char **envp);
-void	get_pwd(void);
 void	get_env(t_shell *shell);
 void	get_export_env(char **envp);
-
-void	*ft_free_env(char **ptr);
 void	*ft_realloc_env(char **ptr, int size);
+
+int		is_env_valid(char *str);
 
 #endif

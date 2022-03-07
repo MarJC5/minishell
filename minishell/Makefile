@@ -15,7 +15,9 @@ RM		=	rm -rf
 FOLDER	=	src/
 
 FILES	=	main.c \
+			utils.c \
 			init_utils.c \
+			env_utils.c \
 			builtin_export.c \
 			builtin_pwd.c \
 			builtin_env.c

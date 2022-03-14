@@ -6,13 +6,17 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/03 16:42:05 by jmartin           #+#    #+#             */
-/*   Updated: 2022/03/03 16:51:14 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/03/14 18:07:06 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-void	get_env(t_shell *shell)
+void	env(t_shell *shell)
 {
-	get_export_env(shell->envp);
+	int	i;
+
+	i = -1;
+	while (shell->envp[++i] != NULL)
+		ft_printf("%s\n", shell->envp[i]);
 }

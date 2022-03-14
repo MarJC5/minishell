@@ -19,6 +19,7 @@ FILES	=	main.c \
 			init_utils.c \
 			env_utils.c \
 			builtin_export.c \
+			builtin_unset.c \
 			builtin_pwd.c \
 			builtin_env.c
 

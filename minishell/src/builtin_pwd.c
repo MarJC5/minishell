@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 09:27:32 by jmartin           #+#    #+#             */
-/*   Updated: 2022/03/02 20:26:56 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/03/14 17:34:38 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
  * @brief Get the current pwd object and print it
  */
 
-void	get_pwd(void)
+void	pwd(void)
 {
 	char	cwd[PATH_MAX];
 

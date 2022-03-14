@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 12:54:56 by jmartin           #+#    #+#             */
-/*   Updated: 2022/03/07 10:59:35 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/03/14 11:59:50 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	get_pwd(void);
 /**
  * ENV
  */
-void	env_comp(t_shell *shell);
+void	update_envp(t_shell *shell, char *value, int size);
 void	set_export(t_shell *shell);
 void	set_envp(t_shell *shell, char **envp);
 void	get_env(t_shell *shell);

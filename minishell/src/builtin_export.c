@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 20:27:21 by jmartin           #+#    #+#             */
-/*   Updated: 2022/03/07 12:55:40 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/03/14 12:01:25 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,7 @@ void	set_export(t_shell *shell)
 		get_export_env(shell->envp);
 	else if (shell->cmd->args_count > 1)
 	{
-		ft_realloc_env(shell->envp, args_counter(shell->envp) + 1);
-		env_comp(shell);
+		update_envp(shell, shell->cmd->args[0], args_counter(shell->envp));
 		get_export_env(shell->envp);
 	}
 }

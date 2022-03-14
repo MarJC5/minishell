@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 10:50:02 by jmartin           #+#    #+#             */
-/*   Updated: 2022/03/07 13:24:24 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/03/14 11:58:32 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,13 @@ int	is_env_valid(char *str)
 
 	i = 0;
 	if (ft_strchr(str, '='))
-		j = ft_strlen(str) - ft_strlen(ft_strchr(str, '=')) - 1;
+		j = ft_strlen(str) - ft_strlen(ft_strchr(str, '='));
 	else
-		ft_strlen(str);
+		j = ft_strlen(str);
 	while (i < j)
 	{
 		if (ft_isdigit(str[i]) || ft_isalpha(str[i])
-				|| str[i] == '_' || str[i] == '=')
+			|| str[i] == '_' || str[i] == '=')
 			i++;
 		else
 		{
@@ -42,23 +42,30 @@ int	is_env_valid(char *str)
  * @param shell
  */
 
-void	env_comp(t_shell *shell)
+void	update_envp(t_shell *shell, char *value, int size)
 {
 	int	i;
-	int	j;
-	int	env_size;
-	int	arg_size;
+	int	env_name_size;
 
 	i = -1;
-	if (is_env_valid(shell->cmd->args[0]))
+	if (is_env_valid(value))
 	{
 		while (shell->envp[++i])
 		{
-			/*
-				compare before = value
-				if no existing -> create new with value or set =''
-				if existing -> overwrite the correct env with new value
-			*/
+			env_name_size = ft_strlen(value) - ft_strlen(ft_strchr(value, '='));
+			if (ft_strncmp(shell->envp[i], value, env_name_size) == 0
+				&& ft_strcmp(shell->envp[i], value) != 0)
+			{
+				free(shell->envp[i]);
+				shell->envp[i] = ft_strdup(value);
+				break ;
+			}
+			else if (ft_strncmp(shell->envp[i], value, env_name_size) != 0
+				&& i == size - 1)
+			{
+				ft_realloc_env(shell->envp, size + 1);
+				shell->envp[size - 1] = ft_strdup(value);
+			}
 		}
 	}
 }
@@ -82,7 +89,6 @@ void	*ft_realloc_env(char **ptr, int size)
 		return (NULL);
 	while (++i < (size - 1))
 		ft_memcpy(&ret[i], ptr[i], ft_strlen(ptr[i]));
-	ret[size + 1] = 0;
 	return (ret);
 }
 

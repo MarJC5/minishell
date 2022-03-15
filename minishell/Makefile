@@ -1,7 +1,8 @@
 # COLORS
-GREEN	= \033[1;32m
-RED 	= \033[1;31m
-ORANGE	= \033[1;33m
+GREEN	= \033[0;32m
+RED 	= \033[0;31m
+ORANGE	= \033[0;33m
+CYAN	= \033[0;36m
 RESET	= \033[0m
 
 NAME	=	minishell
@@ -14,26 +15,37 @@ RM		=	rm -rf
 FOLDER	=	src/
 
 FILES	=	main.c \
+			init_utils.c \
+			res/utils.c \
+			res/free.c \
+			builtins/env_utils.c \
+			builtins/env.c \
+			builtins/export.c \
+			builtins/pwd.c \
+			builtins/unset.c
 
 SRC 	=	$(addprefix $(FOLDER), $(FILES))
 OBJ 	=	$(SRC:.c=.o)
 
-LIBFT = ./newlibft/libft.a
+LIBFT 	= ./newlibft/libft.a
 
-all: $(OBJ)
+all: $(NAME)
+
+$(NAME): $(OBJ)
 	@$(MAKE) -C ./newlibft
 	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIBFT)
-	@echo "[$(GREEN)created$(RESET)]: $(NAME)"
+	@echo "[$(ORANGE)$(NAME)$(RESET)] Creation *.o files & compilation : $(GREEN)OK$(RESET)"
+	@echo "[\033[1;32msuccess$(RESET)]: $(NAME) is ready"
 
 clean:
 	@$(MAKE) -C ./newlibft clean
 	@$(RM) $(OBJ)
-	@echo "[$(RED)deleted$(RESET)]: *.o files"
+	@echo "[$(ORANGE)$(NAME)$(RESET)] clean *.o files : $(GREEN)OK$(RESET)"
 
 fclean: clean
 	@$(MAKE) -C ./newlibft fclean
 	@$(RM) $(NAME)
-	@echo "[$(RED)deleted$(RESET)]: $(NAME)"
+	@echo "[$(ORANGE)$(NAME)$(RESET)] fclean: $(GREEN)OK$(RESET)"
 
 re: fclean all
 

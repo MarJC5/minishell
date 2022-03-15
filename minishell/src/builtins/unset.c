@@ -6,11 +6,20 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 12:05:05 by jmartin           #+#    #+#             */
-/*   Updated: 2022/03/15 01:48:49 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/03/15 02:08:02 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+
+/**
+ * @brief Realloc env object and remove specified item
+ *
+ * @param shell
+ * @param value
+ * @param size
+ * @return void*
+ */
 
 void	*remove_envp(t_shell *shell, char *value, int size)
 {

@@ -6,18 +6,18 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 21:16:18 by jmartin           #+#    #+#             */
-/*   Updated: 2022/03/14 23:59:41 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/03/15 02:03:14 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
 /**
- * @brief Save a command and his agruments passed through user input
+ * @brief Save user command to proceed them in the correct order
  *
- * @param command
+ * @param shell
  * @param args
- * @param size
+ * @param start
  * @return char*
  */
 

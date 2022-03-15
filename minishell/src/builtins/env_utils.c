@@ -6,11 +6,18 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 10:50:02 by jmartin           #+#    #+#             */
-/*   Updated: 2022/03/15 01:53:31 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/03/15 02:06:34 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+
+/**
+ * @brief Check if env syntax is legit
+ *
+ * @param str
+ * @return int
+ */
 
 int	is_env_valid(char *str)
 {
@@ -36,6 +43,15 @@ int	is_env_valid(char *str)
 	return (j);
 }
 
+/**
+ * @brief Set/Overwrite env regarding single/multiple/without quote
+ *
+ * @param value
+ * @param size
+ * @param is_new
+ * @return char*
+ */
+
 char	*format_envp(char *value, int size, int is_new)
 {
 	char	*var;
@@ -56,6 +72,15 @@ char	*format_envp(char *value, int size, int is_new)
 		ret = ft_strdup(value);
 	return (ret);
 }
+
+/**
+ * @brief Check if env already in object then set/overwrite if needed
+ *
+ * @param shell
+ * @param value
+ * @param size
+ * @param is_valid
+ */
 
 void	update_envp(t_shell *shell, char *value, int size, int is_valid)
 {
@@ -85,6 +110,13 @@ void	update_envp(t_shell *shell, char *value, int size, int is_valid)
 		}
 	}
 }
+
+/**
+ * @brief Set the envp object
+ *
+ * @param shell
+ * @param envp
+ */
 
 void	set_envp(t_shell *shell, char **envp)
 {

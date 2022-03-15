@@ -1,16 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_export.c                                   :+:      :+:    :+:   */
+/*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 20:27:21 by jmartin           #+#    #+#             */
-/*   Updated: 2022/03/15 01:45:58 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/03/15 02:07:30 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+
+/**
+ * @brief Realloc env object and add new item
+ *
+ * @param shell
+ * @param size
+ * @param value
+ * @return void*
+ */
 
 void	*add_envp(t_shell *shell, int size, char *value)
 {
@@ -28,12 +37,6 @@ void	*add_envp(t_shell *shell, int size, char *value)
 	shell->envp = ret;
 	return (ret);
 }
-
-/**
- * @brief Set/overwrite the export object
- *
- * @param shell
- */
 
 void	export(t_shell *shell)
 {

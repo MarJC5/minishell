@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 10:52:05 by jmartin           #+#    #+#             */
-/*   Updated: 2022/03/15 01:52:28 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/03/15 02:03:35 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,15 @@ int	args_counter(char **args)
 		;
 	return (i);
 }
+
+/**
+ * @brief Add char before/after a string
+ *
+ * @param before
+ * @param str
+ * @param after
+ * @return char*
+ */
 
 char	*append(char before, char *str, char after)
 {

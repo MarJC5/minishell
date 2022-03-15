@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 12:05:05 by jmartin           #+#    #+#             */
-/*   Updated: 2022/03/15 02:08:02 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/03/15 02:30:53 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	*remove_envp(t_shell *shell, char *value, int size)
 
 void	unset(t_shell *shell)
 {
-	if (ft_strlen(shell->cmd.args[0]))
-		remove_envp(shell, shell->cmd.args[0], args_counter(shell->envp));
+	if (ft_strlen(shell->cmd->args[0]))
+		remove_envp(shell, shell->cmd->args[0], args_counter(shell->envp));
 	env(shell);
 }

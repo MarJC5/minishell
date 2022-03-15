@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 12:54:56 by jmartin           #+#    #+#             */
-/*   Updated: 2022/03/15 01:45:17 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/03/15 02:25:15 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ typedef struct s_cmd
 typedef struct s_shell
 {
 	char	**envp;
-	t_cmd	cmd;
+	t_cmd	*cmd;
 }	t_shell;
 
 /**

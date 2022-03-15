@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 20:27:21 by jmartin           #+#    #+#             */
-/*   Updated: 2022/03/15 02:07:30 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/03/15 02:30:49 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,12 @@ void	export(t_shell *shell)
 	int		i;
 
 	i = -1;
-	if (shell->cmd.args_count == 1)
+	if (shell->cmd->args_count == 1)
 		env(shell);
-	else if (shell->cmd.args_count > 1)
+	else if (shell->cmd->args_count > 1)
 	{
-		update_envp(shell, shell->cmd.args[0], args_counter(shell->envp),
-			is_env_valid(shell->cmd.args[0]));
+		update_envp(shell, shell->cmd->args[0], args_counter(shell->envp),
+			is_env_valid(shell->cmd->args[0]));
 		env(shell);
 	}
 }

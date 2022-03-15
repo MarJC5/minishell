@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 21:16:18 by jmartin           #+#    #+#             */
-/*   Updated: 2022/03/15 02:03:14 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/03/15 02:46:19 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,16 +31,12 @@ char	*init_cmd(t_shell *shell, char **args, int start)
 	j = 0;
 	size = args_counter(args);
 	if (size > 1)
-		shell->cmd.args = malloc((size + 1) * sizeof(char *));
-	if (!shell->cmd.args)
+		shell->cmd->args = malloc(size * sizeof (char *));
+	if (!shell->cmd->args)
 		return (NULL);
-	if (args[start])
-	{
-		shell->cmd.name = ft_strdup(args[1]);
-		shell->cmd.args_count = size - start;
-	}
+	shell->cmd->name = ft_strdup(args[1]);
+	shell->cmd->args_count = size - 1;
 	while (args[i])
-		shell->cmd.args[j++] = args[i++];
-	shell->cmd.args[j] = "\0";
-	return (shell->cmd.name);
+		shell->cmd->args[j++] = ft_strdup(args[i++]);
+	return (shell->cmd->name);
 }

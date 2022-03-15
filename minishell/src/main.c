@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 12:53:58 by jmartin           #+#    #+#             */
-/*   Updated: 2022/03/14 23:55:26 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/03/15 02:01:53 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 int	main(int argc, char **argv, char **envp)
 {
 	t_shell	*shell;
-	int		i;
 
 	shell = malloc(sizeof(t_shell));
 	set_envp(shell, envp);

@@ -1,18 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_export.c                                   :+:      :+:    :+:   */
+/*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/02 20:27:21 by jmartin           #+#    #+#             */
-/*   Updated: 2022/03/14 19:13:30 by jmartin          ###   ########.fr       */
+/*   Created: 2022/03/07 10:50:02 by jmartin           #+#    #+#             */
+/*   Updated: 2022/03/15 01:53:31 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "../../inc/minishell.h"
 
-static char	*format_envp(char *value, int size, int is_new)
+int	is_env_valid(char *str)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	if (ft_strchr(str, '='))
+		j = ft_strlen(str) - ft_strlen(ft_strchr(str, '='));
+	else
+		j = ft_strlen(str);
+	while (i < j)
+	{
+		if (ft_isdigit(str[i]) || ft_isalpha(str[i])
+			|| str[i] == '_' || str[i] == '=')
+			i++;
+		else
+		{
+			printf("export: not valid in this context: %s", str);
+			return (0);
+		}
+	}
+	return (j);
+}
+
+char	*format_envp(char *value, int size, int is_new)
 {
 	char	*var;
 	char	*arg;
@@ -33,7 +57,7 @@ static char	*format_envp(char *value, int size, int is_new)
 	return (ret);
 }
 
-static void	update_envp(t_shell *shell, char *value, int size, int is_valid)
+void	update_envp(t_shell *shell, char *value, int size, int is_valid)
 {
 	int	i;
 
@@ -55,30 +79,22 @@ static void	update_envp(t_shell *shell, char *value, int size, int is_valid)
 			else if (ft_strncmp(shell->envp[i], value, is_valid) != 0
 				&& i == size - 1)
 			{
-				ft_realloc_env(shell, args_counter(shell->envp) + 1,
+				add_envp(shell, args_counter(shell->envp) + 1,
 					format_envp(value, is_valid, 1));
 			}
 		}
 	}
 }
 
-/**
- * @brief Set/overwrite the export object
- *
- * @param shell
- */
-
-void	export(t_shell *shell)
+void	set_envp(t_shell *shell, char **envp)
 {
-	int		i;
+	int	i;
 
 	i = -1;
-	if (shell->cmd.args_count == 1)
-		env(shell);
-	else if (shell->cmd.args_count > 1)
+	if (!shell->envp)
 	{
-		update_envp(shell, shell->cmd.args[0], args_counter(shell->envp),
-			is_env_valid(shell->cmd.args[0]));
-		env(shell);
+		shell->envp = malloc((args_counter(envp) + 1) * sizeof(char *));
+		while (++i < args_counter(envp))
+			shell->envp[i] = ft_strdup(envp[i]);
 	}
 }

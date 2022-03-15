@@ -1,27 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_pwd.c                                      :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/02 09:27:32 by jmartin           #+#    #+#             */
-/*   Updated: 2022/03/14 17:34:38 by jmartin          ###   ########.fr       */
+/*   Created: 2022/03/07 10:52:05 by jmartin           #+#    #+#             */
+/*   Updated: 2022/03/15 01:52:28 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "../../inc/minishell.h"
 
-/**
- * @brief Get the current pwd object and print it
- */
-
-void	pwd(void)
+int	args_counter(char **args)
 {
-	char	cwd[PATH_MAX];
+	int	i;
 
-	if (getcwd(cwd, sizeof(cwd)) != NULL)
-		ft_printf("%s", cwd);
-	else
-		perror("getcwd() error");
+	i = -1;
+	while (args[++i])
+		;
+	return (i);
+}
+
+char	*append(char before, char *str, char after)
+{
+	size_t	len;
+
+	len = ft_strlen(str);
+	if (before)
+	{
+		ft_memmove(str + 1, str, ++len);
+		*str = before;
+	}
+	if (after)
+	{
+		str[len] = after;
+		str[len + 1] = 0;
+	}
+	return (str);
 }

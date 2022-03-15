@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 12:54:56 by jmartin           #+#    #+#             */
-/*   Updated: 2022/03/14 19:11:24 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/03/15 01:45:17 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,6 @@ typedef struct s_cmd
 	int		args_count;
 }	t_cmd;
 
-typedef struct s_env
-{
-	char			*var;
-	char			*value;
-	struct s_env	*next;
-}	t_env;
-
 typedef struct s_shell
 {
 	char	**envp;
@@ -47,11 +40,9 @@ void	ft_free_multi_tab(char **ptr);
 /**
  * UTILS
  */
+void	set_envp(t_shell *shell, char **envp);
 char	*init_cmd(t_shell	*shell, char **args, int start);
 char	*append(char before, char *str, char after);
-
-void	set_envp(t_shell *shell, char **envp);
-
 int		args_counter(char **args);
 
 /**
@@ -68,13 +59,15 @@ void	env(t_shell *shell);
  * EXPORT
  */
 void	export(t_shell *shell);
-void	*ft_realloc_env(t_shell *shell, int size, char *value);
+void	update_envp(t_shell *shell, char *value, int size, int is_valid);
+void	*add_envp(t_shell *shell, int size, char *value);
+char	*format_envp(char *value, int size, int is_new);
 int		is_env_valid(char *str);
 
 /**
  * UNSET
  */
 void	unset(t_shell *shell);
-void	remove_envp(t_shell *shell, char *value, int size);
+void	*remove_envp(t_shell *shell, char *value, int size);
 
 #endif

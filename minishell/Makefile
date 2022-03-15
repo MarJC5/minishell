@@ -15,13 +15,14 @@ RM		=	rm -rf
 FOLDER	=	src/
 
 FILES	=	main.c \
-			utils.c \
 			init_utils.c \
-			env_utils.c \
-			builtin_export.c \
-			builtin_unset.c \
-			builtin_pwd.c \
-			builtin_env.c
+			res/utils.c \
+			res/free.c \
+			builtins/env_utils.c \
+			builtins/env.c \
+			builtins/export.c \
+			builtins/pwd.c \
+			builtins/unset.c
 
 SRC 	=	$(addprefix $(FOLDER), $(FILES))
 OBJ 	=	$(SRC:.c=.o)

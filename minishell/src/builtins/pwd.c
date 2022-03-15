@@ -1,22 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_env.c                                      :+:      :+:    :+:   */
+/*   builtin_pwd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/03 16:42:05 by jmartin           #+#    #+#             */
-/*   Updated: 2022/03/14 18:07:06 by jmartin          ###   ########.fr       */
+/*   Created: 2022/03/02 09:27:32 by jmartin           #+#    #+#             */
+/*   Updated: 2022/03/15 01:45:54 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "../../inc/minishell.h"
 
-void	env(t_shell *shell)
+/**
+ * @brief Get the current pwd object and print it
+ */
+
+void	pwd(void)
 {
-	int	i;
+	char	cwd[PATH_MAX];
 
-	i = -1;
-	while (shell->envp[++i] != NULL)
-		ft_printf("%s\n", shell->envp[i]);
+	if (getcwd(cwd, sizeof(cwd)) != NULL)
+		ft_printf("%s", cwd);
+	else
+		perror("getcwd() error");
 }

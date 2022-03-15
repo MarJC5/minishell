@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 12:53:58 by jmartin           #+#    #+#             */
-/*   Updated: 2022/03/15 02:56:46 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/03/15 09:19:59 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ int	main(int argc, char **argv, char **envp)
 	t_shell	*shell;
 
 	shell = malloc(sizeof(t_shell));
-	shell->cmd = malloc(sizeof(t_cmd));
 	set_envp(shell, envp);
 	init_cmd(shell, argv, 1);
 	if (argc >= 2)

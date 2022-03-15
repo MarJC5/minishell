@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 21:16:18 by jmartin           #+#    #+#             */
-/*   Updated: 2022/03/15 02:46:19 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/03/15 09:19:54 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ char	*init_cmd(t_shell *shell, char **args, int start)
 
 	i = 2;
 	j = 0;
+	shell->cmd = malloc(sizeof(t_cmd));
 	size = args_counter(args);
 	if (size > 1)
 		shell->cmd->args = malloc(size * sizeof (char *));

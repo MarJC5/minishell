@@ -6,13 +6,13 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 12:53:58 by jmartin           #+#    #+#             */
-/*   Updated: 2022/03/16 14:32:55 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/03/16 14:58:40 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-int run_cmd(t_shell *shell, char *cmd)
+int	run_cmd(t_shell *shell, char *cmd)
 {
 	if (cmd)
 	{

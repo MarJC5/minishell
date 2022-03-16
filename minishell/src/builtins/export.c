@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 20:27:21 by jmartin           #+#    #+#             */
-/*   Updated: 2022/03/16 13:41:48 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/03/16 15:28:40 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,10 @@ void	export(t_shell *shell)
 		env(shell);
 	else if (shell->cmd->args_count > 1)
 	{
-		update_envp(shell, shell->cmd->args[1], args_counter(shell->envp),
-			is_env_valid(shell->cmd->args[1]));
+		if (shell->cmd->args[1][0] == '=')
+			str_err("export: not valid in this context: ", shell->cmd->args[1]);
+		else
+			update_envp(shell, shell->cmd->args[1], args_counter(shell->envp),
+				is_env_valid(shell->cmd->args[1]));
 	}
 }

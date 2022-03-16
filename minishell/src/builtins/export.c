@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 20:27:21 by jmartin           #+#    #+#             */
-/*   Updated: 2022/03/15 02:30:49 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/03/16 13:41:48 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,11 @@ void	*add_envp(t_shell *shell, int size, char *value)
 	if (!ret)
 		return (NULL);
 	while (++i < (size - 1))
+	{
 		ret[i] = ft_strdup(shell->envp[i]);
+		ft_free_tab(shell->envp[i]);
+	}
 	ret[size - 1] = value;
-	ft_free_multi_tab(shell->envp);
 	shell->envp = ret;
 	return (ret);
 }
@@ -47,8 +49,7 @@ void	export(t_shell *shell)
 		env(shell);
 	else if (shell->cmd->args_count > 1)
 	{
-		update_envp(shell, shell->cmd->args[0], args_counter(shell->envp),
-			is_env_valid(shell->cmd->args[0]));
-		env(shell);
+		update_envp(shell, shell->cmd->args[1], args_counter(shell->envp),
+			is_env_valid(shell->cmd->args[1]));
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/03 16:42:05 by jmartin           #+#    #+#             */
-/*   Updated: 2022/03/15 02:06:48 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/03/16 14:07:26 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,9 @@ void	env(t_shell *shell)
 
 	i = -1;
 	while (shell->envp[++i])
-		ft_printf("%s\n", shell->envp[i]);
+	{
+		ft_printf("%s", shell->envp[i]);
+		if (shell->envp[i + 1] != NULL)
+			ft_printf("\n");
+	}
 }

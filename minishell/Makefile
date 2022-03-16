@@ -9,6 +9,7 @@ NAME	=	minishell
 
 CC		=	cc
 FLAGS	=	-Wall -Wextra -Werror
+LIBS	= -lreadline -lncurses
 
 RM		=	rm -rf
 
@@ -22,7 +23,9 @@ FILES	=	main.c \
 			builtins/env.c \
 			builtins/export.c \
 			builtins/pwd.c \
-			builtins/unset.c
+			builtins/unset.c \
+			signals/sig_utils.c \
+			signals/ctrl_c.c
 
 SRC 	=	$(addprefix $(FOLDER), $(FILES))
 OBJ 	=	$(SRC:.c=.o)
@@ -33,7 +36,7 @@ all: $(NAME)
 
 $(NAME): $(OBJ)
 	@$(MAKE) -C ./newlibft
-	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIBFT)
+	@$(CC) $(CFLAGS) $(LIBS) -o $(NAME) $(OBJ) $(LIBFT)
 	@echo "[$(ORANGE)$(NAME)$(RESET)] Creation *.o files & compilation : $(GREEN)OK$(RESET)"
 	@echo "[\033[1;32msuccess$(RESET)]: $(NAME) is ready"
 

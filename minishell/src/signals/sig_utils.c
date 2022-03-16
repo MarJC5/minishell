@@ -1,30 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   sig_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/15 01:50:22 by jmartin           #+#    #+#             */
-/*   Updated: 2022/03/16 13:19:03 by jmartin          ###   ########.fr       */
+/*   Created: 2022/03/16 14:02:47 by jmartin           #+#    #+#             */
+/*   Updated: 2022/03/16 14:02:55 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-void	ft_free_tab(char *ptr)
+void	init_signals(void)
 {
-	if (ptr)
-		free(ptr);
-}
-
-void	ft_free_multi_tab(char **ptr)
-{
-	int	i;
-
-	i = args_counter(ptr);
-	while (ptr[i--])
-		ft_free_tab(ptr[i]);
-	if (ptr)
-		free(ptr);
+	signal(SIGINT, ctrl_c_handler);
+	signal(SIGQUIT, SIG_IGN);
 }

@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 12:05:05 by jmartin           #+#    #+#             */
-/*   Updated: 2022/03/15 02:30:53 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/03/16 13:54:52 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,21 @@
  * @return void*
  */
 
+static int	found_env(t_shell *shell, int env_size, char *value)
+{
+	int	i;
+	int	pos;
+
+	i = -1;
+	while (shell->envp[++i])
+		if (ft_strncmp(shell->envp[i], value, env_size) == 0)
+			pos = i;
+	return (pos);
+}
+
 void	*remove_envp(t_shell *shell, char *value, int size)
 {
 	int		i;
-	int		pos;
 	char	**ret;
 	int		env_name_size;
 
@@ -33,25 +44,20 @@ void	*remove_envp(t_shell *shell, char *value, int size)
 	ret = malloc((size + 1) * sizeof(char *));
 	if (!ret)
 		return (NULL);
-	while (shell->envp[++i])
-		if (ft_strncmp(shell->envp[i], value, env_name_size) == 0)
-			pos = i;
-	i = -1;
 	while (++i < (size - 1))
 	{
-		if (i < pos)
+		if (i < found_env(shell, env_name_size, value))
 			ret[i] = ft_strdup(shell->envp[i]);
 		else
 			ret[i] = ft_strdup(shell->envp[i + 1]);
+		ft_free_tab(shell->envp[i]);
 	}
-	ft_free_multi_tab(shell->envp);
 	shell->envp = ret;
 	return (ret);
 }
 
 void	unset(t_shell *shell)
 {
-	if (ft_strlen(shell->cmd->args[0]))
-		remove_envp(shell, shell->cmd->args[0], args_counter(shell->envp));
-	env(shell);
+	if (ft_strlen(shell->cmd->args[1]))
+		remove_envp(shell, shell->cmd->args[1], args_counter(shell->envp));
 }

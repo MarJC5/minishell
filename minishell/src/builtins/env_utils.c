@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 10:50:02 by jmartin           #+#    #+#             */
-/*   Updated: 2022/03/15 02:06:34 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/03/16 13:30:59 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	is_env_valid(char *str)
 			i++;
 		else
 		{
-			printf("export: not valid in this context: %s", str);
+			printf("export: not valid in this context: %s\n", str);
 			return (0);
 		}
 	}

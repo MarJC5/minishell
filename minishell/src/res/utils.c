@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 10:52:05 by jmartin           #+#    #+#             */
-/*   Updated: 2022/03/15 02:03:35 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/03/16 14:18:31 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,13 @@ char	*append(char before, char *str, char after)
 		str[len + 1] = 0;
 	}
 	return (str);
+}
+
+void	str_err(char *str, char *err)
+{
+	if (str)
+	{
+		ft_putstr_fd(str, 2);
+		ft_putstr_fd(err, 2);
+	}
 }

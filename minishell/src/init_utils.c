@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 21:16:18 by jmartin           #+#    #+#             */
-/*   Updated: 2022/03/15 09:19:54 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/03/16 14:03:30 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,23 +21,25 @@
  * @return char*
  */
 
-char	*init_cmd(t_shell *shell, char **args, int start)
+char	*init_cmd(t_shell *shell, char *args)
 {
-	int	i;
-	int	j;
-	int	size;
-
-	i = 2;
-	j = 0;
 	shell->cmd = malloc(sizeof(t_cmd));
-	size = args_counter(args);
-	if (size > 1)
-		shell->cmd->args = malloc(size * sizeof (char *));
-	if (!shell->cmd->args)
-		return (NULL);
-	shell->cmd->name = ft_strdup(args[1]);
-	shell->cmd->args_count = size - 1;
-	while (args[i])
-		shell->cmd->args[j++] = ft_strdup(args[i++]);
+	shell->cmd->args = ft_split(args, ' ');
+	shell->cmd->name = shell->cmd->args[0];
+	shell->cmd->args_count = args_counter(shell->cmd->args);
 	return (shell->cmd->name);
+}
+
+char	*init_read(t_shell *shell)
+{
+	char	*input;
+	char	*user;
+	char	*prompt;
+
+	user = ft_strjoin(getenv("USER"), "\033[0m: ");
+	prompt = ft_strjoin("\033[1;36mminishell\033[1;37m@\033[1;32m", user);
+	input = readline(prompt);
+	free(user);
+	free(prompt);
+	return (input);
 }

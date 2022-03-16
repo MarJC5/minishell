@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 12:53:58 by jmartin           #+#    #+#             */
-/*   Updated: 2022/03/16 15:52:24 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/03/16 16:32:04 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,10 @@ int	main(int argc, char **argv, char **envp)
 
 	shell = malloc(sizeof(t_shell));
 	set_envp(shell, envp);
-	init_signals();
 	line = init_read();
 	while (line)
 	{
+		init_signals();
 		add_history(line);
 		ft_printf("\033[1;37m>\033[0m %s\n", line);
 		if (run_cmd(shell, init_cmd(shell, line)))

@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 07:15:38 by jmartin           #+#    #+#             */
-/*   Updated: 2022/03/16 16:11:05 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/03/16 16:32:41 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,6 @@
 
 void	ctrl_c_handler(int sig)
 {
-	ft_printf("\nCaught SIGINT\n");
+	rl_replace_line("Caught SIGINT\n", 0);
+	rl_on_new_line();
 }

@@ -22,7 +22,10 @@ FILES	=	main.c \
 			builtins/env.c \
 			builtins/export.c \
 			builtins/pwd.c \
-			builtins/unset.c
+			builtins/unset.c \
+			signals/ctrl_c.c \
+			signals/ctrl_d.c \
+			signals/ctrl_antislash.c
 
 SRC 	=	$(addprefix $(FOLDER), $(FILES))
 OBJ 	=	$(SRC:.c=.o)

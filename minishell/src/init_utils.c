@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 21:16:18 by jmartin           #+#    #+#             */
-/*   Updated: 2022/03/15 09:19:54 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/03/16 07:58:05 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,11 @@ char	*init_cmd(t_shell *shell, char **args, int start)
 	while (args[i])
 		shell->cmd->args[j++] = ft_strdup(args[i++]);
 	return (shell->cmd->name);
+}
+
+void	init_signals(void)
+{
+	signal(SIGINT, ctrl_c_handler);
+	signal(SIGQUIT, ctrl_d_handler);
+	signal(SIGABRT, ctrl_antislash_handler);
 }

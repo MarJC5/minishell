@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 12:54:56 by jmartin           #+#    #+#             */
-/*   Updated: 2022/03/15 02:25:15 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/03/16 07:43:58 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <limits.h>
 # include <stdio.h>
 # include <errno.h>
+# include <signal.h>
 
 typedef struct s_cmd
 {
@@ -40,6 +41,7 @@ void	ft_free_multi_tab(char **ptr);
 /**
  * UTILS
  */
+void	init_signals(void);
 void	set_envp(t_shell *shell, char **envp);
 char	*init_cmd(t_shell	*shell, char **args, int start);
 char	*append(char before, char *str, char after);
@@ -69,5 +71,12 @@ int		is_env_valid(char *str);
  */
 void	unset(t_shell *shell);
 void	*remove_envp(t_shell *shell, char *value, int size);
+
+/**
+ * SIGNALS
+ */
+void	ctrl_c_handler(int sig);
+void	ctrl_d_handler(int sig);
+void	ctrl_antislash_handler(int sig);
 
 #endif

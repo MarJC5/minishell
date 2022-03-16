@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 21:16:18 by jmartin           #+#    #+#             */
-/*   Updated: 2022/03/16 14:03:30 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/03/16 15:51:43 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	*init_cmd(t_shell *shell, char *args)
 	return (shell->cmd->name);
 }
 
-char	*init_read(t_shell *shell)
+char	*init_read(void)
 {
 	char	*input;
 	char	*user;

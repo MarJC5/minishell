@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 12:54:56 by jmartin           #+#    #+#             */
-/*   Updated: 2022/03/16 07:43:58 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/03/16 11:33:17 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,10 @@
 # include <stdio.h>
 # include <errno.h>
 # include <signal.h>
+# include <termios.h>
+# include <string.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 
 typedef struct s_cmd
 {
@@ -76,7 +80,5 @@ void	*remove_envp(t_shell *shell, char *value, int size);
  * SIGNALS
  */
 void	ctrl_c_handler(int sig);
-void	ctrl_d_handler(int sig);
-void	ctrl_antislash_handler(int sig);
 
 #endif

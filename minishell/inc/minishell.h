@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 12:54:56 by jmartin           #+#    #+#             */
-/*   Updated: 2022/03/16 13:35:18 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/03/16 14:32:43 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,20 @@ void	ft_free_tab(char *ptr);
 void	ft_free_multi_tab(char **ptr);
 
 /**
- * UTILS
+ * SHELL
  */
-void	run_cmd(t_shell *shell, char *cmd);
-void	init_signals(void);
+int		run_cmd(t_shell *shell, char *cmd);
 void	set_envp(t_shell *shell, char **envp);
 char	*init_cmd(t_shell *shell, char *args);
+char	*init_read(t_shell *shell);
+
+/**
+ * UTILS
+ */
+void	str_err(char *str, char *err);
 char	*append(char before, char *str, char after);
 int		args_counter(char **args);
+
 
 /**
  * PWD
@@ -80,6 +86,7 @@ void	*remove_envp(t_shell *shell, char *value, int size);
 /**
  * SIGNALS
  */
+void	init_signals(void);
 void	ctrl_c_handler(int sig);
 
 #endif

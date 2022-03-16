@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 21:16:18 by jmartin           #+#    #+#             */
-/*   Updated: 2022/03/16 13:35:09 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/03/16 14:03:30 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,22 +30,16 @@ char	*init_cmd(t_shell *shell, char *args)
 	return (shell->cmd->name);
 }
 
-void	init_signals(void)
+char	*init_read(t_shell *shell)
 {
-	signal(SIGINT, ctrl_c_handler);
-	signal(SIGQUIT, SIG_IGN);
-}
+	char	*input;
+	char	*user;
+	char	*prompt;
 
-void run_cmd(t_shell *shell, char *cmd)
-{
-	if (ft_strcmp(cmd, "unset") == 0)
-		unset(shell);
-	else if (ft_strcmp(cmd, "export") == 0)
-		export(shell);
-	else if (ft_strcmp(cmd, "pwd") == 0)
-		pwd();
-	else if (ft_strcmp(cmd, "env") == 0)
-		env(shell);
-	ft_free_tab(shell->cmd->name);
-	ft_free_multi_tab(shell->cmd->args);
+	user = ft_strjoin(getenv("USER"), "\033[0m: ");
+	prompt = ft_strjoin("\033[1;36mminishell\033[1;37m@\033[1;32m", user);
+	input = readline(prompt);
+	free(user);
+	free(prompt);
+	return (input);
 }

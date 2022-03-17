@@ -5,11 +5,12 @@ ORANGE	= \033[0;33m
 CYAN	= \033[0;36m
 RESET	= \033[0m
 
-NAME	=	minishell
+NAME	= minishell
 
-CC		=	cc
-FLAGS	=	-Wall -Wextra -Werror
-LIBS	= -lreadline -lncurses
+CC		= cc
+CFLAGS	= -Wall -Wextra -Werror
+INC		= -I readline/8.1.2/include
+LIBS	= -lreadline -L readline/8.1.2/lib
 
 RM		=	rm -rf
 
@@ -19,12 +20,12 @@ FILES	=	main.c \
 			init_utils.c \
 			res/utils.c \
 			res/free.c \
-			builtins/env_utils.c \
+			res/env_utils.c \
+			res/sig_utils.c \
 			builtins/env.c \
 			builtins/export.c \
 			builtins/pwd.c \
 			builtins/unset.c \
-			signals/sig_utils.c \
 			signals/ctrl_c.c
 
 SRC 	=	$(addprefix $(FOLDER), $(FILES))
@@ -34,9 +35,12 @@ LIBFT 	= ./newlibft/libft.a
 
 all: $(NAME)
 
+.c.o:
+	@$(CC) $(CFLAGS) -c $< -o $(<:.c=.o) $(INC)
+
 $(NAME): $(OBJ)
 	@$(MAKE) -C ./newlibft
-	@$(CC) $(CFLAGS) $(LIBS) -o $(NAME) $(OBJ) $(LIBFT)
+	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIBFT) $(LIBS) 
 	@echo "[$(ORANGE)$(NAME)$(RESET)] Creation *.o files & compilation : $(GREEN)OK$(RESET)"
 	@echo "[\033[1;32msuccess$(RESET)]: $(NAME) is ready"
 

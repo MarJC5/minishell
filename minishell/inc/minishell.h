@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 12:54:56 by jmartin           #+#    #+#             */
-/*   Updated: 2022/03/16 15:51:57 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/03/17 16:09:43 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ char	*init_read(void);
 /**
  * UTILS
  */
+void	ascii_prompt(void);
 void	str_err(char *str, char *err);
 char	*append(char before, char *str, char after);
 int		args_counter(char **args);
@@ -61,7 +62,7 @@ int		args_counter(char **args);
 /**
  * PWD
  */
-void	pwd(void);
+void	pwd(t_shell *shell);
 
 /**
  * ENV

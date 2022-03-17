@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 12:53:58 by jmartin           #+#    #+#             */
-/*   Updated: 2022/03/16 16:32:04 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/03/17 16:32:32 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	run_cmd(t_shell *shell, char *cmd)
 		else if (ft_strcmp(cmd, "export") == 0)
 			export(shell);
 		else if (ft_strcmp(cmd, "pwd") == 0)
-			pwd();
+			pwd(shell);
 		else if (ft_strcmp(cmd, "env") == 0)
 			env(shell);
 		else
@@ -35,15 +35,18 @@ int	run_cmd(t_shell *shell, char *cmd)
 
 int	main(int argc, char **argv, char **envp)
 {
+	(void) argc;
+	(void) argv;
 	t_shell	*shell;
 	char	*line;
 
+	ascii_prompt();
 	shell = malloc(sizeof(t_shell));
 	set_envp(shell, envp);
+	init_signals();
 	line = init_read();
 	while (line)
 	{
-		init_signals();
 		add_history(line);
 		ft_printf("\033[1;37m>\033[0m %s\n", line);
 		if (run_cmd(shell, init_cmd(shell, line)))

@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 07:15:38 by jmartin           #+#    #+#             */
-/*   Updated: 2022/03/16 16:32:41 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/03/17 16:31:30 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,11 @@
 
 void	ctrl_c_handler(int sig)
 {
-	rl_replace_line("Caught SIGINT\n", 0);
-	rl_on_new_line();
+	if (sig)
+	{
+		rl_replace_line("", 0);
+		ft_putendl_fd("", 1);
+		rl_on_new_line();
+		rl_redisplay();
+	}
 }

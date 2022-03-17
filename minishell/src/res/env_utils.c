@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 10:50:02 by jmartin           #+#    #+#             */
-/*   Updated: 2022/03/16 13:30:59 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/03/17 15:37:56 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	is_env_valid(char *str)
 			i++;
 		else
 		{
-			printf("export: not valid in this context: %s\n", str);
+			str_err("export: not valid in this context: ", str);
 			return (0);
 		}
 	}
@@ -124,9 +124,8 @@ void	set_envp(t_shell *shell, char **envp)
 
 	i = -1;
 	if (!shell->envp)
-	{
-		shell->envp = malloc((args_counter(envp) + 1) * sizeof(char *));
+	{		shell->envp = malloc((args_counter(envp) + 1) * sizeof(char *));
 		while (++i < args_counter(envp))
-			shell->envp[i] = ft_strdup(envp[i]);
+			shell->envp[i] = format_envp(envp[i], is_env_valid(envp[i]), 0);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 09:27:32 by jmartin           #+#    #+#             */
-/*   Updated: 2022/03/15 02:22:02 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/03/17 14:59:39 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,17 @@
  * @brief Get the current pwd object and print it
  */
 
-void	pwd(void)
+void	pwd(t_shell *shell)
 {
 	char	cwd[PATH_MAX];
 
-	if (getcwd(cwd, sizeof(cwd)) != NULL)
-		ft_printf("%s", cwd);
+	if (shell->cmd->args_count > 1)
+		str_err("pwd: too many arguments", NULL);
 	else
-		perror("getcwd() error");
+	{
+		if (getcwd(cwd, sizeof(cwd)) != NULL)
+			ft_printf("%s", cwd);
+		else
+			perror("getcwd() error");
+	}
 }

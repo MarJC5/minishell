@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 10:52:05 by jmartin           #+#    #+#             */
-/*   Updated: 2022/03/16 14:18:31 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/03/17 15:01:44 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,4 +56,12 @@ void	str_err(char *str, char *err)
 		ft_putstr_fd(str, 2);
 		ft_putstr_fd(err, 2);
 	}
+}
+
+void	ascii_prompt(void)
+{
+	ft_printf("\n\033[1;32m░█▀▄▀█░░▀░░█▀▀▄░░▀░░█▀▀░█░░░░█▀▀░█░░█░\n");
+	ft_printf("░█░▀░█░░█▀░█░▒█░░█▀░▀▀▄░█▀▀█░█▀▀░█░░█░\n");
+	ft_printf("░▀░░▒▀░▀▀▀░▀░░▀░▀▀▀░▀▀▀░▀░░▀░▀▀▀░▀▀░▀▀\n");
+	ft_printf("\033[0;32mby Tpaquier & Jmartin                   \033[0m\n\n");
 }

@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 12:05:05 by jmartin           #+#    #+#             */
-/*   Updated: 2022/03/16 13:54:52 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/03/17 15:33:28 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	*remove_envp(t_shell *shell, char *value, int size)
 
 	i = -1;
 	env_name_size = is_env_valid(value);
-	ret = malloc((size + 1) * sizeof(char *));
+	ret = malloc((size) * sizeof(char *));
 	if (!ret)
 		return (NULL);
 	while (++i < (size - 1))
@@ -52,12 +52,15 @@ void	*remove_envp(t_shell *shell, char *value, int size)
 			ret[i] = ft_strdup(shell->envp[i + 1]);
 		ft_free_tab(shell->envp[i]);
 	}
+	ret[i] = NULL;
 	shell->envp = ret;
 	return (ret);
 }
 
 void	unset(t_shell *shell)
 {
-	if (ft_strlen(shell->cmd->args[1]))
-		remove_envp(shell, shell->cmd->args[1], args_counter(shell->envp));
+	if (shell->cmd->args_count > 1)
+		remove_envp(shell, shell->cmd->args[1], args_counter(shell->envp) - 1);
+	else
+		str_err("unset: not enough arguments", NULL);
 }

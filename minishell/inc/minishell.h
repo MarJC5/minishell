@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 12:54:56 by jmartin           #+#    #+#             */
-/*   Updated: 2022/03/17 16:09:43 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/03/17 20:58:43 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ typedef struct s_shell
  */
 void	ft_free_tab(char *ptr);
 void	ft_free_multi_tab(char **ptr);
+void	ft_free_read_args(t_shell *shell, char *line);
 
 /**
  * SHELL
@@ -77,6 +78,7 @@ void	update_envp(t_shell *shell, char *value, int size, int is_valid);
 void	*add_envp(t_shell *shell, int size, char *value);
 char	*format_envp(char *value, int size, int is_new);
 int		is_env_valid(char *str);
+int		env_name_size(char *str);
 
 /**
  * UNSET

@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 10:50:02 by jmartin           #+#    #+#             */
-/*   Updated: 2022/03/17 15:37:56 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/03/17 20:52:36 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,7 @@ int	is_env_valid(char *str)
 	int	j;
 
 	i = 0;
-	if (ft_strchr(str, '='))
-		j = ft_strlen(str) - ft_strlen(ft_strchr(str, '='));
-	else
-		j = ft_strlen(str);
+	j = env_name_size(str);
 	while (i < j)
 	{
 		if (ft_isdigit(str[i]) || ft_isalpha(str[i])

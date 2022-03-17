@@ -89,4 +89,14 @@ void	*remove_envp(t_shell *shell, char *value, int size);
 void	init_signals(void);
 void	ctrl_c_handler(int sig);
 
+/**
+ * ECHO
+ */
+void	ft_echo(t_shell *shell);
+
+/**
+ * CD
+ */
+void	ft_cd(t_shell *shell);
+
 #endif

@@ -24,6 +24,8 @@ FILES	=	main.c \
 			builtins/export.c \
 			builtins/pwd.c \
 			builtins/unset.c \
+			builtins/echo.c \
+			builtins/cd.c \
 			signals/sig_utils.c \
 			signals/ctrl_c.c
 

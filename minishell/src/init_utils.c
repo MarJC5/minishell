@@ -38,7 +38,7 @@ char	*init_read(t_shell *shell)
 
 	user = ft_strjoin(getenv("USER"), "\033[0m: ");
 	prompt = ft_strjoin("\033[1;36mminishell\033[1;37m@\033[1;32m", user);
-	input = readline(prompt);
+	//input = readline(prompt);
 	free(user);
 	free(prompt);
 	return (input);

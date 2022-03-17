@@ -25,8 +25,9 @@ void	env(t_shell *shell)
 	i = -1;
 	while (shell->envp[++i])
 	{
-		ft_printf("%s", shell->envp[i]);
-		if (shell->envp[i + 1] != NULL)
-			ft_printf("\n");
+		if (shell->envp[i + 1])
+			ft_printf("%s\n", shell->envp[i]);
+		else
+			ft_printf("_=/usr/bin/env\n");
 	}
 }

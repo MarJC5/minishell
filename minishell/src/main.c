@@ -24,6 +24,10 @@ int run_cmd(t_shell *shell, char *cmd)
 			pwd();
 		else if (ft_strcmp(cmd, "env") == 0)
 			env(shell);
+		else if (ft_strcmp(cmd, "echo") == 0)
+			ft_echo(shell);
+		else if (ft_strcmp(cmd, "cd") == 0)
+			ft_cd(shell);
 		else
 			str_err("minishell: command not found: ", shell->cmd->name);
 		ft_free_tab(shell->cmd->name);

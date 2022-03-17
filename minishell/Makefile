@@ -9,8 +9,8 @@ NAME	= minishell
 
 CC		= cc
 CFLAGS	= -Wall -Wextra -Werror
-INC		= -I readline/8.1.2/include
-LIBS	= -lreadline -L readline/8.1.2/lib
+INC		= -I src/res/readline/8.1.2/include
+LIBS	= -lreadline -L src/res/readline/8.1.2/lib
 
 RM		=	rm -rf
 

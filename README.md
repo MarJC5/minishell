@@ -6,6 +6,10 @@
     </h4>
 </h1>
 
+<p align="center">
+    <img src="./doc/img/screen.png" alt="Minishel screenshot"/>
+</p`>
+
 ## Goals
 
 This shell should:

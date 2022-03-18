@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 21:16:18 by jmartin           #+#    #+#             */
-/*   Updated: 2022/03/16 17:05:49 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/03/18 11:29:35 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,18 @@ char	*init_cmd(t_shell *shell, char *args)
 char	*init_read(void)
 {
 	char	*input;
-	char	*user;
+	char	*details;
 	char	*prompt;
 
-	user = ft_strjoin(getenv("USER"), "\033[0m: ");
-	prompt = ft_strjoin("\033[1;36mminishell\033[1;37m@\033[1;32m", user);
+	if (ft_strcmp(getenv("PWD"), getenv("HOME")) == 0)
+		details = "~";
+	else
+		details = ft_strjoin(getenv("USER"), ft_strjoin("\033[0m:",
+					ft_strrchr(getenv("PWD"), '/') + 1));
+	prompt = ft_strjoin("\033[1;36mminishell\033[1;37m@\033[1;32m",
+			ft_strjoin(details, " $ "));
 	input = readline(prompt);
-	free(user);
+	free(details);
 	free(prompt);
 	return (input);
 }

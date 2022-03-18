@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 12:53:58 by jmartin           #+#    #+#             */
-/*   Updated: 2022/03/17 20:58:53 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/03/18 11:28:53 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,11 @@ int	run_cmd(t_shell *shell, char *cmd)
 
 int	main(int argc, char **argv, char **envp)
 {
-	(void) argc;
-	(void) argv;
 	t_shell	*shell;
 	char	*line;
 
+	(void) argc;
+	(void) argv;
 	ascii_prompt();
 	shell = malloc(sizeof(t_shell));
 	set_envp(shell, envp);
@@ -46,7 +46,7 @@ int	main(int argc, char **argv, char **envp)
 	while (line)
 	{
 		add_history(line);
-		ft_printf("\033[1;37m>\033[0m %s\n", line);
+		ft_printf("\033[1;33m>\033[0m %s\n", line);
 		if (run_cmd(shell, init_cmd(shell, line)))
 			ft_printf("\n", line);
 		ft_free_read_args(shell, line);

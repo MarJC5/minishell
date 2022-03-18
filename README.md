@@ -2,7 +2,7 @@
     <img alt="42Lausanne" title="42Lausanne" src="https://github.com/MarJC5/42/blob/main/42_logo.svg" width="140"> </br>
     Project n°8 - minishell
     <h4 align="center" style="width: 50%; margin: 2rem auto; font-weight: normal;"> 
-    simple shell
+    As beautiful as a shell. <br/> This project is about creating a simple shell.
     </h4>
 </h1>
 
@@ -54,3 +54,14 @@ foreground pipeline.
 ## Allowd functions
 
 readline, rl_clear_history, rl_on_new_line, rl_replace_line, rl_redisplay, add_history, printf, malloc, free, write, access, open, read, close, fork, wait, waitpid, wait3, wait4, signal, sigaction, sigemptyset, sigaddset, kill, exit, getcwd, chdir, stat, lstat, fstat, unlink, execve, dup, dup2, pipe, opendir, readdir, closedir, strerror, perror, isatty, ttyname, ttyslot, ioctl, getenv, tcsetattr, tcgetattr, tgetent, tgetflag, tgetnum, tgetstr, tgoto, tputs
+
+## How to run
+
+```shell
+git clone https://github.com/MarJC5/minishell.git
+cd minishell/
+make
+./minishell
+```
+
+Enjoy :^)

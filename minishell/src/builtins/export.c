@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 20:27:21 by jmartin           #+#    #+#             */
-/*   Updated: 2022/03/17 16:45:37 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/03/18 11:27:05 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,8 @@ void	export(t_shell *shell)
 		{
 			while (shell->cmd->args[++i])
 			{
-				update_envp(shell, shell->cmd->args[i], args_counter(shell->envp),
+				update_envp(shell, shell->cmd->args[i],
+					args_counter(shell->envp),
 					is_env_valid(shell->cmd->args[i]));
 			}
 		}

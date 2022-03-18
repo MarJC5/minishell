@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 12:53:58 by jmartin           #+#    #+#             */
-/*   Updated: 2022/03/17 16:32:32 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/03/17 20:58:53 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,6 @@ int	run_cmd(t_shell *shell, char *cmd)
 			env(shell);
 		else
 			str_err("minishell: command not found: ", shell->cmd->name);
-		ft_free_tab(shell->cmd->name);
-		ft_free_multi_tab(shell->cmd->args);
 		return (1);
 	}
 	return (0);
@@ -51,7 +49,9 @@ int	main(int argc, char **argv, char **envp)
 		ft_printf("\033[1;37m>\033[0m %s\n", line);
 		if (run_cmd(shell, init_cmd(shell, line)))
 			ft_printf("\n", line);
+		ft_free_read_args(shell, line);
 		line = init_read();
 	}
+	free(shell);
 	return (0);
 }

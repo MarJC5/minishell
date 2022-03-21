@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 12:54:56 by jmartin           #+#    #+#             */
-/*   Updated: 2022/03/18 10:59:49 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/03/21 09:26:06 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ typedef struct s_shell
 	char	**envp;
 	t_cmd	*cmd;
 }	t_shell;
+
 
 /**
  * FREE MEM
@@ -85,6 +86,16 @@ int		env_name_size(char *str);
  */
 void	unset(t_shell *shell);
 void	*remove_envp(t_shell *shell, char *value, int size);
+
+/**
+ * ECHO
+ */
+void	ft_echo(t_shell *shell);
+
+/**
+ * CD
+ */
+void	ft_cd(t_shell *shell);
 
 /**
  * SIGNALS

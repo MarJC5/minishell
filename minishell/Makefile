@@ -23,6 +23,8 @@ FILES	=	main.c \
 			res/env_utils.c \
 			res/sig_utils.c \
 			builtins/env.c \
+			builtins/cd.c \
+			builtins/echo.c \
 			builtins/export.c \
 			builtins/pwd.c \
 			builtins/unset.c \

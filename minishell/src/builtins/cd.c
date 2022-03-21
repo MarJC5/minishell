@@ -2,7 +2,6 @@
 
 void	ft_cd(t_shell *shell)
 {
-	char	*path;
 	int		i;
 
 	i = 0;
@@ -21,7 +20,5 @@ void	ft_cd(t_shell *shell)
 	}
 	else
 		chdir(shell->cmd->args[i]);
-	path = ft_strdup("");
-	ft_printf("%s\n", getcwd(path, 100));
-	free(path);
+	ft_printf("%s", getcwd(shell->current_path, 100));
 }

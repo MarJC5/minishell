@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 12:53:58 by jmartin           #+#    #+#             */
-/*   Updated: 2022/03/18 11:28:53 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/03/21 09:32:10 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,10 @@ int	run_cmd(t_shell *shell, char *cmd)
 			pwd(shell);
 		else if (ft_strcmp(cmd, "env") == 0)
 			env(shell);
+		else if (ft_strcmp(cmd, "cd") == 0)
+			ft_cd(shell);
+		else if (ft_strcmp(cmd, "echo") == 0)
+			ft_echo(shell);
 		else
 			str_err("minishell: command not found: ", shell->cmd->name);
 		return (1);

@@ -90,6 +90,12 @@ void	ft_echo(t_shell *shell)
 	echo = "echo";
 	while (shell->cmd->args[i])
 	{
+		ft_printf("%s\n", shell->cmd->args[i]);
+		i++;
+	}
+	i = 0;
+	while (shell->cmd->args[i])
+	{
 		if (shell->cmd->args[i][0] == echo[0] && shell->cmd->args[i][1] ==
 			echo[1] && shell->cmd->args[i][2] == echo[2] && shell->cmd->
 			args[i][3] == echo[3] && shell->cmd->args[i][4] == echo[4])
@@ -105,4 +111,5 @@ void	ft_echo(t_shell *shell)
 	}
 	else
 		ft_printf("\n");
+	ft_printf("%d\n", shell->cmd->ispipe);
 }

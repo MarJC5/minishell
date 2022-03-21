@@ -51,8 +51,7 @@ int	main(int argc, char **argv, char **envp)
 	{
 		add_history(line);
 		ft_printf("\033[1;33m>\033[0m %s\n", line);
-		if (run_cmd(shell, init_cmd(shell, line)))
-			ft_printf("\n", line);
+		run_cmd(shell, init_cmd(shell, line));
 		ft_free_read_args(shell, line);
 		line = init_read();
 	}

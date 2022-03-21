@@ -28,6 +28,7 @@ typedef struct s_cmd
 	char	*name;
 	char	**args;
 	int		args_count;
+	int		ispipe;
 }	t_cmd;
 
 typedef struct s_shell

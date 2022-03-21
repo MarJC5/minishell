@@ -21,9 +21,27 @@
  * @return char*
  */
 
+void	is_pipe(char *line, t_shell *shell)
+{
+	int	i;
+	int pipe;
+
+	pipe = 0;
+	i = 0;
+	ft_printf("%s\n", line);
+	while (line[i])
+	{
+		if (line[i] == '|')
+			pipe = 1;
+		i++;
+	}
+	shell->cmd->ispipe = pipe;
+}
+
 char	*init_cmd(t_shell *shell, char *args)
 {
 	shell->cmd = malloc(sizeof(t_cmd));
+	is_pipe(args, shell);
 	shell->cmd->args = ft_split(args, ' ');
 	shell->cmd->name = shell->cmd->args[0];
 	shell->cmd->args_count = args_counter(shell->cmd->args);

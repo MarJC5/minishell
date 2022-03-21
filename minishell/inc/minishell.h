@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 12:54:56 by jmartin           #+#    #+#             */
-/*   Updated: 2022/03/21 09:26:06 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/03/21 13:16:37 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef struct s_cmd
 typedef struct s_shell
 {
 	char	**envp;
+	char	*current_path;
 	t_cmd	*cmd;
 }	t_shell;
 
@@ -51,7 +52,7 @@ void	ft_free_read_args(t_shell *shell, char *line);
 int		run_cmd(t_shell *shell, char *cmd);
 void	set_envp(t_shell *shell, char **envp);
 char	*init_cmd(t_shell *shell, char *args);
-char	*init_read(void);
+char	*init_read(t_shell *shell);
 
 /**
  * UTILS

@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 12:54:56 by jmartin           #+#    #+#             */
-/*   Updated: 2022/03/30 09:02:31 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/03/30 10:29:27 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	ascii_prompt(void);
 void	str_err(char *str, char *err);
 char	*append(char before, char *str, char after);
 int		args_counter(char **args);
-
+int		str_cmd_comp(char *cmd, char *comp);
 
 /**
  * PWD

@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 12:54:56 by jmartin           #+#    #+#             */
-/*   Updated: 2022/03/30 10:29:27 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/04/11 07:16:06 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,12 @@ typedef struct s_cmd
 	char	**args;
 	int		args_count;
 	int		ispipe;
+	char	*echo;
+	int		bcklashN;
+	int		redi;
+	char	*pwd;
+	int		i;
+	int		j;
 }	t_cmd;
 
 typedef struct s_shell
@@ -62,6 +68,7 @@ void	str_err(char *str, char *err);
 char	*append(char before, char *str, char after);
 int		args_counter(char **args);
 int		str_cmd_comp(char *cmd, char *comp);
+int		isrediorpipe(t_shell *shell, char sign);
 
 /**
  * PWD
@@ -100,9 +107,20 @@ void	ft_echo(t_shell *shell);
 void	ft_cd(t_shell *shell);
 
 /**
+ * EXIT
+ */
+void	ft_exit(t_shell *shell);
+
+/**
  * SIGNALS
  */
 void	init_signals(void);
 void	ctrl_c_handler(int sig);
+
+/**
+ * REDIRECTION
+ */
+int		isredi(t_shell *shell);
+void	redirection(t_shell *shell, int fonc);
 
 #endif

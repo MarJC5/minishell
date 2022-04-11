@@ -28,6 +28,8 @@ FILES	=	main.c \
 			builtins/export.c \
 			builtins/pwd.c \
 			builtins/unset.c \
+			builtins/exit.c \
+			builtins/redirection.c \
 			signals/ctrl_c.c
 
 SRC 	=	$(addprefix $(FOLDER), $(FILES))

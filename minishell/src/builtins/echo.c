@@ -9,7 +9,7 @@ static int	isp(char **str, int i, int ret)
 		j = 0;
 		while (str[i][j])
 		{
-			if (str[i][j] == '|')
+			if (str[i][j] == '|' || str[i][j] == '>')
 			{
 				if (ret == 1)
 					return (j);
@@ -23,14 +23,42 @@ static int	isp(char **str, int i, int ret)
 	return (0);
 }
 
+char	*echo_struct(t_shell *shell, int j, int i)
+{
+	char	*echo;
+	int		g;
+	int		c;
+
+	echo = malloc(j + 2);
+	g = 0;
+	c = 0;
+	while (g < j)
+	{
+		if (shell->cmd->args[i][c])
+			echo[g] = shell->cmd->args[i][c];
+		else
+		{
+			i++;
+			c = -1;
+			echo[g] = ' ';
+		}
+		g++;
+		c++;
+	}
+	if (shell->cmd->bcklashN == 1)
+		echo[g] = '\n';
+	echo[g + 1] = '\0';
+	return (echo);
+}
+
 void	ft_pipe(t_shell *shell, int i)
 {
 	int	j;
 	int	pi;
-	int	bi;
+	int	g;
 
+	g = i;
 	j = 0;
-	bi = i;
 	pi = isp(shell->cmd->args, i, 0);
 	while (shell->cmd->args[i])
 	{
@@ -43,15 +71,18 @@ void	ft_pipe(t_shell *shell, int i)
 			j += (ft_strlen(shell->cmd->args[i]) + 1);
 		i++;
 	}
-// valeur de stockage pour la struct -> 'bi' pour
-//à partir de qu'elle argument printf
-// et 'i' pour à qu'elle argument stoper et
-//'j' pour qu'elle lettre de l'argument 'i'
-// - 1 ("test|" = 4), pour s'arreter quand le pipe est là.
+	shell->cmd->echo = echo_struct(shell, j, g);
+	if (isrediorpipe(shell, '>') == 1)
+		redirection(shell, 1);
+	/*
+	/ start = premier arguments après echo
+	/ count = nombre d'argument entre la premiere lettre de i et le pipe
+	*/
 }
 
 void	ft_wbn(t_shell *shell, int i)
 {
+	shell->cmd->bcklashN = 1;
 	if (isp(shell->cmd->args, i, 0) == 0)
 	{
 		while (shell->cmd->args[i])
@@ -83,33 +114,14 @@ void	ft_nbn(t_shell *shell, int i)
 
 void	ft_echo(t_shell *shell)
 {
-	int		i;
-	char	*echo;
-
-	i = 1;
-	echo = "echo";
-	while (shell->cmd->args[i])
+	shell->cmd->bcklashN = 0;
+	if (shell->cmd->args[1])
 	{
-		ft_printf("%s\n", shell->cmd->args[i]);
-		i++;
-	}
-	i = 0;
-	while (shell->cmd->args[i])
-	{
-		if (shell->cmd->args[i][0] == echo[0] && shell->cmd->args[i][1] ==
-			echo[1] && shell->cmd->args[i][2] == echo[2] && shell->cmd->
-			args[i][3] == echo[3] && shell->cmd->args[i][4] == echo[4])
-			break ;
-		i++;
-	}
-	if (shell->cmd->args[i + 1])
-	{
-		if (shell->cmd->args[i + 1][0] == '-' && shell->cmd->args[i + 1][1] == 'n')
-			ft_nbn(shell, i + 2);
+		if (shell->cmd->args[1][0] == '-' && shell->cmd->args[1][1] == 'n')
+			ft_nbn(shell, 2);
 		else
-			ft_wbn(shell, i + 1);
+			ft_wbn(shell, 1);
 	}
 	else
 		ft_printf("\n");
-	ft_printf("%d\n", shell->cmd->ispipe);
 }

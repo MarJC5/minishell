@@ -6,32 +6,42 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 12:53:58 by jmartin           #+#    #+#             */
-/*   Updated: 2022/03/30 10:32:03 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/04/11 15:03:45 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-int	run_cmd(t_shell *shell, char *cmd)
+void	find_cmd(t_shell *shell, int cmd_index)
 {
-	if (cmd)
+	if (str_cmd_comp(shell->cmd[cmd_index]->name, "unset"))
+		unset(shell, cmd_index);
+	else if (str_cmd_comp(shell->cmd[cmd_index]->name, "export"))
+		export(shell, cmd_index);
+	else if (str_cmd_comp(shell->cmd[cmd_index]->name, "pwd"))
+		pwd(shell, cmd_index);
+	else if (str_cmd_comp(shell->cmd[cmd_index]->name, "env"))
+		env(shell, cmd_index);
+	else if (str_cmd_comp(shell->cmd[cmd_index]->name, "cd"))
+		ft_cd(shell, cmd_index);
+	else if (str_cmd_comp(shell->cmd[cmd_index]->name, "echo"))
+		ft_echo(shell, cmd_index);
+	else if (str_cmd_comp(shell->cmd[cmd_index]->name, "exit"))
+		ft_exit(shell);
+	else
+		str_err("minishell: command not found: ",
+			shell->cmd[cmd_index]->name);
+}
+
+int	run_cmd(t_shell *shell)
+{
+	if (shell->cmd_count < 2)
 	{
-		if (str_cmd_comp(cmd, "unset"))
-			unset(shell);
-		else if (str_cmd_comp(cmd, "export"))
-			export(shell);
-		else if (str_cmd_comp(cmd, "pwd"))
-			pwd(shell);
-		else if (str_cmd_comp(cmd, "env"))
-			env(shell);
-		else if (str_cmd_comp(cmd, "cd"))
-			ft_cd(shell);
-		else if (str_cmd_comp(cmd, "echo"))
-			ft_echo(shell);
-		else
-			str_err("minishell: command not found: ", shell->cmd->name);
+		find_cmd(shell, 0);
 		return (1);
 	}
+	else if (shell->cmd_count > 1)
+		ft_putstr_fd("More cmd has been founded", 1);
 	return (0);
 }
 
@@ -50,7 +60,8 @@ int	main(int argc, char **argv, char **envp)
 	while (line)
 	{
 		add_history(line);
-		run_cmd(shell, init_cmd(shell, line));
+		init_cmd(shell, line);
+		run_cmd(shell);
 		ft_free_read_args(shell, line);
 		line = init_read(shell);
 	}

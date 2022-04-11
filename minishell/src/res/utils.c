@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 10:52:05 by jmartin           #+#    #+#             */
-/*   Updated: 2022/03/30 10:31:04 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/04/11 15:10:32 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,6 @@ int	args_counter(char **args)
 		;
 	return (i);
 }
-
-/**
- * @brief Add char before/after a string
- *
- * @param before
- * @param str
- * @param after
- * @return char*
- */
 
 char	*append(char before, char *str, char after)
 {
@@ -67,7 +58,6 @@ int	str_cmd_comp(char *cmd, char *comp)
 	str_upper = ft_strdup(comp);
 	while (comp[++i])
 		str_upper[i] = ft_toupper(comp[i]);
-
 	if (ft_strcmp(cmd, comp) == 0
 		|| ft_strcmp(cmd, str_upper) == 0 )
 	{

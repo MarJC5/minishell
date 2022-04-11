@@ -6,27 +6,21 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/03 16:42:05 by jmartin           #+#    #+#             */
-/*   Updated: 2022/03/17 11:24:15 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/04/11 15:06:26 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-/**
- * @brief Print all env
- *
- * @param shell
- */
-
-void	env(t_shell *shell)
+void	env(t_shell *shell, int cmd_index)
 {
 	int	i;
 
 	i = -1;
-	if (shell->cmd->args_count > 1)
+	if (shell->cmd[cmd_index]->args_count > 1)
 	{
 		str_err("env: ", NULL);
-		perror(shell->cmd->args[1]);
+		perror(shell->cmd[cmd_index]->args[1]);
 	}
 	else
 	{

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   echo.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/11 14:47:54 by jmartin           #+#    #+#             */
+/*   Updated: 2022/04/11 15:08:23 by jmartin          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/minishell.h"
 
 static int	isp(char **str, int i, int ret)
@@ -23,35 +35,13 @@ static int	isp(char **str, int i, int ret)
 	return (0);
 }
 
-char	*echo_struct(t_shell *shell, int j, int i)
-{
-	char	*echo;
-	int		g;
-	int		c;
+/**
+ * @brief
+ * start = premier arguments après echo
+ * count = nombre d'argument entre la premiere lettre de i et le pipe
+*/
 
-	echo = malloc(j + 2);
-	g = 0;
-	c = 0;
-	while (g < j)
-	{
-		if (shell->cmd->args[i][c])
-			echo[g] = shell->cmd->args[i][c];
-		else
-		{
-			i++;
-			c = -1;
-			echo[g] = ' ';
-		}
-		g++;
-		c++;
-	}
-	if (shell->cmd->bcklashN == 1)
-		echo[g] = '\n';
-	echo[g + 1] = '\0';
-	return (echo);
-}
-
-void	ft_pipe(t_shell *shell, int i)
+void	ft_pipe(t_shell *shell, char **args, int i)
 {
 	int	j;
 	int	pi;
@@ -59,68 +49,64 @@ void	ft_pipe(t_shell *shell, int i)
 
 	g = i;
 	j = 0;
-	pi = isp(shell->cmd->args, i, 0);
-	while (shell->cmd->args[i])
+	pi = isp(args, i, 0);
+	while (args[i])
 	{
 		if (i == pi)
 		{
-			j += isp(shell->cmd->args, i, 1);
+			j += isp(args, i, 1);
 			break ;
 		}
 		else
-			j += (ft_strlen(shell->cmd->args[i]) + 1);
+			j += (ft_strlen(args[i]) + 1);
 		i++;
 	}
-	shell->cmd->echo = echo_struct(shell, j, g);
-	if (isrediorpipe(shell, '>') == 1)
-		redirection(shell, 1);
-	/*
-	/ start = premier arguments après echo
-	/ count = nombre d'argument entre la premiere lettre de i et le pipe
-	*/
+	if (isrediorpipe(shell, args, '>') == 1)
+		redirection(shell, args);
 }
 
-void	ft_wbn(t_shell *shell, int i)
+void	ft_wbn(t_shell *shell, char **args, int i)
 {
-	shell->cmd->bcklashN = 1;
-	if (isp(shell->cmd->args, i, 0) == 0)
+	shell->bcklash_n = 1;
+	if (isp(args, i, 0) == 0)
 	{
-		while (shell->cmd->args[i])
+		while (args[i])
 		{
-			ft_printf("%s", shell->cmd->args[i++]);
-			if (shell->cmd->args[i])
+			ft_printf("%s", args[i++]);
+			if (args[i])
 				ft_printf(" ");
 		}
 		ft_printf("\n");
 	}
 	else
-		ft_pipe(shell, i);
+		ft_pipe(shell, args, i);
 }
 
-void	ft_nbn(t_shell *shell, int i)
+void	ft_nbn(t_shell *shell, char **args, int i)
 {
-	if (isp(shell->cmd->args, i, 0) == 0)
+	if (isp(args, i, 0) == 0)
 	{
-		while (shell->cmd->args[i])
+		while (args[i])
 		{
-			ft_printf("%s", shell->cmd->args[i++]);
-			if (shell->cmd->args[i] != NULL)
+			ft_printf("%s", args[i++]);
+			if (args[i] != NULL)
 				ft_printf(" ");
 		}
 	}
 	else
-		ft_pipe(shell, i);
+		ft_pipe(shell, args, i);
 }
 
-void	ft_echo(t_shell *shell)
+void	ft_echo(t_shell *shell, int cmd_index)
 {
-	shell->cmd->bcklashN = 0;
-	if (shell->cmd->args[1])
+	shell->bcklash_n = 0;
+	if (shell->cmd[cmd_index]->args[1])
 	{
-		if (shell->cmd->args[1][0] == '-' && shell->cmd->args[1][1] == 'n')
-			ft_nbn(shell, 2);
+		if (shell->cmd[cmd_index]->args[1][0] == '-'
+			&& shell->cmd[cmd_index]->args[1][1] == 'n')
+			ft_nbn(shell, shell->cmd[cmd_index]->args, 2);
 		else
-			ft_wbn(shell, 1);
+			ft_wbn(shell, shell->cmd[cmd_index]->args, 1);
 	}
 	else
 		ft_printf("\n");

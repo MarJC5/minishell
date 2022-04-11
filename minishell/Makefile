@@ -20,8 +20,6 @@ FILES	=	main.c \
 			init_utils.c \
 			res/utils.c \
 			res/free.c \
-			res/env_utils.c \
-			res/sig_utils.c \
 			builtins/env.c \
 			builtins/cd.c \
 			builtins/echo.c \
@@ -29,8 +27,13 @@ FILES	=	main.c \
 			builtins/pwd.c \
 			builtins/unset.c \
 			builtins/exit.c \
-			builtins/redirection.c \
-			signals/ctrl_c.c
+			builtins/utils/env_utils.c \
+			redirection/redirection.c \
+			redirection/utils.c \
+			pipe/pipe.c \
+			pipe/utils.c \
+			signals/ctrl_c.c \
+			signals/utils.c
 
 SRC 	=	$(addprefix $(FOLDER), $(FILES))
 OBJ 	=	$(SRC:.c=.o)

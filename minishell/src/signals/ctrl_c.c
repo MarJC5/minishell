@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 07:15:38 by jmartin           #+#    #+#             */
-/*   Updated: 2022/03/21 09:24:57 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/04/11 15:10:45 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ void	ctrl_c_handler(int sig)
 {
 	if (sig)
 	{
-		/* rl_replace_line("", 0);
+		rl_replace_line("", 0);
 		ft_putendl_fd("", 1);
 		rl_on_new_line();
-		rl_redisplay(); */
+		rl_redisplay();
 	}
 }

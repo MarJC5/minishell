@@ -6,99 +6,53 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 21:16:18 by jmartin           #+#    #+#             */
-/*   Updated: 2022/04/11 07:38:31 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/04/11 15:11:12 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-#include "../inc/minishell.h"
-
-/**
- * @brief Save user command to proceed them in the correct order
- *
- * @param shell
- * @param args
- * @param start
- * @return char*
- */
-
-int	isrediorpipe(t_shell *shell, char sign)
+static void	split_args_cmd(t_shell *shell, char *args)
 {
-	int	i;
+	char	**tmp;
+	int		i;
+
+	i = -1;
+	tmp = ft_split(args, '|');
+	while (tmp[++i])
+	{
+		shell->cmd[i] = malloc(sizeof(t_cmd));
+		shell->cmd[i]->cmd_pos = i;
+		shell->cmd[i]->args = ft_split(tmp[i], ' ');
+		shell->cmd[i]->name = shell->cmd[i]->args[0];
+		shell->cmd[i]->args_count = args_counter(shell->cmd[i]->args);
+	}
+	ft_free_multi_tab(tmp);
+}
+
+void	init_cmd(t_shell *shell, char *args)
+{
 	int	j;
 
-	i = 0;
-	while (shell->cmd->args[i])
-	{
-		j = 0;
-		while (shell->cmd->args[i][j])
-		{
-			if (shell->cmd->args[i][j] == sign)
-			{
-				shell->cmd->i = i;
-				shell->cmd->j = j;
-				return (1);
-			}
-			j++;
-		}
-		i++;
-	}
-	return (0);
-}
-
-void	is_pipe(char *line, t_shell *shell)
-{
-	int	i;
-	int pipe;
-	int redi;
-
-	pipe = 0;
-	redi = 0;
-	i = 0;
-	while (line[i])
-	{
-		if (line[i] == '|' && pipe == 0)
-			pipe = 1;
-		if (line[i] == '>' && pipe == 0)
-			redi = 2;
-		i++;
-	}
-	shell->cmd->ispipe = pipe;
-	shell->cmd->redi = redi;
-}
-
-int	oneword(char *args)
-{
-	int	i;
-
-	i = 0;
-	while (args[i])
-	{
-		if (args[i] == ' ')
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
-char	*init_cmd(t_shell *shell, char *args)
-{
-	shell->cmd = malloc(sizeof(t_cmd));
 	is_pipe(args, shell);
-	/*if (oneword(args) == 1)
-	{
-		shell->cmd->args = ft_split_with_delimiter(args, '>');
-		printf("%s\n", shell->cmd->args[0]);
-		printf("%s\n", shell->cmd->args[1]);
-		printf("%s\n", shell->cmd->args[2]);
-	}
+	if (shell->ispipe >= 1)
+		j = shell->ispipe + 1;
 	else
-		shell->cmd->args = ft_split(args, ' ');*/
-	shell->cmd->args = ft_split(args, ' ');
-	shell->cmd->name = shell->cmd->args[0];
-	shell->cmd->args_count = args_counter(shell->cmd->args);
-	return (shell->cmd->name);
+		j = 1;
+	shell->cmd_count = j;
+	shell->cmd = malloc(j * sizeof(t_cmd));
+	if (!shell->cmd)
+		return ;
+	if (j == 1)
+	{
+		shell->cmd[0] = malloc(sizeof(t_cmd));
+		shell->cmd[0]->cmd_pos = 0;
+		shell->cmd[0]->args = ft_split(args, ' ');
+		shell->cmd[0]->name = shell->cmd[0]->args[0];
+		shell->cmd[0]->args_count = args_counter(shell->cmd[0]->args);
+	}
+	else if (j > 1)
+		split_args_cmd(shell, args);
 }
 
 char	*init_read(t_shell *shell)

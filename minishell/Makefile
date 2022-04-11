@@ -10,16 +10,22 @@ NAME	= minishell
 CC		= cc
 CFLAGS	= -Wall -Wextra -Werror
 
-#INC	= -I ../doc/readline/8.1.2/include
-#LIBS	= -L ../doc/readline/8.1.2/lib -lreadline
+#################################################################
+# READLINE														#
+# Install command: brew install readline						#
+# Find where the package is installed: brew info readline		#
+#################################################################
 
-# 		Install command: brew install readline
-INC		= -I. -I $(HOME)/.brew/Cellar/readline/8.1.2/include/
-LIBS	= -L $(HOME)/.brew/Cellar/readline/8.1.2/lib/ -lreadline
+# INC	= -I. -I $(HOME)/.brew/Cellar/readline/8.1.2/include/
+# LIBS	= -L $(HOME)/.brew/Cellar/readline/8.1.2/lib/ -lreadline
+
+INC		= -I. -I /usr/local/Cellar/readline/8.1.2/include/
+LIBS	= -L /usr/local/Cellar/readline/8.1.2/lib/ -lreadline -lhistory
 
 RM		=	rm -rf
 
 FOLDER	=	src/
+DIR_OBJ = 	obj/
 
 FILES	=	main.c \
 			init_utils.c \
@@ -33,6 +39,7 @@ FILES	=	main.c \
 			builtins/unset.c \
 			builtins/exit.c \
 			builtins/utils/env_utils.c \
+			builtins/utils/init_func.c \
 			redirection/redirection.c \
 			redirection/utils.c \
 			pipe/pipe.c \
@@ -43,7 +50,7 @@ FILES	=	main.c \
 SRC 	=	$(addprefix $(FOLDER), $(FILES))
 OBJ 	=	$(SRC:.c=.o)
 
-LIBFT 	= ./newlibft/libft.a
+LIBFT 	= 	./newlibft/libft.a
 
 all: $(NAME)
 

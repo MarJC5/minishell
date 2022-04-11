@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 10:20:41 by jmartin           #+#    #+#             */
-/*   Updated: 2022/04/11 14:47:29 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/04/11 21:48:04 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,4 +31,25 @@ void	is_pipe(char *line, t_shell *shell)
 	}
 	shell->ispipe = pipe;
 	shell->redi = redi;
+}
+
+void	init_fd(t_shell *shell)
+{
+	int		i;
+	int		fd[2];
+
+	i = -1;
+	while (++i < shell->cmd_count)
+	{
+		if (pipe(fd) == -1)
+			str_err("Error: Pipe not proceeded", NULL);
+		if (shell->cmd[i]->out == -1)
+			shell->cmd[i]->out = fd[1];
+		else
+			close(fd[1]);
+		if (shell->cmd[i + 1]->in == -1)
+			shell->cmd[i + 1]->in = fd[0];
+		else
+			close(fd[0]);
+	}
 }

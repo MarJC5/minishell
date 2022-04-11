@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 12:54:56 by jmartin           #+#    #+#             */
-/*   Updated: 2022/04/11 15:20:06 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/04/12 00:46:25 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,25 +25,29 @@
 
 typedef struct s_cmd
 {
-	char	**args;
-	char	*pwd;
-	char	*name;
-	int		cmd_pos;
-	int		args_count;
+	char			**args;
+	char			*pwd;
+	char			*name;
+	int				out;
+	int				in;
+	int				cmd_pos;
+	int				args_count;
+	struct s_shell	*shell;
+	void			(*func)(struct s_shell *, int);
 }	t_cmd;
 
 typedef struct s_shell
 {
-	char	**envp;
-	char	*current_path;
-	int		ispipe;
-	int		bcklash_n;
-	int		redi;
-	int		i;
-	int		j;
-	int		fd;
-	int		cmd_count;
-	t_cmd	**cmd;
+	char		**envp;
+	char		*current_path;
+	int			ispipe;
+	int			bcklash_n;
+	int			redi;
+	int			i;
+	int			j;
+	int			fd;
+	int			cmd_count;
+	t_cmd		**cmd;
 }	t_shell;
 
 /**
@@ -59,14 +63,16 @@ void	ft_free_read_args(t_shell *shell, char *line);
 int		run_cmd(t_shell *shell);
 void	set_envp(t_shell *shell, char **envp);
 void	init_cmd(t_shell *shell, char *args);
+void	init_func(t_shell *shell, int i);
 char	*init_read(t_shell *shell);
 
 /**
  * UTILS
  */
 void	ascii_prompt(void);
-void	str_err(char *str, char *err);
+void	builtin_error(t_shell *shell, int cmd_index);
 char	*append(char before, char *str, char after);
+int		str_err(char *str, char *err);
 int		args_counter(char **args);
 int		str_cmd_comp(char *cmd, char *comp);
 
@@ -109,7 +115,7 @@ void	ft_cd(t_shell *shell, int cmd_index);
 /**
  * EXIT
  */
-void	ft_exit(t_shell *shell);
+void	ft_exit(t_shell *shell, int cmd_index);
 
 /**
  * SIGNALS
@@ -120,6 +126,7 @@ void	ctrl_c_handler(int sig);
 /**
  * REDIRECTION & PIPE
  */
+void	pipex(t_shell *shell);
 void	redirection(t_shell *shell, char **args);
 void	is_pipe(char *line, t_shell *shell);
 int		isrediorpipe(t_shell *shell, char **args, char sign);

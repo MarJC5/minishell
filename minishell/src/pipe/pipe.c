@@ -6,8 +6,13 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 10:20:44 by jmartin           #+#    #+#             */
-/*   Updated: 2022/04/11 10:50:26 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/04/11 21:48:24 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+
+void	pipex(t_shell *shell)
+{
+	(void) shell;
+}

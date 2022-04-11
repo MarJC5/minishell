@@ -6,13 +6,13 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 21:16:18 by jmartin           #+#    #+#             */
-/*   Updated: 2022/04/11 15:11:12 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/04/12 01:01:05 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-static void	split_args_cmd(t_shell *shell, char *args)
+static void	split_pipe_cmd(t_shell *shell, char *args)
 {
 	char	**tmp;
 	int		i;
@@ -22,10 +22,14 @@ static void	split_args_cmd(t_shell *shell, char *args)
 	while (tmp[++i])
 	{
 		shell->cmd[i] = malloc(sizeof(t_cmd));
+		shell->cmd[i]->shell = shell;
 		shell->cmd[i]->cmd_pos = i;
+		shell->cmd[i]->in = -1;
+		shell->cmd[i]->out = -1;
 		shell->cmd[i]->args = ft_split(tmp[i], ' ');
 		shell->cmd[i]->name = shell->cmd[i]->args[0];
 		shell->cmd[i]->args_count = args_counter(shell->cmd[i]->args);
+		init_func(shell, i);
 	}
 	ft_free_multi_tab(tmp);
 }
@@ -46,13 +50,15 @@ void	init_cmd(t_shell *shell, char *args)
 	if (j == 1)
 	{
 		shell->cmd[0] = malloc(sizeof(t_cmd));
+		shell->cmd[0]->shell = shell;
 		shell->cmd[0]->cmd_pos = 0;
 		shell->cmd[0]->args = ft_split(args, ' ');
 		shell->cmd[0]->name = shell->cmd[0]->args[0];
 		shell->cmd[0]->args_count = args_counter(shell->cmd[0]->args);
+		init_func(shell, 0);
 	}
 	else if (j > 1)
-		split_args_cmd(shell, args);
+		split_pipe_cmd(shell, args);
 }
 
 char	*init_read(t_shell *shell)

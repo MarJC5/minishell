@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 14:47:54 by jmartin           #+#    #+#             */
-/*   Updated: 2022/04/11 15:08:23 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/04/11 19:35:17 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,24 +43,7 @@ static int	isp(char **str, int i, int ret)
 
 void	ft_pipe(t_shell *shell, char **args, int i)
 {
-	int	j;
-	int	pi;
-	int	g;
-
-	g = i;
-	j = 0;
-	pi = isp(args, i, 0);
-	while (args[i])
-	{
-		if (i == pi)
-		{
-			j += isp(args, i, 1);
-			break ;
-		}
-		else
-			j += (ft_strlen(args[i]) + 1);
-		i++;
-	}
+	(void) i;
 	if (isrediorpipe(shell, args, '>') == 1)
 		redirection(shell, args);
 }

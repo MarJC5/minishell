@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 14:45:11 by jmartin           #+#    #+#             */
-/*   Updated: 2022/04/11 14:45:57 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/04/11 19:35:41 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,9 @@
 
 void	redirection(t_shell *shell, char **args)
 {
-	int		i;
 	int		fd;
 	char	*name;
 
-	i = -1;
 	isrediorpipe(shell, args, '>');
 	name = getname(args, shell->i, shell->j);
 	if (isdoubleredi(args, '>') == 2)

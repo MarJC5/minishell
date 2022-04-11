@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 21:16:18 by jmartin           #+#    #+#             */
-/*   Updated: 2022/04/11 07:31:19 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/04/11 07:38:31 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ char	*init_cmd(t_shell *shell, char *args)
 {
 	shell->cmd = malloc(sizeof(t_cmd));
 	is_pipe(args, shell);
-	if (oneword(args) == 1)
+	/*if (oneword(args) == 1)
 	{
 		shell->cmd->args = ft_split_with_delimiter(args, '>');
 		printf("%s\n", shell->cmd->args[0]);
@@ -94,7 +94,8 @@ char	*init_cmd(t_shell *shell, char *args)
 		printf("%s\n", shell->cmd->args[2]);
 	}
 	else
-		shell->cmd->args = ft_split(args, ' ');
+		shell->cmd->args = ft_split(args, ' ');*/
+	shell->cmd->args = ft_split(args, ' ');
 	shell->cmd->name = shell->cmd->args[0];
 	shell->cmd->args_count = args_counter(shell->cmd->args);
 	return (shell->cmd->name);

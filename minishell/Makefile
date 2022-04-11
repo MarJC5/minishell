@@ -9,8 +9,13 @@ NAME	= minishell
 
 CC		= cc
 CFLAGS	= -Wall -Wextra -Werror
-INC		= -I src/res/readline/8.1.2/include
-LIBS	= -lreadline -L src/res/readline/8.1.2/lib
+
+#INC	= -I ../doc/readline/8.1.2/include
+#LIBS	= -L ../doc/readline/8.1.2/lib -lreadline
+
+# 		Install command: brew install readline
+INC		= -I. -I $(HOME)/.brew/Cellar/readline/8.1.2/include/
+LIBS	= -L $(HOME)/.brew/Cellar/readline/8.1.2/lib/ -lreadline
 
 RM		=	rm -rf
 

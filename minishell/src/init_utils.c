@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 21:16:18 by jmartin           #+#    #+#             */
-/*   Updated: 2022/04/12 07:47:22 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/04/12 11:55:11 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,22 @@ static void	split_pipe_cmd(t_shell *shell, char *args)
 
 	i = -1;
 	tmp = ft_split(args, '|');
+	shell->cmd_count = 0;
 	while (tmp[++i])
 	{
-		shell->cmd[i] = malloc(sizeof(t_cmd));
-		shell->cmd[i]->shell = shell;
-		shell->cmd[i]->cmd_pos = i;
-		shell->cmd[i]->in = -1;
-		shell->cmd[i]->out = -1;
-		shell->cmd[i]->args = ft_split(tmp[i], ' ');
-		shell->cmd[i]->name = shell->cmd[i]->args[0];
-		shell->cmd[i]->args_count = args_counter(shell->cmd[i]->args);
-		init_func(shell, i);
+		if (ft_isspace(tmp[i]))
+		{
+			shell->cmd[i] = malloc(sizeof(t_cmd));
+			shell->cmd[i]->shell = shell;
+			shell->cmd[i]->cmd_pos = i;
+			shell->cmd[i]->in = -1;
+			shell->cmd[i]->out = -1;
+			shell->cmd[i]->args = ft_split(ft_strtrim(tmp[i], " "), ' ');
+			shell->cmd[i]->name = shell->cmd[i]->args[0];
+			shell->cmd[i]->args_count = args_counter(shell->cmd[i]->args);
+			shell->cmd_count++;
+			init_func(shell, i);
+		}
 	}
 	ft_free_multi_tab(tmp);
 }
@@ -40,21 +45,22 @@ void	init_cmd(t_shell *shell, char *args)
 
 	is_pipe(args, shell);
 	if (shell->ispipe >= 1)
-		j = shell->ispipe + 1;
+		j = ++shell->ispipe;
 	else
 		j = 1;
 	shell->cmd_count = j;
 	shell->cmd = malloc(j * sizeof(t_cmd));
 	if (!shell->cmd)
 		return ;
-	if (j == 1)
+	if (j == 1 && ft_isspace(args))
 	{
 		shell->cmd[0] = malloc(sizeof(t_cmd));
 		shell->cmd[0]->shell = shell;
 		shell->cmd[0]->cmd_pos = 0;
-		shell->cmd[0]->args = ft_split(args, ' ');
+		shell->cmd[0]->args = ft_split(ft_strtrim(args, " "), ' ');
 		shell->cmd[0]->name = shell->cmd[0]->args[0];
 		shell->cmd[0]->args_count = args_counter(shell->cmd[0]->args);
+		shell->cmd_count = 1;
 		init_func(shell, 0);
 	}
 	else if (j > 1)

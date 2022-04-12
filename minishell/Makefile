@@ -10,26 +10,35 @@ NAME	= minishell
 CC		= cc
 CFLAGS	= -Wall -Wextra -Werror
 
+RL_IMAC 	= "$(HOME)/.brew/Cellar/readline/8.1.2"
+RL_MACBOOK	= "/usr/local/Cellar/readline/8.1.2"
+RL_LOCAL	= "doc/readline/8.1.2"
+
 #################################################################
 # READLINE														#
 # Install command: brew install readline						#
 # Find where the package is installed: brew info readline		#
 #################################################################
 
-# INC	= -I. -I $(HOME)/.brew/Cellar/readline/8.1.2/include/
-# LIBS	= -L $(HOME)/.brew/Cellar/readline/8.1.2/lib/ -lreadline
-
-INC		= -I. -I /usr/local/Cellar/readline/8.1.2/include/
-LIBS	= -L /usr/local/Cellar/readline/8.1.2/lib/ -lreadline -lhistory
+ifeq ("$(wildcard $(RL_IMAC))", "")
+	INC		= -I. -I $(RL_IMAC)/include/
+	LIBS	= -L $(RL_IMAC)/lib/ -lreadline -lhistory
+else ifeq ("$(wildcard $(RL_MACBOOK))", "")
+	INC		= -I. -I $(RL_MACBOOK)/include/
+	LIBS	= -L $(RL_MACBOOK)/lib/ -lreadline -lhistory
+else
+	INC		= -I. -I $(RL_LOCAL)/include/
+	LIBS	= -L $(RL_LOCAL)/lib/ -lreadline -lhistory
+endif
 
 RM		=	rm -rf
 
 FOLDER	=	src/
-DIR_OBJ = 	obj/
 
 FILES	=	main.c \
 			init_utils.c \
 			res/utils.c \
+			res/utils_2.c \
 			res/free.c \
 			builtins/env.c \
 			builtins/cd.c \
@@ -39,6 +48,7 @@ FILES	=	main.c \
 			builtins/unset.c \
 			builtins/exit.c \
 			builtins/utils/env_utils.c \
+			builtins/utils/env_var.c \
 			builtins/utils/init_func.c \
 			redirection/redirection.c \
 			redirection/utils.c \

@@ -10,26 +10,18 @@ NAME	= minishell
 CC		= cc
 CFLAGS	= -Wall -Wextra -Werror
 
-RL_IMAC 	= "$(HOME)/.brew/Cellar/readline/8.1.2"
-RL_MACBOOK	= "/usr/local/Cellar/readline/8.1.2"
-RL_LOCAL	= "doc/readline/8.1.2"
-
 #################################################################
 # READLINE														#
 # Install command: brew install readline						#
 # Find where the package is installed: brew info readline		#
 #################################################################
 
-ifeq ("$(wildcard $(RL_IMAC))", "")
-	INC		= -I. -I $(RL_IMAC)/include/
-	LIBS	= -L $(RL_IMAC)/lib/ -lreadline -lhistory
-else ifeq ("$(wildcard $(RL_MACBOOK))", "")
-	INC		= -I. -I $(RL_MACBOOK)/include/
-	LIBS	= -L $(RL_MACBOOK)/lib/ -lreadline -lhistory
-else
-	INC		= -I. -I $(RL_LOCAL)/include/
-	LIBS	= -L $(RL_LOCAL)/lib/ -lreadline -lhistory
-endif
+RL_VERSION	:= $(shell brew list --versions  readline | sed 's/.*[[:blank:]]//')
+RL_PATH		:= $(shell brew --cellar readline)
+RL			= $(RL_PATH)/$(RL_VERSION)
+
+INC		= -I. -I $(RL)/include/
+LIBS	= -L $(RL)/lib/ -lreadline -lhistory
 
 RM		=	rm -rf
 

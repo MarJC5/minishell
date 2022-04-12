@@ -6,7 +6,11 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 12:53:58 by jmartin           #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2022/04/12 01:05:11 by jmartin          ###   ########.fr       */
+=======
+/*   Updated: 2022/03/21 13:16:45 by jmartin          ###   ########.fr       */
+>>>>>>> main
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +42,7 @@ int	main(int argc, char **argv, char **envp)
 	line = init_read(shell);
 	while (line)
 	{
+<<<<<<< HEAD
 		if (ft_strlen(line) > 0)
 		{
 			add_history(line);
@@ -45,6 +50,12 @@ int	main(int argc, char **argv, char **envp)
 			run_cmd(shell);
 			ft_free_read_args(shell, line);
 		}
+=======
+		add_history(line);
+		ft_printf("\033[1;33m>\033[0m %s\n", line);
+		run_cmd(shell, init_cmd(shell, line));
+		ft_free_read_args(shell, line);
+>>>>>>> main
 		line = init_read(shell);
 	}
 	free(shell);

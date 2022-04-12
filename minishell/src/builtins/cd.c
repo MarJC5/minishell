@@ -14,7 +14,11 @@
 
 void	ft_cd(t_shell *shell, int cmd_index)
 {
+<<<<<<< HEAD
 	int	i;
+=======
+	int		i;
+>>>>>>> main
 
 	i = 0;
 	while (shell->cmd[cmd_index]->args[i])
@@ -32,6 +36,10 @@ void	ft_cd(t_shell *shell, int cmd_index)
 		perror(shell->cmd[cmd_index]->args[i]);
 	}
 	else
+<<<<<<< HEAD
 		chdir(shell->cmd[cmd_index]->args[i]);
+=======
+		chdir(shell->cmd->args[i]);
+>>>>>>> main
 	ft_printf("%s", getcwd(shell->current_path, 100));
 }

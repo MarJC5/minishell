@@ -6,11 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 10:50:02 by jmartin           #+#    #+#             */
-<<<<<<< HEAD:minishell/src/builtins/utils/env_utils.c
-/*   Updated: 2022/04/11 15:11:05 by jmartin          ###   ########.fr       */
-=======
-/*   Updated: 2022/03/21 13:23:05 by jmartin          ###   ########.fr       */
->>>>>>> main:minishell/src/res/env_utils.c
+/*   Updated: 2022/04/12 07:47:21 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,10 +93,6 @@ void	set_envp(t_shell *shell, char **envp)
 		shell->envp = malloc((args_counter(envp) + 1) * sizeof(char *));
 		while (++i < args_counter(envp))
 			shell->envp[i] = format_envp(envp[i], is_env_valid(envp[i]), 0);
-<<<<<<< HEAD:minishell/src/builtins/utils/env_utils.c
 		shell->current_path = ft_strdup(getenv("PWD"));
-=======
-		shell->current_path = ft_strdup("/minishell");
->>>>>>> main:minishell/src/res/env_utils.c
 	}
 }

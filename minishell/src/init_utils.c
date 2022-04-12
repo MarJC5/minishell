@@ -6,17 +6,12 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 21:16:18 by jmartin           #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2022/04/12 01:01:05 by jmartin          ###   ########.fr       */
-=======
-/*   Updated: 2022/03/21 10:58:15 by jmartin          ###   ########.fr       */
->>>>>>> main
+/*   Updated: 2022/04/12 07:47:22 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-<<<<<<< HEAD
 static void	split_pipe_cmd(t_shell *shell, char *args)
 {
 	char	**tmp;
@@ -64,24 +59,6 @@ void	init_cmd(t_shell *shell, char *args)
 	}
 	else if (j > 1)
 		split_pipe_cmd(shell, args);
-=======
-/**
- * @brief Save user command to proceed them in the correct order
- *
- * @param shell
- * @param args
- * @param start
- * @return char*
- */
-
-char	*init_cmd(t_shell *shell, char *args)
-{
-	shell->cmd = malloc(sizeof(t_cmd));
-	shell->cmd->args = ft_split(args, ' ');
-	shell->cmd->name = shell->cmd->args[0];
-	shell->cmd->args_count = args_counter(shell->cmd->args);
-	return (shell->cmd->name);
->>>>>>> main
 }
 
 char	*init_read(t_shell *shell)

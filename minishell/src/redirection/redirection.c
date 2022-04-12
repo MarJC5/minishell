@@ -1,19 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sig_utils.c                                        :+:      :+:    :+:   */
+/*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/16 14:02:47 by jmartin           #+#    #+#             */
-/*   Updated: 2022/03/16 15:49:34 by jmartin          ###   ########.fr       */
+/*   Created: 2022/04/11 14:45:11 by jmartin           #+#    #+#             */
+/*   Updated: 2022/04/11 19:35:41 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-void	init_signals(void)
+void	redirection(t_shell *shell, char **args)
 {
-	signal(SIGINT, ctrl_c_handler);
-	signal(SIGQUIT, SIG_IGN);
+	int		fd;
+	char	*name;
+
+	isrediorpipe(shell, args, '>');
+	name = getname(args, shell->i, shell->j);
+	if (isdoubleredi(args, '>') == 2)
+		fd = open(name, O_CREAT | O_RDWR | O_APPEND, 0666);
+	else
+		fd = open(name, O_CREAT | O_RDWR | O_TRUNC, 0666);
+	dup2(fd, shell->fd);
+	free(name);
 }

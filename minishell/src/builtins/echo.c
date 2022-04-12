@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   echo.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/11 14:47:54 by jmartin           #+#    #+#             */
+/*   Updated: 2022/04/11 19:35:17 by jmartin          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/minishell.h"
 
 static int	isp(char **str, int i, int ret)
@@ -9,7 +21,7 @@ static int	isp(char **str, int i, int ret)
 		j = 0;
 		while (str[i][j])
 		{
-			if (str[i][j] == '|')
+			if (str[i][j] == '|' || str[i][j] == '>')
 			{
 				if (ret == 1)
 					return (j);
@@ -23,93 +35,62 @@ static int	isp(char **str, int i, int ret)
 	return (0);
 }
 
-void	ft_pipe(t_shell *shell, int i)
-{
-	int	j;
-	int	pi;
-	int	bi;
+/**
+ * @brief
+ * start = premier arguments après echo
+ * count = nombre d'argument entre la premiere lettre de i et le pipe
+*/
 
-	j = 0;
-	bi = i;
-	pi = isp(shell->cmd->args, i, 0);
-	while (shell->cmd->args[i])
-	{
-		if (i == pi)
-		{
-			j += isp(shell->cmd->args, i, 1);
-			break ;
-		}
-		else
-			j += (ft_strlen(shell->cmd->args[i]) + 1);
-		i++;
-	}
-// valeur de stockage pour la struct -> 'bi' pour
-//à partir de qu'elle argument printf
-// et 'i' pour à qu'elle argument stoper et
-//'j' pour qu'elle lettre de l'argument 'i'
-// - 1 ("test|" = 4), pour s'arreter quand le pipe est là.
+void	ft_pipe(t_shell *shell, char **args, int i)
+{
+	(void) i;
+	if (isrediorpipe(shell, args, '>') == 1)
+		redirection(shell, args);
 }
 
-void	ft_wbn(t_shell *shell, int i)
+void	ft_wbn(t_shell *shell, char **args, int i)
 {
-	if (isp(shell->cmd->args, i, 0) == 0)
+	shell->bcklash_n = 1;
+	if (isp(args, i, 0) == 0)
 	{
-		while (shell->cmd->args[i])
+		while (args[i])
 		{
-			ft_printf("%s", shell->cmd->args[i++]);
-			if (shell->cmd->args[i])
+			ft_printf("%s", args[i++]);
+			if (args[i])
 				ft_printf(" ");
 		}
 		ft_printf("\n");
 	}
 	else
-		ft_pipe(shell, i);
+		ft_pipe(shell, args, i);
 }
 
-void	ft_nbn(t_shell *shell, int i)
+void	ft_nbn(t_shell *shell, char **args, int i)
 {
-	if (isp(shell->cmd->args, i, 0) == 0)
+	if (isp(args, i, 0) == 0)
 	{
-		while (shell->cmd->args[i])
+		while (args[i])
 		{
-			ft_printf("%s", shell->cmd->args[i++]);
-			if (shell->cmd->args[i] != NULL)
+			ft_printf("%s", args[i++]);
+			if (args[i] != NULL)
 				ft_printf(" ");
 		}
 	}
 	else
-		ft_pipe(shell, i);
+		ft_pipe(shell, args, i);
 }
 
-void	ft_echo(t_shell *shell)
+void	ft_echo(t_shell *shell, int cmd_index)
 {
-	int		i;
-	char	*echo;
-
-	i = 1;
-	echo = "echo";
-	while (shell->cmd->args[i])
+	shell->bcklash_n = 0;
+	if (shell->cmd[cmd_index]->args[1])
 	{
-		ft_printf("%s\n", shell->cmd->args[i]);
-		i++;
-	}
-	i = 0;
-	while (shell->cmd->args[i])
-	{
-		if (shell->cmd->args[i][0] == echo[0] && shell->cmd->args[i][1] ==
-			echo[1] && shell->cmd->args[i][2] == echo[2] && shell->cmd->
-			args[i][3] == echo[3] && shell->cmd->args[i][4] == echo[4])
-			break ;
-		i++;
-	}
-	if (shell->cmd->args[i + 1])
-	{
-		if (shell->cmd->args[i + 1][0] == '-' && shell->cmd->args[i + 1][1] == 'n')
-			ft_nbn(shell, i + 2);
+		if (shell->cmd[cmd_index]->args[1][0] == '-'
+			&& shell->cmd[cmd_index]->args[1][1] == 'n')
+			ft_nbn(shell, shell->cmd[cmd_index]->args, 2);
 		else
-			ft_wbn(shell, i + 1);
+			ft_wbn(shell, shell->cmd[cmd_index]->args, 1);
 	}
 	else
 		ft_printf("\n");
-	ft_printf("%d\n", shell->cmd->ispipe);
 }

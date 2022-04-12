@@ -6,33 +6,26 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 12:53:58 by jmartin           #+#    #+#             */
+<<<<<<< HEAD
+/*   Updated: 2022/04/12 01:05:11 by jmartin          ###   ########.fr       */
+=======
 /*   Updated: 2022/03/21 13:16:45 by jmartin          ###   ########.fr       */
+>>>>>>> main
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-int	run_cmd(t_shell *shell, char *cmd)
+int	run_cmd(t_shell *shell)
 {
-	if (cmd)
+	if (shell->cmd_count < 2)
 	{
-		if (ft_strcmp(cmd, "unset") == 0)
-			unset(shell);
-		else if (ft_strcmp(cmd, "export") == 0)
-			export(shell);
-		else if (ft_strcmp(cmd, "pwd") == 0)
-			pwd(shell);
-		else if (ft_strcmp(cmd, "env") == 0)
-			env(shell);
-		else if (ft_strcmp(cmd, "cd") == 0)
-			ft_cd(shell);
-		else if (ft_strcmp(cmd, "echo") == 0)
-			ft_echo(shell);
-		else
-			str_err("minishell: command not found: ", shell->cmd->name);
-		return (1);
+		shell->cmd[0]->func(shell, 0);
+		return (EXIT_SUCCESS);
 	}
-	return (0);
+	else if (shell->cmd_count > 1)
+		ft_putstr_fd("More cmd has been founded", 1);
+	return (EXIT_FAILURE);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -49,10 +42,20 @@ int	main(int argc, char **argv, char **envp)
 	line = init_read(shell);
 	while (line)
 	{
+<<<<<<< HEAD
+		if (ft_strlen(line) > 0)
+		{
+			add_history(line);
+			init_cmd(shell, line);
+			run_cmd(shell);
+			ft_free_read_args(shell, line);
+		}
+=======
 		add_history(line);
 		ft_printf("\033[1;33m>\033[0m %s\n", line);
 		run_cmd(shell, init_cmd(shell, line));
 		ft_free_read_args(shell, line);
+>>>>>>> main
 		line = init_read(shell);
 	}
 	free(shell);

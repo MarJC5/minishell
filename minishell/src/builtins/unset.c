@@ -6,20 +6,11 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 12:05:05 by jmartin           #+#    #+#             */
-/*   Updated: 2022/03/17 21:04:40 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/04/11 15:06:41 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-
-/**
- * @brief Realloc env object and remove specified item
- *
- * @param shell
- * @param value
- * @param size
- * @return void*
- */
 
 int	env_name_size(char *str)
 {
@@ -72,10 +63,11 @@ void	*remove_envp(t_shell *shell, char *value, int size)
 	return (ret);
 }
 
-void	unset(t_shell *shell)
+void	unset(t_shell *shell, int cmd_index)
 {
-	if (shell->cmd->args_count > 1)
-		remove_envp(shell, shell->cmd->args[1], args_counter(shell->envp));
+	if (shell->cmd[cmd_index]->args_count > 1)
+		remove_envp(shell, shell->cmd[cmd_index]->args[1],
+			args_counter(shell->envp));
 	else
 		str_err("unset: not enough arguments", NULL);
 }

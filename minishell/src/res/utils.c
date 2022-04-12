@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 10:52:05 by jmartin           #+#    #+#             */
-/*   Updated: 2022/03/17 15:01:44 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/04/11 19:57:36 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,6 @@ int	args_counter(char **args)
 		;
 	return (i);
 }
-
-/**
- * @brief Add char before/after a string
- *
- * @param before
- * @param str
- * @param after
- * @return char*
- */
 
 char	*append(char before, char *str, char after)
 {
@@ -49,13 +40,33 @@ char	*append(char before, char *str, char after)
 	return (str);
 }
 
-void	str_err(char *str, char *err)
+int	str_err(char *str, char *err)
 {
 	if (str)
 	{
 		ft_putstr_fd(str, 2);
 		ft_putstr_fd(err, 2);
 	}
+	return (EXIT_FAILURE);
+}
+
+int	str_cmd_comp(char *cmd, char *comp)
+{
+	char	*str_upper;
+	int		i;
+
+	i = -1;
+	str_upper = ft_strdup(comp);
+	while (comp[++i])
+		str_upper[i] = ft_toupper(comp[i]);
+	if (ft_strcmp(cmd, comp) == 0
+		|| ft_strcmp(cmd, str_upper) == 0 )
+	{
+		free(str_upper);
+		return (1);
+	}
+	free(str_upper);
+	return (0);
 }
 
 void	ascii_prompt(void)

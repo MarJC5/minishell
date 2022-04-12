@@ -6,11 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 12:54:56 by jmartin           #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2022/04/12 00:46:25 by jmartin          ###   ########.fr       */
-=======
-/*   Updated: 2022/03/21 13:16:37 by jmartin          ###   ########.fr       */
->>>>>>> main
+/*   Updated: 2022/04/12 07:46:10 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +38,6 @@ typedef struct s_cmd
 
 typedef struct s_shell
 {
-<<<<<<< HEAD
 	char		**envp;
 	char		*current_path;
 	int			ispipe;
@@ -53,11 +48,6 @@ typedef struct s_shell
 	int			fd;
 	int			cmd_count;
 	t_cmd		**cmd;
-=======
-	char	**envp;
-	char	*current_path;
-	t_cmd	*cmd;
->>>>>>> main
 }	t_shell;
 
 /**
@@ -72,12 +62,8 @@ void	ft_free_read_args(t_shell *shell, char *line);
  */
 int		run_cmd(t_shell *shell);
 void	set_envp(t_shell *shell, char **envp);
-<<<<<<< HEAD
 void	init_cmd(t_shell *shell, char *args);
 void	init_func(t_shell *shell, int i);
-=======
-char	*init_cmd(t_shell *shell, char *args);
->>>>>>> main
 char	*init_read(t_shell *shell);
 
 /**

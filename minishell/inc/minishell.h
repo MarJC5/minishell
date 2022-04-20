@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 12:54:56 by jmartin           #+#    #+#             */
-/*   Updated: 2022/04/12 15:28:39 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/04/20 12:59:49 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ int		run_cmd(t_shell *shell);
 void	set_envp(t_shell *shell, char **envp);
 void	init_cmd(t_shell *shell, char *args);
 void	init_func(t_shell *shell, int i);
+void	init_fd(t_shell *shell);
 char	*init_read(t_shell *shell);
 
 /**

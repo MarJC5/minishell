@@ -16,20 +16,21 @@ CFLAGS	= -Wall -Wextra -Werror
 # Find where the package is installed: brew info readline		#
 #################################################################
 
-# INC	= -I. -I $(HOME)/.brew/Cellar/readline/8.1.2/include/
-# LIBS	= -L $(HOME)/.brew/Cellar/readline/8.1.2/lib/ -lreadline
+RL_V	:= $(shell brew list --versions  readline | sed 's/.*[[:blank:]]//')
+RL_P	:= $(shell brew --cellar readline)
+RL		= $(RL_P)/$(RL_V)
 
-INC		= -I. -I /usr/local/Cellar/readline/8.1.2/include/
-LIBS	= -L /usr/local/Cellar/readline/8.1.2/lib/ -lreadline -lhistory
+INC		= -I. -I $(RL)/include/
+LIBS	= -L $(RL)/lib/ -lreadline -lhistory
 
 RM		=	rm -rf
 
 FOLDER	=	src/
-DIR_OBJ = 	obj/
 
 FILES	=	main.c \
 			init_utils.c \
 			res/utils.c \
+			res/utils_2.c \
 			res/free.c \
 			builtins/env.c \
 			builtins/cd.c \
@@ -39,6 +40,7 @@ FILES	=	main.c \
 			builtins/unset.c \
 			builtins/exit.c \
 			builtins/utils/env_utils.c \
+			builtins/utils/env_var.c \
 			builtins/utils/init_func.c \
 			redirection/redirection.c \
 			redirection/utils.c \

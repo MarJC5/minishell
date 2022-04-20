@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 14:47:44 by jmartin           #+#    #+#             */
-/*   Updated: 2022/04/12 07:47:20 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/04/12 14:49:42 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,7 @@ void	ft_cd(t_shell *shell, int cmd_index)
 	i++;
 	if (chdir(shell->cmd[cmd_index]->args[i]) == -1)
 	{
-		ft_printf("cd: ");
-		perror(shell->cmd[cmd_index]->args[i]);
+		str_err("cd: ", shell->cmd[cmd_index]->args[i]);
 	}
 	else
 		chdir(shell->cmd[cmd_index]->args[i]);

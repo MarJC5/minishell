@@ -1,45 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   utils_2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/15 01:50:22 by jmartin           #+#    #+#             */
-/*   Updated: 2022/04/12 09:33:44 by jmartin          ###   ########.fr       */
+/*   Created: 2022/04/12 09:22:06 by jmartin           #+#    #+#             */
+/*   Updated: 2022/04/12 10:51:57 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-void	ft_free_tab(char *ptr)
-{
-	if (ptr)
-		free(ptr);
-}
-
-void	ft_free_multi_tab(char **ptr)
+int	ft_isspace(char *str)
 {
 	int	i;
 
-	i = 1;
-	while (i < args_counter(ptr) & ptr[i] != NULL)
-		ft_free_tab(ptr[i++]);
-	free(ptr);
-}
-
-void	ft_free_read_args(t_shell *shell, char *line)
-{
-	int	i;
-
-	i = shell->cmd_count;
-	while (i--)
+	i = 0;
+	while (str[i])
 	{
-		ft_free_tab(shell->cmd[i]->name);
-		ft_free_multi_tab(shell->cmd[i]->args);
+		if (str[i] == ' '
+			|| str[i] == '\f'
+			|| str[i] == '\n'
+			|| str[i] == '\r'
+			|| str[i] == '\t'
+			|| str[i] == '\v')
+			i++;
+		else
+			return (1);
 	}
-	if (shell->cmd)
-		free(shell->cmd);
-	if (line)
-		free(line);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 10:52:05 by jmartin           #+#    #+#             */
-/*   Updated: 2022/04/11 19:57:36 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/04/12 12:32:38 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,16 @@ char	*append(char before, char *str, char after)
 
 int	str_err(char *str, char *err)
 {
-	if (str)
+	char	*msg;
+
+	if (str && err)
 	{
-		ft_putstr_fd(str, 2);
-		ft_putstr_fd(err, 2);
+		msg = ft_strjoin(str, err);
+		ft_putstr_fd(msg, 2);
+		free(msg);
 	}
+	else if (str)
+		ft_putstr_fd(str, 2);
 	return (EXIT_FAILURE);
 }
 

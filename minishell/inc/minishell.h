@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 12:54:56 by jmartin           #+#    #+#             */
-/*   Updated: 2022/04/12 07:46:10 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/04/12 15:28:39 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ char	*append(char before, char *str, char after);
 int		str_err(char *str, char *err);
 int		args_counter(char **args);
 int		str_cmd_comp(char *cmd, char *comp);
+int		ft_isspace(char *str);
 
 /**
  * PWD
@@ -85,6 +86,7 @@ void	pwd(t_shell *shell, int cmd_index);
  * ENV
  */
 void	env(t_shell *shell, int cmd_index);
+void	get_env_var(t_shell *shell, char *arg);
 
 /**
  * EXPORT

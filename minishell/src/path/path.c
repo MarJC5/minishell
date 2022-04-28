@@ -1,34 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipe.c                                             :+:      :+:    :+:   */
+/*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/11 10:20:44 by jmartin           #+#    #+#             */
-/*   Updated: 2022/04/28 07:34:17 by jmartin          ###   ########.fr       */
+/*   Created: 2022/04/11 10:20:44 by tpaquier           #+#    #+#             */
+/*   Updated: 2022/04/28 07:28:35 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-void	pipex(t_shell *shell)
+void	path(t_shell *shell, int cmd_index)
 {
-	int	i;
+	char		**path;
+	pid_t		child_proc;
 
-	i = 0;
-	if (shell->cmd[0]->in == -1)
-		shell->cmd[i]->in = 0;
-	if (shell->cmd[shell->cmd_count]->out == -1)
-		shell->cmd[shell->cmd_count]->out = 1;
-	init_fd(shell);
-	i = -1;
-	while (++i < shell->cmd_count)
+	path = path_finder(shell);
+	child_proc = fork();
+	if (child_proc == -1)
 	{
-		if (shell->cmd[i]->in != 0)
-			close(shell->cmd[i]->in);
-		if (shell->cmd[i]->out != 1)
-			close(shell->cmd[i]->out);
-		i++;
+        perror("fork");
+        exit(EXIT_FAILURE);
 	}
+	if (child_proc == 0)
+	{
+		open_dir(shell, path, shell->cmd[cmd_index]->name, cmd_index);
+		exit(EXIT_FAILURE);
+	}
+	else
+		usleep(6900);
+	free(path);
 }

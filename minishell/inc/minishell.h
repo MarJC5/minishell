@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 12:54:56 by jmartin           #+#    #+#             */
-/*   Updated: 2022/04/20 12:59:49 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/04/28 07:36:06 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@
 # include <signal.h>
 # include <termios.h>
 # include <string.h>
+# include <dirent.h>
+# include <sys/types.h>
+# include <sys/wait.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 
@@ -125,6 +128,14 @@ void	ft_exit(t_shell *shell, int cmd_index);
  */
 void	init_signals(void);
 void	ctrl_c_handler(int sig);
+
+/**
+ * PATH
+ */
+void	path(t_shell *shell, int cmd_index);
+void	open_dir(t_shell *shell, char **path, char *str, int cmd_index);
+char	**path_finder(t_shell *shell);
+int		dir_exist(t_shell *shell, char *str);
 
 /**
  * REDIRECTION & PIPE

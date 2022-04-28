@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 10:20:41 by jmartin           #+#    #+#             */
-/*   Updated: 2022/04/20 12:40:56 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/04/28 07:34:54 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	is_pipe(char *line, t_shell *shell)
 
 void	init_child_process(t_shell *shell)
 {
-
+	(void) shell;
 }
 
 void	init_fd(t_shell *shell)

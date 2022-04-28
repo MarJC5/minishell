@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 10:50:02 by jmartin           #+#    #+#             */
-/*   Updated: 2022/04/12 10:46:01 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/04/28 13:00:23 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char	*format_envp(char *value, int size, int is_new)
 	{
 		arg = ft_substr(value, size + 1, ft_strlen(value));
 		var = ft_substr(value, 0, size + 1);
-		ret = ft_strjoin(var, append('\'', arg, '\''));
+		ret = ft_strjoin(var, append('\"', arg, '\"'));
 		free(arg);
 		free(var);
 	}

@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 12:54:56 by jmartin           #+#    #+#             */
-/*   Updated: 2022/04/28 07:36:06 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/04/28 10:07:54 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,7 @@ void	ctrl_c_handler(int sig);
 /**
  * PATH
  */
-void	path(t_shell *shell, int cmd_index);
+void	path_exec(t_shell *shell, int cmd_index);
 void	open_dir(t_shell *shell, char **path, char *str, int cmd_index);
 char	**path_finder(t_shell *shell);
 int		dir_exist(t_shell *shell, char *str);

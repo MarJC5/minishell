@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 10:20:41 by jmartin           #+#    #+#             */
-/*   Updated: 2022/04/28 07:34:54 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/04/28 16:06:30 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,31 +33,26 @@ void	is_pipe(char *line, t_shell *shell)
 	shell->redi = redi;
 }
 
-void	init_child_process(t_shell *shell)
-{
-	(void) shell;
-}
-
 void	init_fd(t_shell *shell)
 {
 	int		i;
-	int		fd[2];
+	int		(*fd)[2];
 
+	fd = malloc(sizeof(*fd[2] * shell->cmd_count + 1));
 	i = -1;
-	while (++i < shell->cmd_count)
+	while (++i < shell->cmd_count - 1)
 	{
-		if (pipe(fd) == -1)
-			str_err("Error: cannot open the pipe", NULL);
-		else
-		{
-			if (shell->cmd[i]->out == -1)
-				shell->cmd[i]->out = fd[1];
-			else
-				close(fd[1]);
-			if (shell->cmd[i + 1]->in == -1)
-				shell->cmd[i + 1]->in = fd[0];
-			else
-				close(fd[0]);
-		}
+		if (pipe(fd[i]) == -1)
+			perror("Cannot open the pipe");
+	}
+	i = -1;
+	while (++i < shell->cmd_count - 1)
+	{
+		shell->cmd[i]->out = fd[i][1];
+		shell->cmd[i]->in = fd[i - 1][0];
+		if (i == 0)
+			shell->cmd[i]->out = fd[i][1];
+		else if (i == shell->cmd_count - 1)
+			shell->cmd[0]->in = fd[shell->cmd_count - 1][0];
 	}
 }

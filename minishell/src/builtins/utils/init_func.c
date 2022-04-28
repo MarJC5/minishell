@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 00:43:58 by jmartin           #+#    #+#             */
-/*   Updated: 2022/04/28 07:32:05 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/04/28 10:08:46 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	init_func(t_shell *shell, int i)
 	else if (str_cmd_comp(shell->cmd[i]->name, "exit"))
 		shell->cmd[i]->func = ft_exit;
 	else if (dir_exist(shell, shell->cmd[0]->name) == 1)
-		shell->cmd[i]->func = path;
+		shell->cmd[i]->func = path_exec;
 	else
 		shell->cmd[i]->func = builtin_error;
 }

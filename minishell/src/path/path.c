@@ -12,7 +12,7 @@
 
 #include "../../inc/minishell.h"
 
-void	path(t_shell *shell, int cmd_index)
+void	path_exec(t_shell *shell, int cmd_index)
 {
 	char		**path;
 	pid_t		child_proc;
@@ -21,8 +21,8 @@ void	path(t_shell *shell, int cmd_index)
 	child_proc = fork();
 	if (child_proc == -1)
 	{
-        perror("fork");
-        exit(EXIT_FAILURE);
+		perror("fork");
+		exit(EXIT_FAILURE);
 	}
 	if (child_proc == 0)
 	{
@@ -30,6 +30,6 @@ void	path(t_shell *shell, int cmd_index)
 		exit(EXIT_FAILURE);
 	}
 	else
-		usleep(6900);
+		child_proc = wait(NULL);
 	free(path);
 }

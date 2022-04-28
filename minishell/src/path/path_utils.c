@@ -19,7 +19,9 @@ char	**path_finder(t_shell *shell)
 	i = 0;
 	while (shell->envp[i])
 	{
-		if (ft_strncmp(shell->envp[i], "PATH", 4) == 0)
+		if (shell->envp[i][0] == 'P' && shell->envp[i][1] == 'A'
+			&& shell->envp[i][2] == 'T' && shell->envp[i][3] == 'H'
+			&& shell->envp[i][4] == '=')
 			return (ft_split(ft_strchr(shell->envp[i], '=') + 1, ':'));
 		i++;
 	}

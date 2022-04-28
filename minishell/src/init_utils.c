@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 21:16:18 by jmartin           #+#    #+#             */
-/*   Updated: 2022/04/12 11:55:11 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/04/28 08:17:40 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ char	*init_read(t_shell *shell)
 	else
 		details = ft_strjoin(getenv("USER"), ft_strjoin("\033[0m:",
 					ft_strrchr(shell->current_path, '/') + 1));
-	prompt = ft_strjoin("\n\033[1;36mminishell\033[1;37m@\033[1;32m",
+	prompt = ft_strjoin("\033[1;36mminishell\033[1;37m@\033[1;32m",
 			ft_strjoin(details, " $ "));
 	input = readline(prompt);
 	free(details);

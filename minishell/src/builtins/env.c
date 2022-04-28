@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/03 16:42:05 by jmartin           #+#    #+#             */
-/*   Updated: 2022/04/12 10:53:53 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/04/28 08:19:56 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,4 +31,5 @@ void	env(t_shell *shell, int cmd_index)
 				ft_printf("\n");
 		}
 	}
+	ft_printf("\n");
 }

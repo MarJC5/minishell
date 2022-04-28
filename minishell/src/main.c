@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 12:53:58 by jmartin           #+#    #+#             */
-/*   Updated: 2022/04/12 12:23:21 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/04/28 08:23:11 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	run_cmd(t_shell *shell)
 		str_err("minishell: syntax error near unexpected token `|'",
 			NULL);
 	else if (shell->cmd_count > 1)
-		ft_putstr_fd("More cmd has been founded", 1);
+		ft_putendl_fd("More cmd has been founded", 1);
 	return (EXIT_FAILURE);
 }
 

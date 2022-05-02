@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 12:54:56 by jmartin           #+#    #+#             */
-/*   Updated: 2022/05/02 07:39:54 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/05/02 14:36:00 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ typedef struct s_cmd
 	char			*name;
 	int				out;
 	int				in;
+	pid_t			pid;
 	int				cmd_pos;
 	int				args_count;
 	struct s_shell	*shell;
@@ -50,6 +51,8 @@ typedef struct s_shell
 	int			j;
 	int			fd;
 	int			cmd_count;
+	int			out_status;
+	int			in_status;
 	t_cmd		**cmd;
 }	t_shell;
 
@@ -67,7 +70,6 @@ int		run_cmd(t_shell *shell);
 void	set_envp(t_shell *shell, char **envp);
 void	init_cmd(t_shell *shell, char *args);
 void	init_func(t_shell *shell, int i);
-void	init_fd(t_shell *shell);
 char	*init_read(t_shell *shell);
 
 /**
@@ -90,7 +92,7 @@ void	pwd(t_shell *shell, int cmd_index);
  * ENV
  */
 void	env(t_shell *shell, int cmd_index);
-void	get_env_var(t_shell *shell, char *arg);
+char	*get_env_var(t_shell *shell, char *arg);
 
 /**
  * EXPORT

@@ -47,12 +47,13 @@ void	open_dir(t_shell *shell, char **path, char *str, int cmd_index)
 				if (ft_strcmp(file->d_name, str) == 0)
 				{
 					exe = ft_strjoin(append('\0', path[i], '/'), file->d_name);
-					execve(exe, shell->cmd[cmd_index]->args, &path[i]);
+					execve(exe, shell->cmd[cmd_index]->args, shell->envp);
 					free(exe);
 				}
 				file = readdir(dir);
 			}
 		}
+		closedir(dir);
 	}
 }
 
@@ -71,8 +72,6 @@ int	dir_exist(t_shell *shell, char *str)
 	int				i;
 
 	i = -1;
-	if (ft_strncmp(str, "/bin/", 5) == 0)
-		str = bin_chek(ft_split(str, '/'), str);
 	path = path_finder(shell);
 	while(path[++i])
 	{
@@ -83,10 +82,14 @@ int	dir_exist(t_shell *shell, char *str)
 			while (file != NULL)
 			{
 				if (ft_strcmp(file->d_name, str) == 0)
+				{
+					closedir(dir);
 					return (1);
+				}
 				file = readdir(dir);
 			}
 		}
+		closedir(dir);
 	}
 	free(path);
 	return (0);

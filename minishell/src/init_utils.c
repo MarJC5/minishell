@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 21:16:18 by jmartin           #+#    #+#             */
-/*   Updated: 2022/04/28 08:17:40 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/05/02 13:38:35 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ static void	split_pipe_cmd(t_shell *shell, char *args)
 			shell->cmd[i]->cmd_pos = i;
 			shell->cmd[i]->in = -1;
 			shell->cmd[i]->out = -1;
+			shell->cmd[i]->pid = -1;
 			shell->cmd[i]->args = ft_split(ft_strtrim(tmp[i], " "), ' ');
 			shell->cmd[i]->name = shell->cmd[i]->args[0];
 			shell->cmd[i]->args_count = args_counter(shell->cmd[i]->args);

@@ -13,30 +13,24 @@
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
-	char	*mem;
-	size_t	i;
-	size_t	j;
+	int		prefix;
+	int		suffix;
+	int		full;
+	char	*str;
 
-	i = 0;
-	j = 0;
 	if (!s1 || !s2)
 		return (NULL);
-	mem = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
-	if (!mem)
+	prefix = ft_strlen(s1);
+	suffix = ft_strlen(s2);
+	full = prefix + suffix;
+	str = malloc((prefix + suffix + 1) * sizeof(char));
+	if (!str)
 		return (NULL);
-	while (s1[j])
+	if (s1 && s2)
 	{
-		mem[i] = s1[j];
-		i++;
-		j++;
+		ft_memcpy(str, s1, prefix);
+		ft_memcpy(str + prefix, s2, suffix);
 	}
-	j = 0;
-	while (s2[j])
-	{
-		mem[i] = s2[j];
-		i++;
-		j++;
-	}
-	mem[i] = '\0';
-	return (mem);
+	str[full] = '\0';
+	return ((char *)str);
 }

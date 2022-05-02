@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 12:53:58 by jmartin           #+#    #+#             */
-/*   Updated: 2022/05/02 13:36:52 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/05/02 22:05:35 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,11 @@ int	main(int argc, char **argv, char **envp)
 			add_history(line);
 			init_cmd(shell, line);
 			run_cmd(shell);
-			ft_free_read_args(shell, line);
 		}
+		ft_free_read_args(shell, line);
 		line = init_read(shell);
 	}
+	ft_free_read_args(shell, line);
 	free(shell);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 01:50:22 by jmartin           #+#    #+#             */
-/*   Updated: 2022/04/12 09:33:44 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/05/02 21:40:20 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ void	ft_free_multi_tab(char **ptr)
 {
 	int	i;
 
-	i = 1;
-	while (i < args_counter(ptr) & ptr[i] != NULL)
+	i = 0;
+	while (i <= args_counter(ptr) && ptr[i] != NULL)
 		ft_free_tab(ptr[i++]);
 	free(ptr);
 }
@@ -32,12 +32,9 @@ void	ft_free_read_args(t_shell *shell, char *line)
 {
 	int	i;
 
-	i = shell->cmd_count;
-	while (i--)
-	{
-		ft_free_tab(shell->cmd[i]->name);
-		ft_free_multi_tab(shell->cmd[i]->args);
-	}
+	i = 0;
+	while (i < shell->cmd_count)
+		ft_free_multi_tab(shell->cmd[i++]->args);
 	if (shell->cmd)
 		free(shell->cmd);
 	if (line)

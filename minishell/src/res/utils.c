@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 10:52:05 by jmartin           #+#    #+#             */
-/*   Updated: 2022/04/28 08:24:18 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/05/02 20:01:32 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	str_cmd_comp(char *cmd, char *comp)
 	while (comp[++i])
 		str_upper[i] = ft_toupper(comp[i]);
 	if (ft_strcmp(cmd, comp) == 0
-		|| ft_strcmp(cmd, str_upper) == 0 )
+		|| ft_strcmp(cmd, str_upper) == 0)
 	{
 		free(str_upper);
 		return (1);

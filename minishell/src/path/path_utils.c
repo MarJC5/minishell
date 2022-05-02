@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 10:20:44 by tpaquier          #+#    #+#             */
-/*   Updated: 2022/05/02 15:28:48 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/05/02 21:37:52 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ void	open_dir(t_shell *shell, char **path, char *str, int cmd_index)
 	DIR				*dir;
 	struct dirent	*file;
 	int				i;
-	char			*exe;
 
 	i = -1;
 	while (path[++i])
@@ -46,9 +45,9 @@ void	open_dir(t_shell *shell, char **path, char *str, int cmd_index)
 			{
 				if (ft_strcmp(file->d_name, str) == 0)
 				{
-					exe = ft_strjoin(append('\0', path[i], '/'), file->d_name);
-					execve(exe, shell->cmd[cmd_index]->args, shell->envp);
-					free(exe);
+					execve(ft_strjoin(append('\0', path[i], '/'),
+							file->d_name), shell->cmd[cmd_index]->args,
+						shell->envp);
 				}
 				file = readdir(dir);
 			}
@@ -57,10 +56,11 @@ void	open_dir(t_shell *shell, char **path, char *str, int cmd_index)
 	}
 }
 
-int	check_dir( DIR *dir, char *str, struct dirent *file)
+int	check_dir(char **path, DIR *dir, char *str, struct dirent *file)
 {
 	if (ft_strcmp(file->d_name, str) == 0)
 	{
+		ft_free_multi_tab(path);
 		closedir(dir);
 		return (1);
 	}
@@ -84,7 +84,7 @@ int	dir_exist(t_shell *shell, char *str)
 			file = readdir(dir);
 			while (file != NULL)
 			{
-				if (check_dir(dir, str, file) != 1)
+				if (check_dir(path, dir, str, file) != 1)
 					file = readdir(dir);
 				else
 					return (1);
@@ -92,6 +92,6 @@ int	dir_exist(t_shell *shell, char *str)
 		}
 		closedir(dir);
 	}
-	free(path);
+	ft_free_multi_tab(path);
 	return (0);
 }

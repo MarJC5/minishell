@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 14:47:54 by jmartin           #+#    #+#             */
-/*   Updated: 2022/05/02 14:35:01 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/05/02 23:11:39 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,11 @@ static int	isp(char **str, int i, int ret)
 		return (i);
 }
 
-char	*echo_struct(t_shell *shell, char **args, int i, int j, int c)
+char	*echo_struct(char **args, int i, int j, int c)
 {
 	char	*str;
 	int		fi;
 	size_t	fj;
-	(void)shell;
 
 	fi = isp(args, i, 0);
 	fj = isp(args, i, 1);
@@ -87,12 +86,13 @@ void	cr_arg(t_shell *shell, char **args, int j)
 	char	*temp;
 	int		i;
 
-	i = 0;
 	while (args[j])
 	{
-	 	if (strchr(args[j], '$') > 0)
+		if (ft_strchr(args[j], '$') > 0)
 		{
-			while (args[j][i++] != '$');
+			i = 0;
+			while (args[j][i++] != '$')
+				;
 			if (args[j][i + 1] != '\0')
 			{
 				str = get_env_var(shell, args[j]);
@@ -104,7 +104,6 @@ void	cr_arg(t_shell *shell, char **args, int j)
 				args[j] = temp;
 				ft_free_tab(str);
 			}
-			i = 0;
 		}
 		j++;
 	}
@@ -126,7 +125,7 @@ void	ft_echo(t_shell *shell, int cmd_index)
 		if (shell->ispipe >= 1 || shell->redi >= 1)
 			redirection(shell, shell->cmd[cmd_index]->args);
 		cr_arg(shell, shell->cmd[cmd_index]->args, i);
-		str = echo_struct(shell, shell->cmd[cmd_index]->args, i, i, 0);
+		str = echo_struct(shell->cmd[cmd_index]->args, i, i, 0);
 		write(shell->fd, str, ft_strlen(str));
 		free(str);
 		if (i == 1)

@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 10:20:44 by jmartin           #+#    #+#             */
-/*   Updated: 2022/05/02 15:07:55 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/05/02 15:17:22 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ void	child_process(t_shell *shell, int cmd_index)
 	free(path);
 	exit(EXIT_SUCCESS);
 }
-
 
 void	pipex(t_shell *shell)
 {

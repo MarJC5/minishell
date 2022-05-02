@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tpaquier <tpaquier@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/11 10:20:44 by tpaquier           #+#    #+#             */
-/*   Updated: 2022/04/11 21:48:24 by jmartin          ###   ########.fr       */
+/*   Created: 2022/04/11 10:20:44 by tpaquier          #+#    #+#             */
+/*   Updated: 2022/05/02 15:28:48 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,13 @@ char	**path_finder(t_shell *shell)
 
 void	open_dir(t_shell *shell, char **path, char *str, int cmd_index)
 {
-	DIR 			*dir;
+	DIR				*dir;
 	struct dirent	*file;
 	int				i;
 	char			*exe;
 
 	i = -1;
-	while(path[++i])
+	while (path[++i])
 	{
 		dir = opendir(path[i]);
 		if (dir != NULL)
@@ -57,23 +57,26 @@ void	open_dir(t_shell *shell, char **path, char *str, int cmd_index)
 	}
 }
 
-char	*bin_chek(char **split, char *str)
+int	check_dir( DIR *dir, char *str, struct dirent *file)
 {
-	str = ft_strdup(split[1]);
-	ft_free_multi_tab(split);
-	return (str);
+	if (ft_strcmp(file->d_name, str) == 0)
+	{
+		closedir(dir);
+		return (1);
+	}
+	return (0);
 }
 
 int	dir_exist(t_shell *shell, char *str)
 {
-	DIR 			*dir;
+	DIR				*dir;
 	struct dirent	*file;
 	char			**path;
 	int				i;
 
 	i = -1;
 	path = path_finder(shell);
-	while(path[++i])
+	while (path[++i])
 	{
 		dir = opendir(path[i]);
 		if (dir != NULL)
@@ -81,12 +84,10 @@ int	dir_exist(t_shell *shell, char *str)
 			file = readdir(dir);
 			while (file != NULL)
 			{
-				if (ft_strcmp(file->d_name, str) == 0)
-				{
-					closedir(dir);
+				if (check_dir(dir, str, file) != 1)
+					file = readdir(dir);
+				else
 					return (1);
-				}
-				file = readdir(dir);
 			}
 		}
 		closedir(dir);

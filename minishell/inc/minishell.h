@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 12:54:56 by jmartin           #+#    #+#             */
-/*   Updated: 2022/04/12 15:28:39 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/05/02 21:37:57 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@
 # include <signal.h>
 # include <termios.h>
 # include <string.h>
+# include <dirent.h>
+# include <sys/types.h>
+# include <sys/wait.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 
@@ -30,6 +33,7 @@ typedef struct s_cmd
 	char			*name;
 	int				out;
 	int				in;
+	pid_t			pid;
 	int				cmd_pos;
 	int				args_count;
 	struct s_shell	*shell;
@@ -47,6 +51,8 @@ typedef struct s_shell
 	int			j;
 	int			fd;
 	int			cmd_count;
+	int			out_status;
+	int			in_status;
 	t_cmd		**cmd;
 }	t_shell;
 
@@ -86,7 +92,7 @@ void	pwd(t_shell *shell, int cmd_index);
  * ENV
  */
 void	env(t_shell *shell, int cmd_index);
-void	get_env_var(t_shell *shell, char *arg);
+char	*get_env_var(t_shell *shell, char *arg);
 
 /**
  * EXPORT
@@ -124,6 +130,15 @@ void	ft_exit(t_shell *shell, int cmd_index);
  */
 void	init_signals(void);
 void	ctrl_c_handler(int sig);
+
+/**
+ * PATH
+ */
+void	path_exec(t_shell *shell, int cmd_index);
+void	open_dir(t_shell *shell, char **path, char *str, int cmd_index);
+char	**path_finder(t_shell *shell);
+char	*bin_chek(char **split, char *str);
+int		dir_exist(t_shell *shell, char *str);
 
 /**
  * REDIRECTION & PIPE

@@ -1,42 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/15 01:50:22 by jmartin           #+#    #+#             */
-/*   Updated: 2022/05/02 21:40:20 by jmartin          ###   ########.fr       */
+/*   Created: 2022/04/11 10:20:44 by tpaquier          #+#    #+#             */
+/*   Updated: 2022/05/02 21:37:49 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-void	ft_free_tab(char *ptr)
+void	path_exec(t_shell *shell, int cmd_index)
 {
-	if (ptr)
-		free(ptr);
-}
+	char		**path;
+	pid_t		child_proc;
 
-void	ft_free_multi_tab(char **ptr)
-{
-	int	i;
-
-	i = 0;
-	while (i <= args_counter(ptr) && ptr[i] != NULL)
-		ft_free_tab(ptr[i++]);
-	free(ptr);
-}
-
-void	ft_free_read_args(t_shell *shell, char *line)
-{
-	int	i;
-
-	i = 0;
-	while (i < shell->cmd_count)
-		ft_free_multi_tab(shell->cmd[i++]->args);
-	if (shell->cmd)
-		free(shell->cmd);
-	if (line)
-		free(line);
+	path = path_finder(shell);
+	child_proc = fork();
+	if (child_proc == -1)
+	{
+		perror("fork");
+		exit(EXIT_FAILURE);
+	}
+	if (child_proc == 0)
+	{
+		open_dir(shell, path,
+			shell->cmd[cmd_index]->name, cmd_index);
+		exit(EXIT_SUCCESS);
+	}
+	else
+		waitpid(child_proc, NULL, 0);
+	ft_free_multi_tab(path);
 }

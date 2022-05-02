@@ -46,6 +46,8 @@ FILES	=	main.c \
 			redirection/utils.c \
 			pipe/pipe.c \
 			pipe/utils.c \
+			path/path.c \
+			path/path_utils.c \
 			signals/ctrl_c.c \
 			signals/utils.c
 

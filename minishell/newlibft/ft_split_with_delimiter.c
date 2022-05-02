@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/20 09:02:31 by tpaquier          #+#    #+#             */
-/*   Updated: 2022/04/11 07:35:14 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/05/02 23:00:41 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,14 +67,6 @@ static	int	ft_split_i(char const *s, char c, int i)
 	return (i);
 }
 
-static	void	*ft_split_free(char **mem, int j)
-{
-	while (mem[j] != 0)
-		free(mem[j--]);
-	free(mem);
-	return (NULL);
-}
-
 static char	*ft_split_malloc_del(char const *s, char c, int i)
 {
 	int		start;
@@ -117,10 +109,7 @@ char	**ft_split_with_delimiter(char const *s, char c)
 		j++;
 		i = ft_split_i(s, c, i);
 		if (s[i] == c)
-		{
-			mem[j] = ft_split_malloc_del(s, c, i);
-			j++;
-		}
+			mem[j++] = ft_split_malloc_del(s, c, i);
 	}
 	mem[j] = NULL;
 	return (mem);

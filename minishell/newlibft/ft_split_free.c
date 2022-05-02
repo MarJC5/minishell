@@ -1,28 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirection.c                                      :+:      :+:    :+:   */
+/*   ft_split_free.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/11 14:45:11 by jmartin           #+#    #+#             */
-/*   Updated: 2022/05/02 14:25:58 by jmartin          ###   ########.fr       */
+/*   Created: 2022/05/02 22:59:50 by jmartin           #+#    #+#             */
+/*   Updated: 2022/05/02 23:00:06 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/minishell.h"
+#include "libft.h"
 
-void	redirection(t_shell *shell, char **args)
+void	*ft_split_free(char **mem, int j)
 {
-	int		fd;
-	char	*name;
-
-	isrediorpipe(shell, args, '>');
-	name = getname(args, shell->i, shell->j);
-	if (isdoubleredi(args, '>') == 2)
-		fd = open(name, O_CREAT | O_RDWR | O_APPEND, 0666);
-	else
-		fd = open(name, O_CREAT | O_RDWR | O_TRUNC, 0666);
-	dup2(fd, shell->fd);
-	free(name);
+	while (mem[j] != 0)
+		free(mem[j--]);
+	free(mem);
+	return (NULL);
 }

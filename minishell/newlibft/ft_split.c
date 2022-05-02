@@ -66,14 +66,6 @@ static	int	ft_split_i(char const *s, char c, int i)
 	return (i);
 }
 
-static	void	*ft_split_free(char **mem, int j)
-{
-	while (mem[j] != 0)
-		free(mem[j--]);
-	free(mem);
-	return (NULL);
-}
-
 char	**ft_split(char const *s, char c)
 {
 	char	**mem;

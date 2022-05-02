@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 10:52:16 by jmartin           #+#    #+#             */
-/*   Updated: 2022/04/12 12:21:35 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/05/02 14:35:30 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,23 +26,26 @@ static int	ft_strchr_pos(const char *s, int c)
 	return (0);
 }
 
-void	get_env_var(t_shell *shell, char *arg)
+char	*get_env_var(t_shell *shell, char *arg)
 {
 	int		i;
 	int		var_len;
 	char	*var;
+	char	*str;
 
 	i = -1;
+	str = NULL;
 	while (shell->envp[++i])
 	{
 		var_len = ft_strchr_pos(shell->envp[i], '=');
 		var = ft_substr(shell->envp[i], 0, var_len);
-		if (arg[0] == '$' && ft_strcmp(var, ft_strtrim(arg, "$")) == 0)
+		if (ft_strcmp(var, ft_strtrim(ft_strrchr(arg, '$'), "$")) == 0)
 		{
-			ft_putstr_fd(ft_strtrim(shell->envp[i] + var_len, "="), 1);
+			str = ft_strtrim(shell->envp[i] + var_len, "=");
 			free(var);
 			break ;
 		}
 		free(var);
 	}
+	return (str);
 }

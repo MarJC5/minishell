@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 21:16:18 by jmartin           #+#    #+#             */
-/*   Updated: 2022/04/12 11:55:11 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/05/02 22:00:30 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ static void	split_pipe_cmd(t_shell *shell, char *args)
 			shell->cmd[i]->cmd_pos = i;
 			shell->cmd[i]->in = -1;
 			shell->cmd[i]->out = -1;
+			shell->cmd[i]->pid = -1;
 			shell->cmd[i]->args = ft_split(ft_strtrim(tmp[i], " "), ' ');
 			shell->cmd[i]->name = shell->cmd[i]->args[0];
 			shell->cmd[i]->args_count = args_counter(shell->cmd[i]->args);
@@ -69,20 +70,16 @@ void	init_cmd(t_shell *shell, char *args)
 
 char	*init_read(t_shell *shell)
 {
-	char	*input;
 	char	*details;
 	char	*prompt;
 
 	if (ft_strcmp(shell->current_path, getenv("HOME")) == 0
-		|| ft_strcmp(shell->current_path, "/") == 0 )
+		|| ft_strcmp(shell->current_path, "/") == 0)
 		details = ft_strdup("\033[0m:~");
 	else
 		details = ft_strjoin(getenv("USER"), ft_strjoin("\033[0m:",
 					ft_strrchr(shell->current_path, '/') + 1));
-	prompt = ft_strjoin("\n\033[1;36mminishell\033[1;37m@\033[1;32m",
+	prompt = ft_strjoin("\033[1;36mminishell\033[1;37m@\033[1;32m",
 			ft_strjoin(details, " $ "));
-	input = readline(prompt);
-	free(details);
-	free(prompt);
-	return (input);
+	return (readline(prompt));
 }

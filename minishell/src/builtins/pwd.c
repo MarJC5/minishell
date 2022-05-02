@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 09:27:32 by jmartin           #+#    #+#             */
-/*   Updated: 2022/04/11 15:06:36 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/04/28 08:19:02 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	pwd(t_shell *shell, int cmd_index)
 	else
 	{
 		if (getcwd(cwd, sizeof(cwd)) != NULL)
-			ft_printf("%s", cwd);
+			ft_printf("%s\n", cwd);
 		else
 			perror("getcwd() error");
 	}

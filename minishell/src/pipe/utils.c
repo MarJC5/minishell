@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 10:20:41 by jmartin           #+#    #+#             */
-/*   Updated: 2022/04/28 16:06:30 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/05/02 08:13:07 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,23 +36,19 @@ void	is_pipe(char *line, t_shell *shell)
 void	init_fd(t_shell *shell)
 {
 	int		i;
-	int		(*fd)[2];
+	int		fd[2];
 
-	fd = malloc(sizeof(*fd[2] * shell->cmd_count + 1));
 	i = -1;
 	while (++i < shell->cmd_count - 1)
 	{
-		if (pipe(fd[i]) == -1)
-			perror("Cannot open the pipe");
-	}
-	i = -1;
-	while (++i < shell->cmd_count - 1)
-	{
-		shell->cmd[i]->out = fd[i][1];
-		shell->cmd[i]->in = fd[i - 1][0];
+		pipe(fd);
+		shell->cmd[i]->out = fd[1];
 		if (i == 0)
-			shell->cmd[i]->out = fd[i][1];
-		else if (i == shell->cmd_count - 1)
-			shell->cmd[0]->in = fd[shell->cmd_count - 1][0];
+			shell->cmd[i]->in = fd[0];
+		else
+			shell->cmd[i + 1]->in = fd[0];
+		ft_printf("%d <- out - in -> %d\n", shell->cmd[i]->out, shell->cmd[i]->in);
+		close(fd[0]);
+		close(fd[1]);
 	}
 }

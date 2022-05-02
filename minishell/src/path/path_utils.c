@@ -56,6 +56,13 @@ void	open_dir(t_shell *shell, char **path, char *str, int cmd_index)
 	}
 }
 
+char	*bin_chek(char **split, char *str)
+{
+	str = ft_strdup(split[1]);
+	ft_free_multi_tab(split);
+	return (str);
+}
+
 int	dir_exist(t_shell *shell, char *str)
 {
 	DIR 			*dir;
@@ -64,6 +71,8 @@ int	dir_exist(t_shell *shell, char *str)
 	int				i;
 
 	i = -1;
+	if (ft_strncmp(str, "/bin/", 5) == 0)
+		str = bin_chek(ft_split(str, '/'), str);
 	path = path_finder(shell);
 	while(path[++i])
 	{

@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 00:43:58 by jmartin           #+#    #+#             */
-/*   Updated: 2022/05/02 14:48:59 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/05/03 14:30:05 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	init_func(t_shell *shell, int i)
 
 void	builtin_error(t_shell *shell, int cmd_index)
 {
+	g_exit_stat = 127;
 	str_err("minishell: command not found: ",
 		shell->cmd[cmd_index]->name);
 }

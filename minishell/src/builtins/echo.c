@@ -6,21 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 14:47:54 by jmartin           #+#    #+#             */
-/*   Updated: 2022/05/02 23:11:39 by jmartin          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include "../../inc/minishell.h"
-
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/11 14:45:03 by jmartin           #+#    #+#             */
-/*   Updated: 2022/04/11 14:47:07 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/05/03 16:44:56 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +79,13 @@ void	cr_arg(t_shell *shell, char **args, int j)
 			i = 0;
 			while (args[j][i++] != '$')
 				;
-			if (args[j][i + 1] != '\0')
+			if (args[j][i] == '?')
+			{
+				ft_free_tab(args[j]);
+				temp = ft_strdup(ft_itoa(g_exit_stat));
+				args[j] = temp;
+			}
+			else if (args[j][i + 1] != '\0')
 			{
 				str = get_env_var(shell, args[j]);
 				if (!str)

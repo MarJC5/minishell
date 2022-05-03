@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 20:27:21 by jmartin           #+#    #+#             */
-/*   Updated: 2022/04/11 15:06:31 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/05/03 14:38:41 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,17 @@ void	export(t_shell *shell, int cmd_index)
 	int	i;
 
 	i = 0;
+	g_exit_stat = 0;
 	if (shell->cmd[cmd_index]->args_count == 1)
 		env(shell, 0);
 	else if (shell->cmd[cmd_index]->args_count > 1)
 	{
 		if (shell->cmd[cmd_index]->args[1][0] == '=')
+		{
+			g_exit_stat = 1;
 			str_err("export: not valid in this context: ",
 				shell->cmd[cmd_index]->args[1]);
+		}
 		else
 		{
 			while (shell->cmd[cmd_index]->args[++i])

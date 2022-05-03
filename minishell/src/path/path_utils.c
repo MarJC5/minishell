@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 10:20:44 by tpaquier          #+#    #+#             */
-/*   Updated: 2022/05/02 21:37:52 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/05/03 16:22:06 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ void	open_dir(t_shell *shell, char **path, char *str, int cmd_index)
 			{
 				if (ft_strcmp(file->d_name, str) == 0)
 				{
-					execve(ft_strjoin(append('\0', path[i], '/'),
-							file->d_name), shell->cmd[cmd_index]->args,
-						shell->envp);
+					g_exit_stat = execve(ft_strjoin(append('\0', path[i], '/'),
+								file->d_name), shell->cmd[cmd_index]->args,
+							shell->envp);
 				}
 				file = readdir(dir);
 			}

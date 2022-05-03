@@ -6,21 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 14:47:54 by jmartin           #+#    #+#             */
-/*   Updated: 2022/05/02 23:11:39 by jmartin          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include "../../inc/minishell.h"
-
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/11 14:45:03 by jmartin           #+#    #+#             */
-/*   Updated: 2022/04/11 14:47:07 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/05/03 18:02:45 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,10 +66,15 @@ char	*echo_struct(char **args, int i, int j, int c)
 	return (str);
 }
 
+static void	cr_arg_realloc(char **args, char *newval, int i)
+{
+	ft_free_tab(args[i]);
+	args[i] = newval;
+}
+
 void	cr_arg(t_shell *shell, char **args, int j)
 {
 	char	*str;
-	char	*temp;
 	int		i;
 
 	while (args[j])
@@ -93,15 +84,16 @@ void	cr_arg(t_shell *shell, char **args, int j)
 			i = 0;
 			while (args[j][i++] != '$')
 				;
-			if (args[j][i + 1] != '\0')
+			if (args[j][i] == '?')
+				cr_arg_realloc(args, ft_itoa(g_exit_stat), j);
+			else if (args[j][i + 1] != '\0')
 			{
 				str = get_env_var(shell, args[j]);
 				if (!str)
-					temp = ft_substr(args[j], 0, (i - 1));
+					cr_arg_realloc(args, ft_substr(args[j], 0, (i - 1)), j);
 				else
-					temp = ft_strjoin(ft_substr(args[j], 0, (i - 1)), str);
-				ft_free_tab(args[j]);
-				args[j] = temp;
+					cr_arg_realloc(args,
+						ft_strjoin(ft_substr(args[j], 0, (i - 1)), str), j);
 				ft_free_tab(str);
 			}
 		}
@@ -134,4 +126,5 @@ void	ft_echo(t_shell *shell, int cmd_index)
 	}
 	else
 		write(shell->fd, "\n", 1);
+	g_exit_stat = 0;
 }

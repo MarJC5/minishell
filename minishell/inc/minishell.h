@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 12:54:56 by jmartin           #+#    #+#             */
-/*   Updated: 2022/05/02 21:37:57 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/05/03 16:28:31 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,15 @@
 # include <sys/wait.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+
+/**
+ * GLOBAL
+ */
+int	g_exit_stat;
+
+/**
+ * STRUCT
+ */
 
 typedef struct s_cmd
 {
@@ -53,6 +62,7 @@ typedef struct s_shell
 	int			cmd_count;
 	int			out_status;
 	int			in_status;
+	int			exit_status;
 	t_cmd		**cmd;
 }	t_shell;
 
@@ -67,6 +77,7 @@ void	ft_free_read_args(t_shell *shell, char *line);
  * SHELL
  */
 int		run_cmd(t_shell *shell);
+void	exit_status(int wstatus);
 void	set_envp(t_shell *shell, char **envp);
 void	init_cmd(t_shell *shell, char *args);
 void	init_func(t_shell *shell, int i);
@@ -128,8 +139,8 @@ void	ft_exit(t_shell *shell, int cmd_index);
 /**
  * SIGNALS
  */
-void	init_signals(void);
-void	ctrl_c_handler(int sig);
+void	init_signals(struct termios *saved);
+void	ctrl_handler(int sig);
 
 /**
  * PATH

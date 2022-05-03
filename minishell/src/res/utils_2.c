@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 09:22:06 by jmartin           #+#    #+#             */
-/*   Updated: 2022/04/12 10:51:57 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/05/03 15:42:12 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,10 @@ int	ft_isspace(char *str)
 			return (1);
 	}
 	return (0);
+}
+
+void	exit_status(int wstatus)
+{
+	if (WIFEXITED(wstatus))
+		g_exit_stat = WEXITSTATUS(wstatus);
 }

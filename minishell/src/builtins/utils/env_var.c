@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 10:52:16 by jmartin           #+#    #+#             */
-/*   Updated: 2022/05/02 14:35:30 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/05/03 12:36:58 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char	*get_env_var(t_shell *shell, char *arg)
 	{
 		var_len = ft_strchr_pos(shell->envp[i], '=');
 		var = ft_substr(shell->envp[i], 0, var_len);
-		if (ft_strcmp(var, ft_strtrim(ft_strrchr(arg, '$'), "$")) == 0)
+		if (ft_strcmp(var, ft_strrchr(arg, '$') + 1) == 0)
 		{
 			str = ft_strtrim(shell->envp[i] + var_len, "=");
 			free(var);

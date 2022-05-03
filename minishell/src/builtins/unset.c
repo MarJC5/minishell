@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 12:05:05 by jmartin           #+#    #+#             */
-/*   Updated: 2022/04/11 15:06:41 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/05/03 14:38:10 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,15 @@ void	*remove_envp(t_shell *shell, char *value, int size)
 void	unset(t_shell *shell, int cmd_index)
 {
 	if (shell->cmd[cmd_index]->args_count > 1)
+	{
+		g_exit_stat = 0;
+		str_err("pwd: too many arguments", NULL);
 		remove_envp(shell, shell->cmd[cmd_index]->args[1],
 			args_counter(shell->envp));
+	}
 	else
+	{
+		g_exit_stat = 1;
 		str_err("unset: not enough arguments", NULL);
+	}
 }

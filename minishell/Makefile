@@ -48,7 +48,7 @@ FILES	=	main.c \
 			pipe/utils.c \
 			path/path.c \
 			path/path_utils.c \
-			signals/ctrl_c.c \
+			signals/ctrl.c \
 			signals/utils.c
 
 SRC 	=	$(addprefix $(FOLDER), $(FILES))

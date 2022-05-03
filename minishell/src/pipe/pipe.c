@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 10:20:44 by jmartin           #+#    #+#             */
-/*   Updated: 2022/05/02 15:17:22 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/05/03 16:30:15 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,8 @@ void	pipex(t_shell *shell)
 	i = 0;
 	while (i < shell->cmd_count)
 	{
-		waitpid(shell->cmd[i]->pid, NULL, 0);
+		waitpid(shell->cmd[i]->pid, &shell->exit_status, 0);
+		exit_status(shell->exit_status);
 		i++;
 	}
 }

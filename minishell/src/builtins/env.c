@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/03 16:42:05 by jmartin           #+#    #+#             */
-/*   Updated: 2022/04/28 08:19:56 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/05/03 14:26:04 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,13 @@ void	env(t_shell *shell, int cmd_index)
 	i = -1;
 	if (shell->cmd[cmd_index]->args_count > 1)
 	{
+		g_exit_stat = 1;
 		str_err("env: ", NULL);
 		perror(shell->cmd[cmd_index]->args[1]);
 	}
 	else
 	{
+		g_exit_stat = 0;
 		while (shell->envp[++i])
 		{
 			ft_printf("%s", shell->envp[i]);

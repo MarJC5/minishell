@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 14:47:54 by jmartin           #+#    #+#             */
-/*   Updated: 2022/05/03 18:02:45 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/05/03 19:33:12 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static int	isp(char **str, int i, int ret)
 		return (i);
 }
 
-char	*echo_struct(char **args, int i, int j, int c)
+static char	*echo_struct(char **args, int i, int j, int c)
 {
 	char	*str;
 	int		fi;
@@ -72,7 +72,7 @@ static void	cr_arg_realloc(char **args, char *newval, int i)
 	args[i] = newval;
 }
 
-void	cr_arg(t_shell *shell, char **args, int j)
+static void	cr_arg(t_shell *shell, char **args, int j)
 {
 	char	*str;
 	int		i;

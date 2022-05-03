@@ -6,23 +6,11 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 10:20:44 by jmartin           #+#    #+#             */
-/*   Updated: 2022/05/03 16:30:15 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/05/03 19:30:33 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-
-void	close_loop(t_shell *shell)
-{
-	int	i;
-
-	i = -1;
-	while (++i < shell->cmd_count)
-	{
-		close(shell->cmd[i]->out);
-		close(shell->cmd[i]->in);
-	}
-}
 
 int	handle_out(t_shell *shell, int cmd_index)
 {

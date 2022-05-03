@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 12:54:56 by jmartin           #+#    #+#             */
-/*   Updated: 2022/05/03 16:28:31 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/05/03 19:35:19 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,6 +157,7 @@ int		dir_exist(t_shell *shell, char *str);
 void	pipex(t_shell *shell);
 void	redirection(t_shell *shell, char **args);
 void	is_pipe(char *line, t_shell *shell);
+void	close_loop(t_shell *shell);
 int		isrediorpipe(t_shell *shell, char **args, char sign);
 int		isdoubleredi(char **args, char sign);
 char	*getname(char **args, int i, int j);

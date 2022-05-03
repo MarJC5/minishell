@@ -32,6 +32,9 @@ FILES	=	main.c \
 			res/utils.c \
 			res/utils_2.c \
 			res/free.c \
+			res/ascii.c \
+			res/single_quote.c \
+			res/double_quote.c \
 			builtins/env.c \
 			builtins/cd.c \
 			builtins/echo.c \
@@ -45,11 +48,11 @@ FILES	=	main.c \
 			redirection/redirection.c \
 			redirection/utils.c \
 			pipe/pipe.c \
-			pipe/utils.c \
+			pipe/pipe_utils.c \
 			path/path.c \
 			path/path_utils.c \
 			signals/ctrl.c \
-			signals/utils.c
+			signals/signals_utils.c
 
 SRC 	=	$(addprefix $(FOLDER), $(FILES))
 OBJ 	=	$(SRC:.c=.o)

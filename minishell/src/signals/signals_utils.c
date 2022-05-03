@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   signals_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 14:02:47 by jmartin           #+#    #+#             */
-/*   Updated: 2022/05/03 16:15:52 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/05/03 19:43:43 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,5 @@ void	init_signals(struct termios *saved)
 {
 	hide_keystrokes(saved);
 	signal(SIGINT, ctrl_handler);
-	signal(SIGQUIT, SIG_IGN);
+	signal(SIGQUIT, ctrl_handler);
 }

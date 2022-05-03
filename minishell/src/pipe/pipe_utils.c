@@ -1,31 +1,46 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ctrl.c                                             :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/16 07:15:38 by jmartin           #+#    #+#             */
-/*   Updated: 2022/05/03 19:43:36 by jmartin          ###   ########.fr       */
+/*   Created: 2022/04/11 10:20:41 by jmartin           #+#    #+#             */
+/*   Updated: 2022/05/03 19:30:38 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-void	ctrl_handler(int sig)
+void	close_loop(t_shell *shell)
 {
-	if (sig == SIGINT)
+	int	i;
+
+	i = -1;
+	while (++i < shell->cmd_count)
 	{
-		g_exit_stat = 128 + SIGINT;
-		rl_replace_line("", 0);
-		ft_putendl_fd("", 1);
-		rl_on_new_line();
-		rl_redisplay();
+		close(shell->cmd[i]->out);
+		close(shell->cmd[i]->in);
 	}
-	else if (sig == SIGQUIT)
+}
+
+void	is_pipe(char *line, t_shell *shell)
+{
+	int	i;
+	int	pipe;
+	int	redi;
+
+	pipe = 0;
+	redi = 0;
+	i = 0;
+	while (line[i])
 	{
-		g_exit_stat = 128 + SIGQUIT;
-		rl_on_new_line();
-		rl_redisplay();
+		if (line[i] == '|')
+			pipe++;
+		if (line[i] == '>')
+			redi++;
+		i++;
 	}
+	shell->ispipe = pipe;
+	shell->redi = redi;
 }

@@ -1,34 +1,13 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   double_quote.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/11 10:20:41 by jmartin           #+#    #+#             */
-/*   Updated: 2022/05/02 09:30:52 by jmartin          ###   ########.fr       */
+/*   Created: 2022/05/03 19:24:40 by jmartin           #+#    #+#             */
+/*   Updated: 2022/05/03 19:25:02 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-
-void	is_pipe(char *line, t_shell *shell)
-{
-	int	i;
-	int	pipe;
-	int	redi;
-
-	pipe = 0;
-	redi = 0;
-	i = 0;
-	while (line[i])
-	{
-		if (line[i] == '|')
-			pipe++;
-		if (line[i] == '>')
-			redi++;
-		i++;
-	}
-	shell->ispipe = pipe;
-	shell->redi = redi;
-}

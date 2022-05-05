@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 14:47:54 by jmartin           #+#    #+#             */
-/*   Updated: 2022/05/03 19:33:12 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/05/05 12:19:45 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,25 @@ static char	*echo_struct(char **args, int i, int j, int c)
 	return (str);
 }
 
-static void	cr_arg_realloc(char **args, char *newval, int i)
+static void	cr_arg_realloc(char **args, char *newval, int i, int j)
 {
+	char	*begin;
+	char	*end;
+
+	begin = NULL;
+	end = NULL;
 	ft_free_tab(args[i]);
-	args[i] = newval;
+	if (args[i][j] == '?')
+	{
+		begin = ft_substr(args[i], 0, (j - 1));
+		end = ft_substr(args[i], j + 1, ((int)ft_strlen(begin) - j));
+		printf("END -> %s\n", end);
+		args[i] = ft_strjoin(ft_strjoin(begin, newval), end);
+		free(begin);
+		free(end);
+	}
+	else
+		args[i] = newval;
 }
 
 static void	cr_arg(t_shell *shell, char **args, int j)
@@ -84,16 +99,17 @@ static void	cr_arg(t_shell *shell, char **args, int j)
 			i = 0;
 			while (args[j][i++] != '$')
 				;
+			printf("END -> %s\n", ft_substr(args[j], i + 1, (j - i)));
 			if (args[j][i] == '?')
-				cr_arg_realloc(args, ft_itoa(g_exit_stat), j);
+				cr_arg_realloc(args, ft_itoa(g_exit_stat), j, i);
 			else if (args[j][i + 1] != '\0')
 			{
 				str = get_env_var(shell, args[j]);
 				if (!str)
-					cr_arg_realloc(args, ft_substr(args[j], 0, (i - 1)), j);
+					cr_arg_realloc(args, ft_substr(args[j], 0, (i - 1)), j, i);
 				else
 					cr_arg_realloc(args,
-						ft_strjoin(ft_substr(args[j], 0, (i - 1)), str), j);
+						ft_strjoin(ft_substr(args[j], 0, (i - 1)), str), j, i);
 				ft_free_tab(str);
 			}
 		}

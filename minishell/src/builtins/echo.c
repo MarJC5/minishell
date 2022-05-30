@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 14:47:54 by jmartin           #+#    #+#             */
-/*   Updated: 2022/05/05 12:19:45 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/05/30 16:04:40 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ static void	cr_arg_realloc(char **args, char *newval, int i, int j)
 	{
 		begin = ft_substr(args[i], 0, (j - 1));
 		end = ft_substr(args[i], j + 1, ((int)ft_strlen(begin) - j));
-		printf("END -> %s\n", end);
 		args[i] = ft_strjoin(ft_strjoin(begin, newval), end);
 		free(begin);
 		free(end);
@@ -99,7 +98,6 @@ static void	cr_arg(t_shell *shell, char **args, int j)
 			i = 0;
 			while (args[j][i++] != '$')
 				;
-			printf("END -> %s\n", ft_substr(args[j], i + 1, (j - i)));
 			if (args[j][i] == '?')
 				cr_arg_realloc(args, ft_itoa(g_exit_stat), j, i);
 			else if (args[j][i + 1] != '\0')

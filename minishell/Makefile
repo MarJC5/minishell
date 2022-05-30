@@ -33,8 +33,9 @@ FILES	=	main.c \
 			res/utils_2.c \
 			res/free.c \
 			res/ascii.c \
-			res/single_quote.c \
-			res/double_quote.c \
+			parsing/single_quote.c \
+			parsing/double_quote.c \
+			parsing/quote_utils.c \
 			builtins/env.c \
 			builtins/cd.c \
 			builtins/echo.c \

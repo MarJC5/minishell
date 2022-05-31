@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 14:45:03 by jmartin           #+#    #+#             */
-/*   Updated: 2022/05/02 14:26:11 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/05/31 09:25:40 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,19 +67,20 @@ char	*getname(char **args, int i, int j)
 
 	g = 0;
 	if (args[i][j + 1] && args[i][j + 1] != '>')
-		name = malloc(ft_strlen(&args[i][++j]) + 1);
-	else if (args[i][j + 1] == '>' && args[i][j + 2])
-		name = malloc(ft_strlen(&args[i][j += 2]) + 1);
+		name = malloc(ft_strlen(&args[i][++j]) + 2);
+	else if (args[i][j + 1] == '>' && args[i][j + 3])
+		name = malloc(ft_strlen(&args[i][j += 2]) + 2);
 	else
 	{
 		if (args[i + 1])
 		{
-			name = malloc(ft_strlen(args[++i]) + 1);
+			name = malloc(ft_strlen(args[++i]) + 2);
 			j = 0;
 		}
 		else
 			return (NULL);
 	}
+	name[g++] = '/';
 	while (args[i][j])
 		name[g++] = args[i][j++];
 	name[g] = '\0';

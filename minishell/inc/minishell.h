@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 12:54:56 by jmartin           #+#    #+#             */
-/*   Updated: 2022/05/03 19:35:19 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/05/30 16:22:58 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,5 +161,11 @@ void	close_loop(t_shell *shell);
 int		isrediorpipe(t_shell *shell, char **args, char sign);
 int		isdoubleredi(char **args, char sign);
 char	*getname(char **args, int i, int j);
+
+/**
+ * QUOTE
+ *
+ */
+int		char_counter(char *s, int c);
 
 #endif

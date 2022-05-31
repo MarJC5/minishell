@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 12:54:56 by jmartin           #+#    #+#             */
-/*   Updated: 2022/05/30 16:22:58 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/05/31 10:07:16 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ int		str_err(char *str, char *err);
 int		args_counter(char **args);
 int		str_cmd_comp(char *cmd, char *comp);
 int		ft_isspace(char *str);
+int		old_fd();
 
 /**
  * PWD

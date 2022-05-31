@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 10:20:44 by tpaquier          #+#    #+#             */
-/*   Updated: 2022/05/03 16:22:06 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/05/31 08:34:16 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,16 @@ int	check_dir(char **path, DIR *dir, char *str, struct dirent *file)
 	return (0);
 }
 
+char *bin_chek(char **split, char *str)
+{
+	if (ft_strncmp(str, "/bin/", 5) == 0)
+	{
+		str = ft_strdup(split[1]);
+		ft_free_multi_tab(split);
+	}
+	return (str);
+}
+
 int	dir_exist(t_shell *shell, char *str)
 {
 	DIR				*dir;
@@ -75,6 +85,7 @@ int	dir_exist(t_shell *shell, char *str)
 	int				i;
 
 	i = -1;
+	str = bin_chek(ft_split(str, '/'), str);
 	path = path_finder(shell);
 	while (path[++i])
 	{
@@ -86,8 +97,7 @@ int	dir_exist(t_shell *shell, char *str)
 			{
 				if (check_dir(path, dir, str, file) != 1)
 					file = readdir(dir);
-				else
-					return (1);
+				return (1);
 			}
 		}
 		closedir(dir);

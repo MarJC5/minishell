@@ -24,6 +24,12 @@ int	handle_out(t_shell *shell, int cmd_index)
 
 int	handle_in(t_shell *shell, int cmd_index)
 {
+	if (isrediorpipe(shell, shell->cmd[cmd_index]->args, '<') == 1)
+	{
+		shell->cmd[cmd_index]->in = open(shell->cmd[cmd_index]->args[shell->i + 1], O_CREAT | O_RDWR | O_APPEND, 0666);
+		printf("%d : fd qu'on cree avec open\n", shell->cmd[cmd_index]->in);
+		return (1);
+	}
 	if (shell->cmd[cmd_index]->in != -1)
 	{
 		dup2(shell->cmd[cmd_index]->in, STDIN_FILENO);
@@ -39,6 +45,9 @@ void	child_process(t_shell *shell, int cmd_index)
 	path = path_finder(shell);
 	shell->out_status = handle_out(shell, cmd_index);
 	shell->in_status = handle_in(shell, cmd_index);
+	printf("%d : valeur de fd\n", shell->cmd[cmd_index]->in);
+	printf("%d : valeur de retour de in\n", shell->in_status);
+	printf("%d : valeur de retour de out\n", shell->out_status);
 	close_loop(shell);
 	open_dir(shell, path, shell->cmd[cmd_index]->name, cmd_index);
 	free(path);

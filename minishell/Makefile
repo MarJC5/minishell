@@ -16,12 +16,12 @@ CFLAGS	= -Wall -Wextra -Werror
 # Find where the package is installed: brew info readline		#
 #################################################################
 
-RL_V	:= $(shell brew list --versions  readline | sed 's/.*[[:blank:]]//')
-RL_P	:= $(shell brew --cellar readline)
-RL		= $(RL_P)/$(RL_V)
+#RL_V	:= $(shell brew list --versions  readline | sed 's/.*[[:blank:]]//')
+#RL_P	:= $(shell brew --cellar readline)
+RL		= ../doc/readline/8.1.2
 
 INC		= -I. -I $(RL)/include/
-LIBS	= -L $(RL)/lib/ -lreadline -lhistory
+LIBS	= -L $(RL)/lib/ -lreadline
 
 RM		=	rm -rf
 

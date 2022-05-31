@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 14:47:54 by jmartin           #+#    #+#             */
-/*   Updated: 2022/05/30 16:04:40 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/05/31 10:11:04 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,17 +128,13 @@ void	ft_echo(t_shell *shell, int cmd_index)
 			i = 2;
 		else
 			i = 1;
-		if (shell->ispipe >= 1 || shell->redi >= 1)
-			redirection(shell, shell->cmd[cmd_index]->args);
 		cr_arg(shell, shell->cmd[cmd_index]->args, i);
 		str = echo_struct(shell->cmd[cmd_index]->args, i, i, 0);
-		write(shell->fd, str, ft_strlen(str));
+		write(1, str, ft_strlen(str));
 		free(str);
 		if (i == 1)
-			write(shell->fd, "\n", 1);
-		dup2(1, shell->fd);
+			write(1, "\n", 1);
 	}
 	else
-		write(shell->fd, "\n", 1);
-	g_exit_stat = 0;
+		write(1, "\n", 1);
 }

@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 12:53:58 by jmartin           #+#    #+#             */
-/*   Updated: 2022/05/30 16:27:50 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/05/31 09:51:13 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,21 @@
 int	run_cmd(t_shell *shell)
 {
 	if (shell->cmd_count == 1 && !shell->ispipe)
-		shell->cmd[0]->func(shell, 0);
-	else if (shell->cmd_count >= 1 && shell->ispipe > shell->cmd_count)
 	{
-		g_exit_stat = 2;
+		shell->fd = old_fd();
+		if (shell->redi >= 1)
+			redirection(shell, shell->cmd[0]->args);
+		shell->cmd[0]->func(shell, 0);
+		if (shell->redi >= 1)
+		{
+			dup2(shell->fd, STDOUT_FILENO);
+			shell->redi = 0;
+		}
+		return (EXIT_SUCCESS);
+	}
+	else if (shell->cmd_count >= 1 && shell->ispipe > shell->cmd_count)
 		str_err("minishell: syntax error near unexpected token `|'",
 			NULL);
-	}
 	else if (shell->cmd_count > 1)
 		pipex(shell);
 	return (EXIT_FAILURE);

@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 10:20:44 by tpaquier          #+#    #+#             */
-/*   Updated: 2022/05/31 08:34:16 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/05/31 09:23:10 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	check_dir(char **path, DIR *dir, char *str, struct dirent *file)
 	return (0);
 }
 
-char *bin_chek(char **split, char *str)
+char	*bin_chek(char **split, char *str)
 {
 	if (ft_strncmp(str, "/bin/", 5) == 0)
 	{

@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 10:20:44 by tpaquier          #+#    #+#             */
-/*   Updated: 2022/05/31 08:31:01 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/05/31 09:22:51 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	path_exec(t_shell *shell, int cmd_index)
 	pid_t		child_proc;
 
 	shell->cmd[cmd_index]->name = bin_chek(ft_split(shell->cmd[cmd_index]
-					->name, '/'), shell->cmd[cmd_index]->name);
+				->name, '/'), shell->cmd[cmd_index]->name);
 	path = path_finder(shell);
 	child_proc = fork();
 	if (child_proc == -1)

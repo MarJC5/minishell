@@ -6,15 +6,15 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 21:16:18 by jmartin           #+#    #+#             */
-/*   Updated: 2022/05/31 10:00:44 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/01 16:05:17 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-int	old_fd()
+int	old_fd(void)
 {
-	return(dup(STDOUT_FILENO));
+	return (dup(STDOUT_FILENO));
 }
 
 static void	split_pipe_cmd(t_shell *shell, char *args)

@@ -26,7 +26,9 @@ int	handle_in(t_shell *shell, int cmd_index)
 {
 	if (isrediorpipe(shell, shell->cmd[cmd_index]->args, '<') == 1)
 	{
-		shell->cmd[cmd_index]->in = open(shell->cmd[cmd_index]->args[shell->i + 1], O_CREAT | O_RDWR | O_APPEND, 0666);
+		shell->cmd[cmd_index]->in = open(shell->cmd[cmd_index]->args
+			[shell->i + 1], O_RDONLY);
+		dup2(shell->cmd[cmd_index]->in, 0);
 		printf("%d : fd qu'on cree avec open\n", shell->cmd[cmd_index]->in);
 		return (1);
 	}

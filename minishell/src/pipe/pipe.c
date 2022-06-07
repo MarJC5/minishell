@@ -14,6 +14,15 @@
 
 int	handle_out(t_shell *shell, int cmd_index)
 {
+	if (isrediorpipe(shell, shell->cmd[cmd_index]->args, '>') == 1)
+	{
+		//le 'if' pour le type d'ouverture, la fonction pour le nom de fichier si coller, Appelle builtins ???
+		shell->cmd[cmd_index]->in = open(shell->cmd[cmd_index]->args
+			[shell->i + 1], O_RDONLY);
+		dup2(shell->cmd[cmd_index]->in, STDOUT_FILENO);
+		printf("%d : fd qu'on cree avec open | out\n", shell->cmd[cmd_index]->in);
+		return (1);
+	}
 	if (shell->cmd[cmd_index]->out != -1)
 	{
 		dup2(shell->cmd[cmd_index]->out, STDOUT_FILENO);
@@ -28,8 +37,8 @@ int	handle_in(t_shell *shell, int cmd_index)
 	{
 		shell->cmd[cmd_index]->in = open(shell->cmd[cmd_index]->args
 			[shell->i + 1], O_RDONLY);
-		dup2(shell->cmd[cmd_index]->in, 0);
-		printf("%d : fd qu'on cree avec open\n", shell->cmd[cmd_index]->in);
+		dup2(shell->cmd[cmd_index]->in, STDIN_FILENO);
+		printf("%d : fd qu'on cree avec open | in\n", shell->cmd[cmd_index]->in);
 		return (1);
 	}
 	if (shell->cmd[cmd_index]->in != -1)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 12:54:56 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/07 16:59:36 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/08 15:41:24 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,7 @@ void	path_exec(t_shell *shell, int cmd_index);
 void	open_dir(t_shell *shell, char **path, char *str, int cmd_index);
 char	**path_finder(t_shell *shell);
 char	*bin_chek(char **split, char *str);
-int		dir_exist(t_shell *shell, char *str);
+int		dir_exist(t_shell *shell, char *str, int i);
 
 /**
  * REDIRECTION & PIPE
@@ -169,5 +169,6 @@ char	*getname(char **args, int i, int j);
  */
 int		quote_counter(char *s, char c);
 char	*cmd_remove_quote(char *str);
+void	cmd_parsing(t_shell *shell, int cmd_index);
 
 #endif

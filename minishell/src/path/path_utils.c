@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 10:20:44 by tpaquier          #+#    #+#             */
-/*   Updated: 2022/05/31 09:23:10 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/08 15:42:15 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,17 +51,16 @@ void	open_dir(t_shell *shell, char **path, char *str, int cmd_index)
 				}
 				file = readdir(dir);
 			}
+			closedir(dir);
 		}
-		closedir(dir);
 	}
 }
 
-int	check_dir(char **path, DIR *dir, char *str, struct dirent *file)
+int	check_dir(char **path, char *str, struct dirent *file)
 {
 	if (ft_strcmp(file->d_name, str) == 0)
 	{
 		ft_free_multi_tab(path);
-		closedir(dir);
 		return (1);
 	}
 	return (0);
@@ -77,14 +76,12 @@ char	*bin_chek(char **split, char *str)
 	return (str);
 }
 
-int	dir_exist(t_shell *shell, char *str)
+int	dir_exist(t_shell *shell, char *str, int i)
 {
 	DIR				*dir;
 	struct dirent	*file;
 	char			**path;
-	int				i;
 
-	i = -1;
 	str = bin_chek(ft_split(str, '/'), str);
 	path = path_finder(shell);
 	while (path[++i])
@@ -95,12 +92,13 @@ int	dir_exist(t_shell *shell, char *str)
 			file = readdir(dir);
 			while (file != NULL)
 			{
-				if (check_dir(path, dir, str, file) != 1)
+				if (check_dir(path, str, file) != 1)
 					file = readdir(dir);
-				return (1);
+				else
+					return (1);
 			}
+			closedir(dir);
 		}
-		closedir(dir);
 	}
 	ft_free_multi_tab(path);
 	return (0);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quote_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 16:14:50 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/08 08:03:27 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/08 15:37:14 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,22 +57,25 @@ char	*remove_char(char *str, char garbage)
 	char	*src;
 	char	*dst;
 
-	for (src = dst = str; *src != '\0'; src++)
+	dst = str;
+	src = dst;
+	while (*src != '\0')
 	{
 		*dst = *src;
 		if (*dst != garbage)
 			dst++;
+		src++;
 	}
 	*dst = '\0';
 	return (dst);
 }
 
-void cmd_parsing(t_shell *shell, int cmd_index)
+void	cmd_parsing(t_shell *shell, int cmd_index)
 {
 	int		i;
 
 	i = 1;
-	while (shell->cmd[cmd_index]->args[i] != NULL)
+	while (shell->cmd[cmd_index]->args[i])
 	{
 		remove_char(shell->cmd[cmd_index]->args[i], '\\');
 		i++;

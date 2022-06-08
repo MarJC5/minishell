@@ -9,6 +9,7 @@ NAME	= minishell
 
 CC		= cc
 CFLAGS	= -Wall -Wextra -Werror
+CFLAGS += -g3
 
 #################################################################
 # READLINE														#
@@ -19,9 +20,13 @@ CFLAGS	= -Wall -Wextra -Werror
 RL_V	:= $(shell brew list --versions  readline | sed 's/.*[[:blank:]]//')
 RL_P	:= $(shell brew --cellar readline)
 RL		= $(RL_P)/$(RL_V)
+LIBS	= -L $(RL)/lib/ -lreadline -lhistory
+
+# READLINE BACKUP
+#RL		= ../doc/readline/8.1.2
+#LIBS	= -L $(RL)/lib/ -lreadline
 
 INC		= -I. -I $(RL)/include/
-LIBS	= -L $(RL)/lib/ -lreadline -lhistory
 
 RM		=	rm -rf
 
@@ -63,13 +68,19 @@ LIBFT 	= 	./newlibft/libft.a
 all: $(NAME)
 
 .c.o:
-	@$(CC) $(CFLAGS) -c $< -o $(<:.c=.o) $(INC)
+	@$(CC) -c $(CFLAGS) $(INC) $< -o $@
 
 $(NAME): $(OBJ)
 	@$(MAKE) -C ./newlibft
-	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIBFT) $(LIBS) 
+	@$(CC) $(CFLAGS) $(OBJ) $(LIBS) -o $(NAME) $(LIBFT)
 	@echo "[$(ORANGE)$(NAME)$(RESET)] Creation *.o files & compilation : $(GREEN)OK$(RESET)"
 	@echo "[\033[1;32msuccess$(RESET)]: $(NAME) is ready"
+
+debug: $(OBJ)
+	@$(MAKE) -C ./newlibft
+	@$(CC) $(CFLAGS) $(OBJ) $(LIBS) -o $(NAME)  $(LIBFT)  -fsanitize=address -g
+	@echo "[$(ORANGE)$(NAME)$(RESET)] Creation *.o files & compilation : $(GREEN)OK$(RESET)"
+	@echo "[\033[1;32msuccess$(RESET)]: Debug $(NAME) is ready"
 
 clean:
 	@$(MAKE) -C ./newlibft clean

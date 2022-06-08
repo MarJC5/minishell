@@ -3,15 +3,60 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 20:27:21 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/08 16:42:57 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/08 17:45:14 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-#include <string.h>
+
+static void	swap_env(char **env)
+{
+	char	*temp;
+	int		i;
+	int		j;
+
+	i = 0;
+	temp = NULL;
+	while (i < args_counter(env))
+	{
+		j = 0;
+		while (j < args_counter(env) - 1 - i)
+		{
+			if (env[j + 1] && ft_strcmp(env[j], env[j + 1]) > 0)
+			{
+				temp = ft_strdup(env[j]);
+				free(env[j]);
+				env[j] = strdup(env[j + 1]);
+				free(env[j + 1]);
+				env[j + 1] = ft_strdup(temp);
+				free(temp);
+			}
+			j++;
+		}
+		i++;
+	}
+}
+
+static void	sort_export(t_shell *shell)
+{
+	char	**env_dup;
+	int		i;
+
+	i = -1;
+	env_dup = malloc((args_counter(shell->envp) + 1) * sizeof(char *));
+	if (!env_dup)
+		return;
+	while (++i < args_counter(shell->envp))
+		env_dup[i] = ft_strdup(shell->envp[i]);
+	swap_env(env_dup);
+	i = -1;
+	while (++i < args_counter(env_dup))
+		ft_printf("%s\n", env_dup[i]);
+	ft_free_multi_tab(env_dup);
+}
 
 void	*add_envp(t_shell *shell, int size, char *value)
 {
@@ -31,36 +76,6 @@ void	*add_envp(t_shell *shell, int size, char *value)
 	ret[i] = NULL;
 	shell->envp = ret;
 	return (ret);
-}
-
-void	sort_export(t_shell *shell)
-{
-	char	*temp;
-	char	**env_dup;
-	int		i;
-
-	i = -1;
-	temp = NULL;
-	env_dup = malloc((args_counter(shell->envp)) * sizeof(char *));
-	while (++i < args_counter(shell->envp))
-		env_dup[i] = format_envp(shell->envp[i], 
-			is_env_valid(shell->envp[i]), 0);
-	for (int i = 0; i < args_counter(env_dup); i++)
-	{
-		for (int j = 0; j < args_counter(env_dup) - 1 - i; j++)
-		{
-			if (strcmp(env_dup[j], env_dup[j + 1]) > 0)
-			{
-				strcpy(temp, env_dup[j]);
-				strcpy(env_dup[j], env_dup[j + 1]);
-				strcpy(env_dup[j + 1], temp);
-			}
-		}
-	}
-	i = -1;
-	while (++i < args_counter(env_dup))
-		ft_printf("%s\n", env_dup[i]);
-	ft_free_multi_tab(env_dup);
 }
 
 void	export(t_shell *shell, int cmd_index)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 10:35:03 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/08 11:43:38 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/08 17:43:01 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	ft_strcmp(char *s1, char *s2)
 	int	i;
 
 	i = 0;
-	while (s1[i] != '\0' && (s1[i] == s2[i]))
+	while ((s1[i] != '\0' || s2[i] != '\0') && (s1[i] == s2[i]))
 		i++;
 	return (s1[i] - s2[i]);
 }

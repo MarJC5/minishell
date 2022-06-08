@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 21:16:18 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/01 16:05:17 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/08 07:17:04 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static void	split_pipe_cmd(t_shell *shell, char *args)
 			shell->cmd[i]->out = -1;
 			shell->cmd[i]->pid = -1;
 			shell->cmd[i]->args = ft_split(tmp[i], ' ');
-			shell->cmd[i]->name = shell->cmd[i]->args[0];
+			shell->cmd[i]->name = cmd_remove_quote(shell->cmd[i]->args[0]);
 			shell->cmd[i]->args_count = args_counter(shell->cmd[i]->args);
 			shell->cmd_count++;
 			init_func(shell, i);
@@ -64,9 +64,10 @@ void	init_cmd(t_shell *shell, char *args)
 		shell->cmd[0]->shell = shell;
 		shell->cmd[0]->cmd_pos = 0;
 		shell->cmd[0]->args = ft_split(args, ' ');
-		shell->cmd[0]->name = shell->cmd[0]->args[0];
+		shell->cmd[0]->name = cmd_remove_quote(shell->cmd[0]->args[0]);
 		shell->cmd[0]->args_count = args_counter(shell->cmd[0]->args);
 		shell->cmd_count = 1;
+		cmd_parsing(shell, 0);
 		init_func(shell, 0);
 	}
 	else if (j > 1)

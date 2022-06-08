@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 12:54:56 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/01 16:05:00 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/07 16:59:36 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,6 +167,7 @@ char	*getname(char **args, int i, int j);
  * QUOTE
  *
  */
-int		char_counter(char *s, int c);
+int		quote_counter(char *s, char c);
+char	*cmd_remove_quote(char *str);
 
 #endif

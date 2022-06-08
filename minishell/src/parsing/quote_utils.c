@@ -6,24 +6,75 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 16:14:50 by jmartin           #+#    #+#             */
-/*   Updated: 2022/05/31 09:22:26 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/08 08:03:27 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-int	char_counter(char *s, int c)
+int	quote_counter(char *s, char c)
 {
 	int	i;
 	int	j;
 
-	i = 0;
+	i = -1;
 	j = 0;
-	while (s[i])
+	while (s[++i])
 	{
-		if (s[i] == (char) c)
+		if (s[i] == c)
 			j++;
+	}
+	if (j % 2 != 0)
+	{
+		str_err("minishell: ", "syntax error, command not found");
+		return (EXIT_FAILURE);
+	}
+	return (EXIT_SUCCESS);
+}
+
+char	*cmd_remove_quote(char *str)
+{
+	int		start;
+	size_t	end;
+
+	start = 0;
+	end = ft_strlen(str) - 1;
+	if (quote_counter(str, '\"') != 1)
+	{
+		if (str[start] == '\"' && str[end] == '\"')
+			return (ft_substr(str, 1, end - 1));
+	}
+	if (quote_counter(str, '\'') != 1)
+	{
+		if (str[start] == '\'' && str[end] == '\'')
+			return (ft_substr(str, 1, end - 1));
+	}
+	return (str);
+}
+
+char	*remove_char(char *str, char garbage)
+{
+	char	*src;
+	char	*dst;
+
+	for (src = dst = str; *src != '\0'; src++)
+	{
+		*dst = *src;
+		if (*dst != garbage)
+			dst++;
+	}
+	*dst = '\0';
+	return (dst);
+}
+
+void cmd_parsing(t_shell *shell, int cmd_index)
+{
+	int		i;
+
+	i = 1;
+	while (shell->cmd[cmd_index]->args[i] != NULL)
+	{
+		remove_char(shell->cmd[cmd_index]->args[i], '\\');
 		i++;
 	}
-	return (j);
 }

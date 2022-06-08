@@ -38,7 +38,7 @@ static int	isp(char **str, int i, int ret)
 		return (i);
 }
 
-static char	*echo_struct(char **args, int i, int j, int c)
+char	*echo_struct(char **args, int i, int j, int c)
 {
 	char	*str;
 	int		fi;
@@ -55,7 +55,7 @@ static char	*echo_struct(char **args, int i, int j, int c)
 	while (c-- > 0)
 	{
 		str[i++] = args[j][fj++];
-		if (fj >= ft_strlen(args[j]))
+		if (fj >= ft_strlen(args[j]) && c - 1 > 0)
 		{
 			j++;
 			fj = 0;

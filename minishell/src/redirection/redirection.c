@@ -12,7 +12,36 @@
 
 #include "../../inc/minishell.h"
 
-void	redirection(t_shell *shell, char **args)
+void	redirection_arg(t_shell *shell, int cmd_index)
+{
+	int i;
+	int	j;
+
+	i = shell->i;
+	j = shell->j;
+	if (j == 0)
+	{
+		while (shell->cmd[cmd_index]->args[i])
+		{
+			free(shell->cmd[cmd_index]->args[i]);
+			shell->cmd[cmd_index]->args[i] = NULL;
+			i++;
+		}
+	}
+	else
+	{
+		shell->cmd[cmd_index]->args[i][j] = '\0';
+		i++;
+		while (shell->cmd[cmd_index]->args[i])
+		{
+			free(shell->cmd[cmd_index]->args[i]);
+			shell->cmd[cmd_index]->args[i] = NULL;
+			i++;
+		}
+	}
+}
+
+void	redirection(t_shell *shell, char **args, int cmd_index)
 {
 	int		fd;
 	char	*name;
@@ -32,4 +61,5 @@ void	redirection(t_shell *shell, char **args)
 	dup2(fd, STDOUT_FILENO);
 	close(fd);
 	free(name);
+	redirection_arg(shell, cmd_index);
 }

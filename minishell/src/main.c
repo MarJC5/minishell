@@ -18,7 +18,7 @@ int	run_cmd(t_shell *shell)
 	{
 		shell->fd = old_fd();
 		if (shell->redi >= 1)
-			redirection(shell, shell->cmd[0]->args);
+			redirection(shell, shell->cmd[0]->args, 0);
 		shell->cmd[0]->func(shell, 0);
 		if (shell->redi >= 1)
 		{

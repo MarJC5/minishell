@@ -125,7 +125,8 @@ void	*remove_envp(t_shell *shell, char *value, int size);
 /**
  * ECHO
  */
-void	ft_echo(t_shell *shell, int cmd_index);
+void		ft_echo(t_shell *shell, int cmd_index);
+char		*echo_struct(char **args, int i, int j, int c);
 
 /**
  * CD
@@ -156,7 +157,7 @@ int		dir_exist(t_shell *shell, char *str);
  * REDIRECTION & PIPE
  */
 void	pipex(t_shell *shell);
-void	redirection(t_shell *shell, char **args);
+void	redirection(t_shell *shell, char **args, int cmd_index);
 void	is_pipe(char *line, t_shell *shell);
 void	close_loop(t_shell *shell);
 int		isrediorpipe(t_shell *shell, char **args, char sign);

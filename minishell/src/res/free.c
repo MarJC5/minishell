@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 01:50:22 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/09 09:30:50 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/09 12:21:04 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,9 @@ void	ft_free_read_args(t_shell *shell, char *line)
 	i = 0;
 	while (i < shell->cmd_count)
 		ft_free_multi_tab(shell->cmd[i++]->args);
+	i = 0;
+	while (i < shell->cmd_count)
+		free(shell->cmd[i++]);
 	if (shell->cmd)
 		free(shell->cmd);
 	if (line)

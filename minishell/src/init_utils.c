@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 21:16:18 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/09 08:55:59 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/09 12:25:20 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,14 +78,21 @@ char	*init_read(t_shell *shell)
 {
 	char	*details;
 	char	*prompt;
+	char	*join_d;
+	char	*join_p;
 
+	join_d = ft_strjoin("\033[0m:", ft_strrchr(shell->current_path, '/') + 1);
 	if (ft_strcmp(shell->current_path, getenv("HOME")) == 0
 		|| ft_strcmp(shell->current_path, "/") == 0)
 		details = ft_strdup("\033[0m:~");
 	else
-		details = ft_strjoin(getenv("USER"), ft_strjoin("\033[0m:",
-					ft_strrchr(shell->current_path, '/') + 1));
-	prompt = ft_strjoin("\033[1;36mminishell\033[1;37m@\033[1;32m",
-			ft_strjoin(details, " $ "));
-	return (readline(prompt));
+		details = ft_strjoin(getenv("USER"), join_d);
+	join_p = ft_strjoin(details, " $ ");
+	prompt = ft_strjoin("\033[1;36mminishell\033[1;37m@\033[1;32m", join_p);
+	free(details);
+	free(join_d);
+	free(join_p);
+	free(prompt);
+	return (readline(
+			"\033[1;36mminishell\033[1;37m@\033[1;32m42lausanne\033[0m: $ "));
 }

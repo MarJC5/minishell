@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 16:14:50 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/08 15:37:14 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/09 11:23:42 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,18 @@ char	*cmd_remove_quote(char *str)
 	if (quote_counter(str, '\"') != 1)
 	{
 		if (str[start] == '\"' && str[end] == '\"')
+		{
+			free(str);
 			return (ft_substr(str, 1, end - 1));
+		}
 	}
 	if (quote_counter(str, '\'') != 1)
 	{
 		if (str[start] == '\'' && str[end] == '\'')
+		{
+			free(str);
 			return (ft_substr(str, 1, end - 1));
+		}
 	}
 	return (str);
 }

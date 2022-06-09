@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 20:27:21 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/09 09:37:18 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/09 10:40:54 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,11 @@ static void	sort_export(t_shell *shell)
 	i = -1;
 	size = args_counter(shell->envp);
 	env_dup = malloc((size + 1) * sizeof(char *));
+	if (!env_dup)
+		return ;
 	while (++i < size)
 		env_dup[i] = ft_strdup(shell->envp[i]);
+	env_dup[i] = NULL;
 	swap_env(env_dup);
 	i = -1;
 	while (++i < size)

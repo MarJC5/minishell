@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 10:20:44 by tpaquier          #+#    #+#             */
-/*   Updated: 2022/06/08 15:42:15 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/09 12:11:14 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,12 @@ void	open_dir(t_shell *shell, char **path, char *str, int cmd_index)
 	}
 }
 
-int	check_dir(char **path, char *str, struct dirent *file)
+int	check_dir(char **path, char *str, struct dirent *file, DIR *dir)
 {
 	if (ft_strcmp(file->d_name, str) == 0)
 	{
 		ft_free_multi_tab(path);
+		closedir(dir);
 		return (1);
 	}
 	return (0);
@@ -69,10 +70,8 @@ int	check_dir(char **path, char *str, struct dirent *file)
 char	*bin_chek(char **split, char *str)
 {
 	if (ft_strncmp(str, "/bin/", 5) == 0)
-	{
 		str = ft_strdup(split[1]);
-		ft_free_multi_tab(split);
-	}
+	ft_free_multi_tab(split);
 	return (str);
 }
 
@@ -92,7 +91,7 @@ int	dir_exist(t_shell *shell, char *str, int i)
 			file = readdir(dir);
 			while (file != NULL)
 			{
-				if (check_dir(path, str, file) != 1)
+				if (check_dir(path, str, file, dir) != 1)
 					file = readdir(dir);
 				else
 					return (1);

@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 20:27:21 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/08 17:45:14 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/09 09:37:18 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,14 @@ static void	swap_env(char **env)
 		j = 0;
 		while (j < args_counter(env) - 1 - i)
 		{
-			if (env[j + 1] && ft_strcmp(env[j], env[j + 1]) > 0)
+			if (env[j] && ft_strcmp(env[j], env[j + 1]) > 0)
 			{
 				temp = ft_strdup(env[j]);
-				free(env[j]);
-				env[j] = strdup(env[j + 1]);
-				free(env[j + 1]);
+				ft_free_tab(env[j]);
+				env[j] = ft_strdup(env[j + 1]);
+				ft_free_tab(env[j + 1]);
 				env[j + 1] = ft_strdup(temp);
-				free(temp);
+				ft_free_tab(temp);
 			}
 			j++;
 		}
@@ -43,17 +43,17 @@ static void	swap_env(char **env)
 static void	sort_export(t_shell *shell)
 {
 	char	**env_dup;
+	int		size;
 	int		i;
 
 	i = -1;
-	env_dup = malloc((args_counter(shell->envp) + 1) * sizeof(char *));
-	if (!env_dup)
-		return;
-	while (++i < args_counter(shell->envp))
+	size = args_counter(shell->envp);
+	env_dup = malloc((size + 1) * sizeof(char *));
+	while (++i < size)
 		env_dup[i] = ft_strdup(shell->envp[i]);
 	swap_env(env_dup);
 	i = -1;
-	while (++i < args_counter(env_dup))
+	while (++i < size)
 		ft_printf("%s\n", env_dup[i]);
 	ft_free_multi_tab(env_dup);
 }

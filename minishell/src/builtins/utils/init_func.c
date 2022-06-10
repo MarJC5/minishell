@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_func.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 00:43:58 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/09 10:33:50 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/10 07:03:20 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,10 @@ void	init_func(t_shell *shell, int i)
 void	builtin_error(t_shell *shell, int cmd_index)
 {
 	g_exit_stat = 127;
-	str_err("minishell: command not found: ",
-		shell->cmd[cmd_index]->name);
+	if (quote_counter(shell->cmd[cmd_index]->name, '\'') == 1
+		|| quote_counter(shell->cmd[cmd_index]->name, '\"') == 1)
+		str_err("minishell: syntax error", NULL);
+	else
+		str_err("minishell: command not found: ",
+			shell->cmd[cmd_index]->name);
 }

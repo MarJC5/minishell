@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 21:16:18 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/09 19:02:12 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/13 08:44:40 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,26 +22,21 @@ static void	split_pipe_cmd(t_shell *shell, char *args)
 	char	**tmp;
 	int		i;
 
-	i = -1;
+	i = 0;
 	tmp = ft_split(args, '|');
 	shell->cmd_count = 0;
-	while (tmp[++i])
+	while (tmp[i])
 	{
+		if (quote_counter(tmp[i], '\"') == 0)
+			rm_quote_out(tmp[i], '\"');
+		if (quote_counter(tmp[i], '\'') == 0)
+			rm_quote_out(tmp[i], '\'');
 		if (ft_isspace(tmp[i]))
 		{
-			shell->cmd[i] = malloc(sizeof(t_cmd));
-			shell->cmd[i]->shell = shell;
-			shell->cmd[i]->cmd_pos = i;
-			shell->cmd[i]->in = -1;
-			shell->cmd[i]->out = -1;
-			shell->cmd[i]->pid = -1;
-			shell->cmd[i]->args = ft_split(tmp[i], ' ');
-			cmd_parsing(shell, i);
-			shell->cmd[i]->name = shell->cmd[i]->args[0];
-			shell->cmd[i]->args_count = args_counter(shell->cmd[i]->args);
-			shell->cmd_count++;
+			pars_args(shell, tmp[i], i);
 			init_func(shell, i);
 		}
+		i++;
 	}
 	ft_free_multi_tab(tmp);
 }
@@ -55,20 +50,13 @@ void	init_cmd(t_shell *shell, char *args)
 		j = ++shell->ispipe;
 	else
 		j = 1;
-	shell->cmd_count = j;
+	shell->cmd_count = 0;
 	shell->cmd = malloc(j * sizeof(t_cmd));
 	if (!shell->cmd)
 		return ;
 	if (j == 1 && ft_isspace(args))
 	{
-		shell->cmd[0] = malloc(sizeof(t_cmd));
-		shell->cmd[0]->shell = shell;
-		shell->cmd[0]->cmd_pos = 0;
-		shell->cmd[0]->args = ft_split(args, ' ');
-		cmd_parsing(shell, 0);
-		shell->cmd[0]->name = shell->cmd[0]->args[0];
-		shell->cmd[0]->args_count = args_counter(shell->cmd[0]->args);
-		shell->cmd_count = 1;
+		pars_args(shell, args, 0);
 		init_func(shell, 0);
 	}
 	else if (j > 1)

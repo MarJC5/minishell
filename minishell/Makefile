@@ -9,7 +9,7 @@ NAME	= minishell
 
 CC		= cc
 CFLAGS	= -Wall -Wextra -Werror
-CFLAGS += -g3
+#CFLAGS += -g3
 
 #################################################################
 # READLINE														#
@@ -38,8 +38,7 @@ FILES	=	main.c \
 			res/utils_2.c \
 			res/free.c \
 			res/ascii.c \
-			parsing/single_quote.c \
-			parsing/double_quote.c \
+			parsing/pars_args.c \
 			parsing/quote_utils.c \
 			builtins/env.c \
 			builtins/cd.c \

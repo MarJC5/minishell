@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 12:53:58 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/09 11:47:17 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/13 08:33:42 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	main(int argc, char **argv, char **envp)
 	line = init_read(shell);
 	while (line)
 	{
-		if (ft_isspace(line))
+		if (ft_isspace(line) && check_read_quote(line) == 0)
 		{
 			init_cmd(shell, line);
 			run_cmd(shell);

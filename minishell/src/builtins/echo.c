@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 14:47:54 by jmartin           #+#    #+#             */
-/*   Updated: 2022/05/31 10:11:04 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/12 22:53:59 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,8 @@ static char	*echo_struct(char **args, int i, int j, int c)
 		{
 			j++;
 			fj = 0;
-			str[i++] = ' ';
+			if (args[j])
+				str[i++] = ' ';
 		}
 	}
 	str[i] = '\0';

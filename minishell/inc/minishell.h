@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 12:54:56 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/09 11:23:46 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/13 09:53:19 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ char	*init_read(t_shell *shell);
 void	ascii_prompt(void);
 void	builtin_error(t_shell *shell, int cmd_index);
 char	*append(char before, char *str, char after);
+char	*arg_to_lower(char *str);
 int		str_err(char *str, char *err);
 int		args_counter(char **args);
 int		str_cmd_comp(char *cmd, char *comp);
@@ -167,8 +168,13 @@ char	*getname(char **args, int i, int j);
  * QUOTE
  *
  */
+
+int		check_read_quote(char *str);
 int		quote_counter(char *s, char c);
-char	*cmd_remove_quote(char *str);
-void	cmd_parsing(t_shell *shell, int cmd_index);
+char	*remove_char(char *str, char c);
+char	*rm_quote_out(char *str, char c);
+void	pars_cmd_name_quote(char *str);
+void	pars_cmd_args_quote(char **str, int args_count);
+void	pars_args(t_shell *shell, char *args, int cmd_index);
 
 #endif

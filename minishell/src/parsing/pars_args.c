@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 08:46:53 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/13 18:09:49 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/13 18:47:29 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	pars_cmd_args_quote(char **str, int args_count)
 	}
 }
 
-char	**pars_join(char *args, char c)
+char	**pars_join(t_shell *shell, char *args, char c, int cmd_index)
 {
 	int		i;
 	char	**tmp;
@@ -71,6 +71,9 @@ char	**pars_join(char *args, char c)
 		i++;
 	}
 	ft_free_multi_tab(tmp);
+	i = (int)ft_strlen(merge) - (int)ft_strlen(shell->cmd[cmd_index]->name);
+	shell->cmd[cmd_index]->pars_args = ft_substr(merge,
+			ft_strlen(shell->cmd[cmd_index]->name) + 1, i);
 	tmp = ft_split(merge, ' ');
 	free(merge);
 	return (tmp);
@@ -88,16 +91,17 @@ void	pars_args(t_shell *shell, char *args, int cmd_index)
 	shell->cmd[cmd_index]->pid = -1;
 	shell->cmd[cmd_index]->cmd_pos = cmd_index;
 	shell->cmd[cmd_index]->name = arg_to_lower(ft_strdup(tmp[0]));
+	pars_cmd_name_quote(shell->cmd[cmd_index]->name);
+	shell->cmd[cmd_index]->pars_args = NULL;
 	if (ft_strchr(args, '\"') != NULL)
-		shell->cmd[cmd_index]->args = pars_join(args, '\"');
+		shell->cmd[cmd_index]->args = pars_join(shell, args, '\"', cmd_index);
 	else if (ft_strchr(args, '\'') != NULL)
-		shell->cmd[cmd_index]->args = pars_join(args, '\'');
+		shell->cmd[cmd_index]->args = pars_join(shell, args, '\'', cmd_index);
 	else
 		shell->cmd[cmd_index]->args = ft_split(args, ' ');
 	shell->cmd[cmd_index]->args_count = args_counter(
 			shell->cmd[cmd_index]->args);
 	shell->cmd_count++;
-	pars_cmd_name_quote(shell->cmd[cmd_index]->name);
 	pars_cmd_args_quote(shell->cmd[cmd_index]->args,
 		shell->cmd[cmd_index]->args_count);
 	ft_free_multi_tab(tmp);

@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 14:47:54 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/13 17:02:56 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/13 19:03:17 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void	cr_arg_realloc(char **args, char *newval, int i, int j)
 static void	echo_return_val(int ret_val, char **args, int j, int i)
 {
 	char	*ret;
-	
+
 	ret = ft_itoa(ret_val);
 	cr_arg_realloc(args, ret, j, i);
 	free(ret);
@@ -74,6 +74,34 @@ static void	cr_arg(t_shell *shell, char **args, int j)
 	}
 }
 
+static void	echo_write(t_shell *shell, int cmd_index, int j)
+{
+	int	i;
+
+	i = 0;
+	while (shell->cmd[cmd_index]->pars_args[i])
+	if (shell->cmd[cmd_index]->pars_args != NULL)
+	{
+		while (shell->cmd[cmd_index]->pars_args[i] 
+			&& shell->cmd[cmd_index]->pars_args[i] != '-' 
+			&& shell->cmd[cmd_index]->pars_args[i + 1] != '-n' )
+			i++;
+		write(1, shell->cmd[cmd_index]->pars_args,
+			ft_strlen(shell->cmd[cmd_index]->pars_args));
+	}
+	else
+	{
+		while (shell->cmd[cmd_index]->args[j]
+			&& j < shell->cmd[cmd_index]->args_count)
+		{
+			write(1, shell->cmd[cmd_index]->args[j],
+				ft_strlen(shell->cmd[cmd_index]->args[j]));
+			if (++j != shell->cmd[cmd_index]->args_count)
+				write(1, " ", 1);
+		}
+	}
+}
+
 void	ft_echo(t_shell *shell, int cmd_index)
 {
 	int		i;
@@ -89,13 +117,7 @@ void	ft_echo(t_shell *shell, int cmd_index)
 		else
 			i = 1;
 		cr_arg(shell, shell->cmd[cmd_index]->args, i);
-		while (shell->cmd[cmd_index]->args[j] && j < shell->cmd[cmd_index]->args_count)
-		{
-			write(1, shell->cmd[cmd_index]->args[j],
-				ft_strlen(shell->cmd[cmd_index]->args[j]));
-			if (++j != shell->cmd[cmd_index]->args_count)
-				write(1, " ", 1);
-		}
+		echo_write(shell, cmd_index, j);
 		if (i == 1)
 			write(1, "\n", 1);
 	}

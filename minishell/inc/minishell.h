@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 12:54:56 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/13 15:38:37 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/13 18:16:10 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct s_cmd
 	char			**args;
 	char			*pwd;
 	char			*name;
+	char			*pars_args;
 	int				out;
 	int				in;
 	pid_t			pid;

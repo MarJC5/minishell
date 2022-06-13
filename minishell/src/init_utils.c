@@ -12,9 +12,22 @@
 
 #include "../inc/minishell.h"
 
-int	old_fd()
+void	old_fd(t_shell *shell, int i)
 {
-	return(dup(STDOUT_FILENO));
+	if (i == 1)
+	{
+		shell->fd = dup(STDOUT_FILENO);
+		redirection(shell, shell->cmd[0]->args, 0);
+		shell->cmd[0]->func(shell, 0);
+		dup2(shell->fd, STDOUT_FILENO);
+	}
+	else
+	{
+		shell->fd = dup(STDIN_FILENO);
+		redirection_input(shell, shell->cmd[0]->args, 0);
+		shell->cmd[0]->func(shell, 0);
+		dup2(shell->fd, STDIN_FILENO);
+	}
 }
 
 static void	split_pipe_cmd(t_shell *shell, char *args)

@@ -16,15 +16,13 @@ int	run_cmd(t_shell *shell)
 {
 	if (shell->cmd_count == 1 && !shell->ispipe)
 	{
-		shell->fd = old_fd();
 		if (shell->redi >= 1)
-			redirection(shell, shell->cmd[0]->args, 0);
-		shell->cmd[0]->func(shell, 0);
-		if (shell->redi >= 1)
-		{
-			dup2(shell->fd, STDOUT_FILENO);
-			shell->redi = 0;
-		}
+			old_fd(shell, 1);
+		else if (isrediorpipe(shell, shell->cmd[0]->args, '<') == 1)
+			old_fd(shell, 2);
+		else
+			shell->cmd[0]->func(shell, 0);
+		shell->redi = 0;
 		return (EXIT_SUCCESS);
 	}
 	else if (shell->cmd_count >= 1 && shell->ispipe > shell->cmd_count)

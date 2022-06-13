@@ -93,7 +93,7 @@ int		str_err(char *str, char *err);
 int		args_counter(char **args);
 int		str_cmd_comp(char *cmd, char *comp);
 int		ft_isspace(char *str);
-int		old_fd();
+void	old_fd(t_shell *shell, int i);
 
 /**
  * PWD
@@ -163,6 +163,7 @@ void	close_loop(t_shell *shell);
 int		isrediorpipe(t_shell *shell, char **args, char sign);
 int		isdoubleredi(char **args, char sign);
 char	*getname(char **args, int i, int j);
+void	redirection_input(t_shell *shell, char **args, int cmd_index);
 
 /**
  * QUOTE

@@ -31,10 +31,7 @@ int	handle_in(t_shell *shell, int cmd_index)
 {
 	if (isrediorpipe(shell, shell->cmd[cmd_index]->args, '<') == 1)
 	{
-		shell->cmd[cmd_index]->in = open(shell->cmd[cmd_index]->args
-			[shell->i + 1], O_RDONLY);
-		dup2(shell->cmd[cmd_index]->in, STDIN_FILENO);
-		printf("%d : fd qu'on cree avec open | in\n", shell->cmd[cmd_index]->in);
+		redirection_input(shell, shell->cmd[cmd_index]->args, cmd_index);
 		return (1);
 	}
 	if (shell->cmd[cmd_index]->in != -1)
@@ -52,8 +49,6 @@ void	child_process(t_shell *shell, int cmd_index)
 	path = path_finder(shell);
 	shell->out_status = handle_out(shell, cmd_index);
 	shell->in_status = handle_in(shell, cmd_index);
-	printf("%d : valeur de fd | in\n", shell->cmd[cmd_index]->in);
-	printf("%d : valeur de retour de in\n", shell->in_status);
 	close_loop(shell);
 	open_dir(shell, path, shell->cmd[cmd_index]->name, cmd_index);
 	free(path);

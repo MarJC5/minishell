@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 21:16:18 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/13 08:44:40 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/14 16:30:10 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ static void	split_pipe_cmd(t_shell *shell, char *args)
 		{
 			pars_args(shell, tmp[i], i);
 			init_func(shell, i);
+			shell->cmd[0]->start = 1;
 		}
 		i++;
 	}
@@ -50,14 +51,17 @@ void	init_cmd(t_shell *shell, char *args)
 		j = ++shell->ispipe;
 	else
 		j = 1;
+	shell->bcklash_n = 0;
 	shell->cmd_count = 0;
 	shell->cmd = malloc(j * sizeof(t_cmd));
 	if (!shell->cmd)
 		return ;
 	if (j == 1 && ft_isspace(args))
 	{
+		
 		pars_args(shell, args, 0);
 		init_func(shell, 0);
+		shell->cmd[0]->start = 1;
 	}
 	else if (j > 1)
 		split_pipe_cmd(shell, args);

@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 14:47:54 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/14 15:00:21 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/14 17:26:37 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,16 +91,22 @@ void	ft_echo(t_shell *shell, int cmd_index)
 	int		i;
 	int		start;
 
-	start = shell->cmd[cmd_index]->start;
-	ft_printf("-> %d\n", shell->bcklash_n);
+	if (ft_strchr(shell->cmd[cmd_index]->args[0] , '-') == NULL)
+		start = 1;
+	else
+		start = 0;
+	pars_echo_endl(shell, shell->cmd[cmd_index]->args, cmd_index, start);
 	if (shell->cmd[cmd_index]->args[start])
 	{
 		if (shell->bcklash_n)
+		{
 			i = 2;
+			start += 1;
+		}
 		else
 			i = 1;
 		cr_arg(shell, shell->cmd[cmd_index]->args, i);
-		echo_write(shell, cmd_index, start + 1);
+		echo_write(shell, cmd_index, start);
 		if (i == 1)
 			write(1, "\n", 1);
 	}

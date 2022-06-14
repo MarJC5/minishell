@@ -162,8 +162,9 @@ void	is_pipe(char *line, t_shell *shell);
 void	close_loop(t_shell *shell);
 int		isrediorpipe(t_shell *shell, char **args, char sign);
 int		isdoubleredi(char **args, char sign);
-char	*getname(char **args, int i, int j);
+char	*getname(t_shell *shell, char **args, int i, int j, int cmd_index);
 void	redirection_input(t_shell *shell, char **args, int cmd_index);
+void	redirection_arg(t_shell *shell, int cmd_index, int i, int j);
 
 /**
  * QUOTE

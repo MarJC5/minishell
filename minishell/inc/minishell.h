@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 12:54:56 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/14 08:32:06 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/14 15:02:06 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,7 @@ typedef struct s_cmd
 	char			*pwd;
 	char			*name;
 	char			*pars_args;
-	char			*pars_dollars;
-	size_t			pars_len;
+	int				start;
 	int				out;
 	int				in;
 	pid_t			pid;
@@ -130,6 +129,7 @@ void	*remove_envp(t_shell *shell, char *value, int size);
  * ECHO
  */
 void	ft_echo(t_shell *shell, int cmd_index);
+void	pars_first_arg(t_shell *shell, char **args, int cmd_index, int start);
 
 /**
  * CD
@@ -176,7 +176,7 @@ int		check_read_quote(char *str);
 int		quote_counter(char *s, char c);
 char	*remove_char(char *str, char c);
 char	*rm_quote_out(char *str, char c);
-void	pars_cmd_name_quote(char *str);
+void	pars_cmd_name_quote(t_shell *shell, int cmd_index, char *str, char **args);
 void	pars_cmd_args_quote(char **str, int args_count, char c);
 void	pars_args(t_shell *shell, char *args, int cmd_index);
 

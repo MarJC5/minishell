@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 14:47:54 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/13 19:03:17 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/14 09:46:06 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,18 +74,67 @@ static void	cr_arg(t_shell *shell, char **args, int j)
 	}
 }
 
-static void	echo_write(t_shell *shell, int cmd_index, int j)
+static void	echo_set_arg(t_shell *shell, int cmd_index, int env_pos, int env_size)
 {
-	int	i;
+	size_t	i;
+	size_t	pos;
+	size_t	j;
+	char	*newval;
 
 	i = 0;
-	while (shell->cmd[cmd_index]->pars_args[i])
+	j = 0;
+	pos = ft_strchr_pos(shell->cmd[cmd_index]->pars_dollars, '$');
+	newval = ft_strtrim(shell->envp[env_pos] + env_size, "=");
+	while (i < shell->cmd[cmd_index]->pars_len)
+	{
+		shell->cmd[cmd_index]->pars_args[i++] = shell->cmd[cmd_index]->pars_dollars[j++];
+		if (i == pos && (shell->cmd[cmd_index]->pars_dollars[j + env_size + 1] == '/'
+			|| shell->cmd[cmd_index]->pars_dollars[j + env_size + 1] == ' '))
+		{
+			pos = j + env_size + 1;
+			j = 0;
+			while (j < ft_strlen(newval))
+			{
+				shell->cmd[cmd_index]->pars_args[i] = newval[j];
+				i++;
+				j++;
+			}
+			j = pos;
+		}
+	}
+	shell->cmd[cmd_index]->pars_args[i] = '\0';
+}
+
+static void	echo_get_arg(t_shell *shell, int cmd_index)
+{
+	int		i;
+	int		j;
+	char	*find;
+
+	i = 0;
+	find = ft_strchr(shell->cmd[cmd_index]->pars_args, '$') + 1;
+	while (shell->envp[i])
+	{
+		j = 0;
+		while (shell->envp[i][j] == find[j])
+			j++;
+		if (shell->envp[i][j] == '=')
+			break ;
+		else
+			i++;
+	}
+	shell->cmd[cmd_index]->pars_len = ft_strlen(shell->cmd[cmd_index]->pars_args) + ft_strlen(ft_strtrim(shell->envp[i] + j, "="));
+	shell->cmd[cmd_index]->pars_dollars = ft_strdup(shell->cmd[cmd_index]->pars_args);
+	free(shell->cmd[cmd_index]->pars_args);
+	shell->cmd[cmd_index]->pars_args = malloc(sizeof(char) * shell->cmd[cmd_index]->pars_len + 1);
+	echo_set_arg(shell, cmd_index, i, j);
+}
+
+static void	echo_write(t_shell *shell, int cmd_index, int j)
+{
 	if (shell->cmd[cmd_index]->pars_args != NULL)
 	{
-		while (shell->cmd[cmd_index]->pars_args[i] 
-			&& shell->cmd[cmd_index]->pars_args[i] != '-' 
-			&& shell->cmd[cmd_index]->pars_args[i + 1] != '-n' )
-			i++;
+		echo_get_arg(shell, cmd_index);
 		write(1, shell->cmd[cmd_index]->pars_args,
 			ft_strlen(shell->cmd[cmd_index]->pars_args));
 	}
@@ -111,8 +160,8 @@ void	ft_echo(t_shell *shell, int cmd_index)
 	shell->bcklash_n = 0;
 	if (shell->cmd[cmd_index]->args[1])
 	{
-		if (shell->cmd[cmd_index]->args[1][0] == '-'
-			&& shell->cmd[cmd_index]->args[1][1] == 'n')
+		if ((shell->cmd[cmd_index]->args[1][0] == '-'
+			&& shell->cmd[cmd_index]->args[1][1] == 'n'))
 			i = 2;
 		else
 			i = 1;

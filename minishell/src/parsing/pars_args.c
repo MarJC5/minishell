@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pars_args.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 08:46:53 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/13 18:47:29 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/13 23:50:30 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	pars_cmd_name_quote(char *str)
 		remove_char(str, '\'');
 }
 
-void	pars_cmd_args_quote(char **str, int args_count)
+void	pars_cmd_args_quote(char **str, int args_count, char c)
 {
 	int		i;
 	size_t	end;
@@ -41,12 +41,9 @@ void	pars_cmd_args_quote(char **str, int args_count)
 	while (i < args_count)
 	{
 		end = ft_strlen(str[i]) - 1;
-		if (str[i][0] == '\'' && str[i][end] == '\''
-			&& quote_counter(str[i], '\'') == 0)
-			rm_quote_out(str[i], '\'');
-		else if (str[i][0] == '\"' && str[i][end] == '\"'
-			&& quote_counter(str[i], '\"') == 0)
-			rm_quote_out(str[i], '\"');
+		if (str[i][0] == c && str[i][end] == c
+			&& quote_counter(str[i], c) == 0)
+			rm_quote_out(str[i], c);
 		i++;
 	}
 }
@@ -61,7 +58,7 @@ char	**pars_join(t_shell *shell, char *args, char c, int cmd_index)
 	i = 0;
 	tmp = ft_split(args, c);
 	merge = ft_strdup("");
-	pars_cmd_args_quote(tmp, args_counter(tmp));
+	pars_cmd_args_quote(tmp, args_counter(tmp), c);
 	while (tmp[i])
 	{
 		new_args = ft_strjoin(merge, tmp[i]);
@@ -102,7 +99,5 @@ void	pars_args(t_shell *shell, char *args, int cmd_index)
 	shell->cmd[cmd_index]->args_count = args_counter(
 			shell->cmd[cmd_index]->args);
 	shell->cmd_count++;
-	pars_cmd_args_quote(shell->cmd[cmd_index]->args,
-		shell->cmd[cmd_index]->args_count);
 	ft_free_multi_tab(tmp);
 }

@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 00:43:58 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/13 08:29:48 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/13 21:06:17 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,19 @@
 
 void	init_func(t_shell *shell, int i)
 {
-	if (str_cmd_comp(shell->cmd[i]->name, "unset"))
+	if (ft_strcmp(shell->cmd[i]->name, "unset") == 0)
 		shell->cmd[i]->func = unset;
-	else if (str_cmd_comp(shell->cmd[i]->name, "export"))
+	else if (ft_strcmp(shell->cmd[i]->name, "export") == 0)
 		shell->cmd[i]->func = export;
-	else if (str_cmd_comp(shell->cmd[i]->name, "pwd"))
+	else if (ft_strcmp(shell->cmd[i]->name, "pwd") == 0)
 		shell->cmd[i]->func = pwd;
-	else if (str_cmd_comp(shell->cmd[i]->name, "env"))
+	else if (ft_strcmp(shell->cmd[i]->name, "env") == 0)
 		shell->cmd[i]->func = env;
-	else if (str_cmd_comp(shell->cmd[i]->name, "cd"))
+	else if (ft_strcmp(shell->cmd[i]->name, "cd") == 0)
 		shell->cmd[i]->func = ft_cd;
-	else if (str_cmd_comp(shell->cmd[i]->name, "echo"))
+	else if (ft_strcmp(shell->cmd[i]->name, "echo") == 0)
 		shell->cmd[i]->func = ft_echo;
-	else if (str_cmd_comp(shell->cmd[i]->name, "exit"))
+	else if (ft_strcmp(shell->cmd[i]->name, "exit") == 0)
 		shell->cmd[i]->func = ft_exit;
 	else if (dir_exist(shell, shell->cmd[i]->name, -1) == 1)
 		shell->cmd[i]->func = path_exec;

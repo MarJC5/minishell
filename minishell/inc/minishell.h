@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 12:54:56 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/13 18:16:10 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/14 08:32:06 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ typedef struct s_cmd
 	char			*pwd;
 	char			*name;
 	char			*pars_args;
+	char			*pars_dollars;
+	size_t			pars_len;
 	int				out;
 	int				in;
 	pid_t			pid;
@@ -93,9 +95,9 @@ char	*append(char before, char *str, char after);
 char	*arg_to_lower(char *str);
 int		str_err(char *str, char *err);
 int		args_counter(char **args);
-int		str_cmd_comp(char *cmd, char *comp);
 int		ft_isspace(char *str);
 int		old_fd(void);
+int		ft_strchr_pos(char *s, char c);
 
 /**
  * PWD
@@ -175,7 +177,7 @@ int		quote_counter(char *s, char c);
 char	*remove_char(char *str, char c);
 char	*rm_quote_out(char *str, char c);
 void	pars_cmd_name_quote(char *str);
-void	pars_cmd_args_quote(char **str, int args_count);
+void	pars_cmd_args_quote(char **str, int args_count, char c);
 void	pars_args(t_shell *shell, char *args, int cmd_index);
 
 #endif

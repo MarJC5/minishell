@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 10:20:44 by tpaquier          #+#    #+#             */
-/*   Updated: 2022/06/09 12:11:14 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/13 21:21:36 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,15 @@ char	**path_finder(t_shell *shell)
 	i = 0;
 	while (shell->envp[i])
 	{
-		if (shell->envp[i][0] == 'P' && shell->envp[i][1] == 'A'
-			&& shell->envp[i][2] == 'T' && shell->envp[i][3] == 'H'
-			&& shell->envp[i][4] == '=')
+		if (ft_strncmp(shell->envp[i], "PATH=", 5) == 0)
 			return (ft_split(ft_strchr(shell->envp[i], '=') + 1, ':'));
 		i++;
+		if (!shell->envp[i])
+		{
+			g_exit_stat = 127;
+			str_err("minishell: PATH not found", NULL);
+			return (NULL);
+		}
 	}
 	return (NULL);
 }
@@ -83,7 +87,7 @@ int	dir_exist(t_shell *shell, char *str, int i)
 
 	str = bin_chek(ft_split(str, '/'), str);
 	path = path_finder(shell);
-	while (path[++i])
+	while (path != NULL && path[++i])
 	{
 		dir = opendir(path[i]);
 		if (dir != NULL)

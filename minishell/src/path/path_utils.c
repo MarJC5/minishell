@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 10:20:44 by tpaquier          #+#    #+#             */
-/*   Updated: 2022/05/31 09:23:10 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/13 21:21:36 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,15 @@ char	**path_finder(t_shell *shell)
 	i = 0;
 	while (shell->envp[i])
 	{
-		if (shell->envp[i][0] == 'P' && shell->envp[i][1] == 'A'
-			&& shell->envp[i][2] == 'T' && shell->envp[i][3] == 'H'
-			&& shell->envp[i][4] == '=')
+		if (ft_strncmp(shell->envp[i], "PATH=", 5) == 0)
 			return (ft_split(ft_strchr(shell->envp[i], '=') + 1, ':'));
 		i++;
+		if (!shell->envp[i])
+		{
+			g_exit_stat = 127;
+			str_err("minishell: PATH not found", NULL);
+			return (NULL);
+		}
 	}
 	return (NULL);
 }
@@ -51,12 +55,12 @@ void	open_dir(t_shell *shell, char **path, char *str, int cmd_index)
 				}
 				file = readdir(dir);
 			}
+			closedir(dir);
 		}
-		closedir(dir);
 	}
 }
 
-int	check_dir(char **path, DIR *dir, char *str, struct dirent *file)
+int	check_dir(char **path, char *str, struct dirent *file, DIR *dir)
 {
 	if (ft_strcmp(file->d_name, str) == 0)
 	{
@@ -70,24 +74,20 @@ int	check_dir(char **path, DIR *dir, char *str, struct dirent *file)
 char	*bin_chek(char **split, char *str)
 {
 	if (ft_strncmp(str, "/bin/", 5) == 0)
-	{
 		str = ft_strdup(split[1]);
-		ft_free_multi_tab(split);
-	}
+	ft_free_multi_tab(split);
 	return (str);
 }
 
-int	dir_exist(t_shell *shell, char *str)
+int	dir_exist(t_shell *shell, char *str, int i)
 {
 	DIR				*dir;
 	struct dirent	*file;
 	char			**path;
-	int				i;
 
-	i = -1;
 	str = bin_chek(ft_split(str, '/'), str);
 	path = path_finder(shell);
-	while (path[++i])
+	while (path != NULL && path[++i])
 	{
 		dir = opendir(path[i]);
 		if (dir != NULL)
@@ -95,12 +95,13 @@ int	dir_exist(t_shell *shell, char *str)
 			file = readdir(dir);
 			while (file != NULL)
 			{
-				if (check_dir(path, dir, str, file) != 1)
+				if (check_dir(path, str, file, dir) != 1)
 					file = readdir(dir);
-				return (1);
+				else
+					return (1);
 			}
+			closedir(dir);
 		}
-		closedir(dir);
 	}
 	ft_free_multi_tab(path);
 	return (0);

@@ -3,27 +3,90 @@
 /*                                                        :::      ::::::::   */
 /*   quote_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 16:14:50 by jmartin           #+#    #+#             */
-/*   Updated: 2022/05/31 09:22:26 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/15 10:54:18 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-int	char_counter(char *s, int c)
+int	quote_counter(char *s, char c)
 {
 	int	i;
 	int	j;
 
-	i = 0;
+	i = -1;
 	j = 0;
-	while (s[i])
+	while (s[++i])
 	{
-		if (s[i] == (char) c)
+		if (s[i] == c)
 			j++;
+	}
+	if (j % 2 != 0)
+		return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
+}
+
+char	*remove_append(char *str, char c)
+{
+	size_t	i;
+	char	*src;
+	char	*dst;
+
+	i = 0;
+	dst = str;
+	src = dst;
+	while (*src != '\0')
+	{
+		*dst = *src;
+		if (*dst != c)
+			dst++;
+		src++;
 		i++;
 	}
-	return (j);
+	*dst = '\0';
+	return (dst);
+}
+
+char	*remove_char(char *str, char c)
+{
+	char	*src;
+	char	*dst;
+
+	dst = str;
+	src = dst;
+	while (*src != '\0')
+	{
+		*dst = *src;
+		if (*dst != c)
+			dst++;
+		src++;
+	}
+	*dst = '\0';
+	return (dst);
+}
+
+char	*rm_quote_out(char *str, char c)
+{
+	char	*src;
+	char	*dst;
+	size_t	i;
+	size_t	end;
+
+	dst = str;
+	src = dst;
+	i = 0;
+	end = ft_strlen(str) - 1;
+	while (*src != '\0')
+	{
+		*dst = *src;
+		if (*dst != c && (i != 0 || i != end))
+			dst++;
+		src++;
+		i++;
+	}
+	*dst = '\0';
+	return (dst);
 }

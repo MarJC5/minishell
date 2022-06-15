@@ -96,8 +96,9 @@ char	*arg_to_lower(char *str);
 int		str_err(char *str, char *err);
 int		args_counter(char **args);
 int		ft_isspace(char *str);
-int		old_fd(void);
+void	old_fd(t_shell *shell, int i);
 int		ft_strchr_pos(char *s, char c);
+
 
 /**
  * PWD
@@ -132,6 +133,7 @@ void	*remove_envp(t_shell *shell, char *value, int size);
 void	ft_echo(t_shell *shell, int cmd_index);
 void	pars_echo_endl(t_shell *shell, char **args, int cmd_index, int start);
 
+
 /**
  * CD
  */
@@ -161,12 +163,14 @@ int		dir_exist(t_shell *shell, char *str, int i);
  * REDIRECTION & PIPE
  */
 void	pipex(t_shell *shell);
-void	redirection(t_shell *shell, char **args);
+void	redirection(t_shell *shell, char **args, int cmd_index);
 void	is_pipe(char *line, t_shell *shell);
 void	close_loop(t_shell *shell);
 int		isrediorpipe(t_shell *shell, char **args, char sign);
 int		isdoubleredi(char **args, char sign);
-char	*getname(char **args, int i, int j);
+char	*getname(t_shell *shell, char **args, int i, int j, int cmd_index);
+void	redirection_input(t_shell *shell, char **args, int cmd_index);
+void	redirection_arg(t_shell *shell, int cmd_index, int i, int j);
 
 /**
  * QUOTE

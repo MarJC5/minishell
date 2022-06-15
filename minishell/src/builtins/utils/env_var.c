@@ -6,20 +6,20 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 10:52:16 by jmartin           #+#    #+#             */
-/*   Updated: 2022/05/03 12:36:58 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/14 08:32:02 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../inc/minishell.h"
 
-static int	ft_strchr_pos(const char *s, int c)
+int	ft_strchr_pos(char *s, char c)
 {
 	int	i;
 
 	i = 0;
 	while (s[i])
 	{
-		if (s[i] == (char) c)
+		if (s[i] == c)
 			return (i);
 		i++;
 	}

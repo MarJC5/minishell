@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 10:20:44 by jmartin           #+#    #+#             */
-/*   Updated: 2022/05/03 19:30:33 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/13 08:06:54 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,11 @@
 
 int	handle_out(t_shell *shell, int cmd_index)
 {
+	if (isrediorpipe(shell, shell->cmd[cmd_index]->args, '>') == 1)
+	{
+		redirection(shell, shell->cmd[cmd_index]->args, cmd_index);
+		return (1);
+	}
 	if (shell->cmd[cmd_index]->out != -1)
 	{
 		dup2(shell->cmd[cmd_index]->out, STDOUT_FILENO);
@@ -24,6 +29,11 @@ int	handle_out(t_shell *shell, int cmd_index)
 
 int	handle_in(t_shell *shell, int cmd_index)
 {
+	if (isrediorpipe(shell, shell->cmd[cmd_index]->args, '<') == 1)
+	{
+		redirection_input(shell, shell->cmd[cmd_index]->args, cmd_index);
+		return (1);
+	}
 	if (shell->cmd[cmd_index]->in != -1)
 	{
 		dup2(shell->cmd[cmd_index]->in, STDIN_FILENO);

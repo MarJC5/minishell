@@ -3,14 +3,63 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 20:27:21 by jmartin           #+#    #+#             */
-/*   Updated: 2022/05/03 14:38:41 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/09 16:40:34 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+
+static void	swap_env(char **env)
+{
+	char	*temp;
+	int		i;
+	int		j;
+
+	i = 0;
+	temp = NULL;
+	while (i < args_counter(env))
+	{
+		j = 0;
+		while (j < args_counter(env) - 1 - i)
+		{
+			if (env[j] && ft_strcmp(env[j], env[j + 1]) > 0)
+			{
+				temp = ft_strdup(env[j]);
+				ft_free_tab(env[j]);
+				env[j] = ft_strdup(env[j + 1]);
+				ft_free_tab(env[j + 1]);
+				env[j + 1] = ft_strdup(temp);
+				ft_free_tab(temp);
+			}
+			j++;
+		}
+		i++;
+	}
+}
+
+static void	sort_export(t_shell *shell)
+{
+	char	**env_dup;
+	int		size;
+	int		i;
+
+	i = -1;
+	size = args_counter(shell->envp);
+	env_dup = malloc((size + 1) * sizeof(char *));
+	if (!env_dup)
+		return ;
+	while (++i < size)
+		env_dup[i] = ft_strdup(shell->envp[i]);
+	env_dup[i] = NULL;
+	swap_env(env_dup);
+	i = -1;
+	while (++i < size)
+		ft_printf("%s\n", env_dup[i]);
+	ft_free_multi_tab(env_dup);
+}
 
 void	*add_envp(t_shell *shell, int size, char *value)
 {
@@ -39,7 +88,7 @@ void	export(t_shell *shell, int cmd_index)
 	i = 0;
 	g_exit_stat = 0;
 	if (shell->cmd[cmd_index]->args_count == 1)
-		env(shell, 0);
+		sort_export(shell);
 	else if (shell->cmd[cmd_index]->args_count > 1)
 	{
 		if (shell->cmd[cmd_index]->args[1][0] == '=')

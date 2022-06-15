@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 12:54:56 by jmartin           #+#    #+#             */
-/*   Updated: 2022/05/31 10:07:16 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/15 11:27:40 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,13 @@ typedef struct s_cmd
 	char			**args;
 	char			*pwd;
 	char			*name;
+	char			*pars_args;
+	int				start;
 	int				out;
 	int				in;
 	pid_t			pid;
 	int				cmd_pos;
+	int				quotted;
 	int				args_count;
 	struct s_shell	*shell;
 	void			(*func)(struct s_shell *, int);
@@ -89,11 +92,13 @@ char	*init_read(t_shell *shell);
 void	ascii_prompt(void);
 void	builtin_error(t_shell *shell, int cmd_index);
 char	*append(char before, char *str, char after);
+char	*arg_to_lower(char *str);
 int		str_err(char *str, char *err);
 int		args_counter(char **args);
-int		str_cmd_comp(char *cmd, char *comp);
 int		ft_isspace(char *str);
-int		old_fd();
+void	old_fd(t_shell *shell, int i);
+int		ft_strchr_pos(char *s, char c);
+
 
 /**
  * PWD
@@ -126,6 +131,8 @@ void	*remove_envp(t_shell *shell, char *value, int size);
  * ECHO
  */
 void	ft_echo(t_shell *shell, int cmd_index);
+void	pars_echo_endl(t_shell *shell, char **args, int cmd_index, int start);
+
 
 /**
  * CD
@@ -150,23 +157,32 @@ void	path_exec(t_shell *shell, int cmd_index);
 void	open_dir(t_shell *shell, char **path, char *str, int cmd_index);
 char	**path_finder(t_shell *shell);
 char	*bin_chek(char **split, char *str);
-int		dir_exist(t_shell *shell, char *str);
+int		dir_exist(t_shell *shell, char *str, int i);
 
 /**
  * REDIRECTION & PIPE
  */
 void	pipex(t_shell *shell);
-void	redirection(t_shell *shell, char **args);
+void	redirection(t_shell *shell, char **args, int cmd_index);
 void	is_pipe(char *line, t_shell *shell);
 void	close_loop(t_shell *shell);
 int		isrediorpipe(t_shell *shell, char **args, char sign);
 int		isdoubleredi(char **args, char sign);
-char	*getname(char **args, int i, int j);
+char	*getname(t_shell *shell, char **args, int i, int j, int cmd_index);
+void	redirection_input(t_shell *shell, char **args, int cmd_index);
+void	redirection_arg(t_shell *shell, int cmd_index, int i, int j);
 
 /**
  * QUOTE
  *
  */
-int		char_counter(char *s, int c);
+
+int		check_read_quote(char *str);
+int		quote_counter(char *s, char c);
+char	*remove_char(char *str, char c);
+char	*remove_append(char *str, char c);
+char	*rm_quote_out(char *str, char c);
+void	pars_cmd_name_quote(char *str);
+void	pars_args(t_shell *shell, char *args, int cmd_index);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 12:53:58 by jmartin           #+#    #+#             */
-/*   Updated: 2022/05/31 09:51:13 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/14 11:10:24 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,13 @@ int	run_cmd(t_shell *shell)
 {
 	if (shell->cmd_count == 1 && !shell->ispipe)
 	{
-		shell->fd = old_fd();
-		if (shell->redi >= 1)
-			redirection(shell, shell->cmd[0]->args);
-		shell->cmd[0]->func(shell, 0);
-		if (shell->redi >= 1)
-		{
-			dup2(shell->fd, STDOUT_FILENO);
-			shell->redi = 0;
-		}
+		if (isrediorpipe(shell, shell->cmd[0]->args, '<') == 1)
+			old_fd(shell, 2);
+		else if (shell->redi >= 1)
+			old_fd(shell, 1);
+		else
+			shell->cmd[0]->func(shell, 0);
+		shell->redi = 0;
 		return (EXIT_SUCCESS);
 	}
 	else if (shell->cmd_count >= 1 && shell->ispipe > shell->cmd_count)

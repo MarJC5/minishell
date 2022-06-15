@@ -9,7 +9,7 @@ NAME	= minishell
 
 CC		= cc
 CFLAGS	= -Wall -Wextra -Werror
-CFLAGS += -g3
+#CFLAGS += -g3
 
 #################################################################
 # READLINE														#
@@ -72,7 +72,7 @@ all: $(NAME)
 
 $(NAME): $(OBJ)
 	@$(MAKE) -C ./newlibft
-@$(CC) $(CFLAGS) $(OBJ) $(LIBS) -o $(NAME) $(LIBFT)
+	@$(CC) $(CFLAGS) $(OBJ) $(LIBS) -o $(NAME) $(LIBFT)
 	@echo "[$(ORANGE)$(NAME)$(RESET)] Creation *.o files & compilation : $(GREEN)OK$(RESET)"
 	@echo "[\033[1;32msuccess$(RESET)]: $(NAME) is ready"
 

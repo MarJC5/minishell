@@ -14,43 +14,42 @@
 
 void	redirection_arg(t_shell *shell, int cmd_index, int i, int j)
 {
-	(void)shell;
-	(void)cmd_index;
-	(void)i;
-	(void)j;
-	/*char	**str;
+	char	**str;
+	char	**tmp;
 	int		count;
 	int		i2;
+	int		g;
+	char	c;
 
 	str = NULL;
 	count = 0;
 	i2 = 0;
+	g = 0;
+	c = shell->cmd[cmd_index]->args[shell->i][shell->j];
 	while (shell->cmd[cmd_index]->args[count])
 		count++;
-	str = calloc((count), sizeof(char *));
+	str = ft_calloc((count + 1), sizeof(char *));
+	str[count + 1] = NULL;
 	count = 0;
 	while (shell->cmd[cmd_index]->args[count])
 	{
 		if (count == shell->i)
 		{
-			if (j != 0 && !shell->cmd[cmd_index]->args[i][j])
-			{
-				i++;
-				j = 0;
-			}
-			//str[i2++] = ft_strdup(&shell->cmd[cmd_index]->args[i][j]);
-			shell->cmd[cmd_index]->args[i][j] = '\0';
+			tmp = ft_split_with_delimiter(shell->cmd[cmd_index]->args[count], c);
+			if (shell->j != 0)
+				str[i2++] = ft_strdup(tmp[0]);
+			if (shell->cmd[cmd_index]->args[i][j])
+				str[i2++] = ft_strdup(&shell->cmd[cmd_index]->args[i][j]);
 			count = i + 1;
+			while (tmp[g])
+				ft_free_tab(tmp[g++]);
 		}
 		else
-			(shell->cmd[cmd_index]->args[count++]) = NULL;
-		//str[i2++] = ft_strdup(shell->cmd[cmd_index]->args[count++]);
+			str[i2++] = ft_strdup(shell->cmd[cmd_index]->args[count++]);
 	}
-
+	while (count != 0)
+		ft_free_tab(shell->cmd[cmd_index]->args[count--]);
 	shell->cmd[cmd_index]->args = str;
-	int l = 0;
-	while (shell->cmd[cmd_index]->args[l])
-		printf("%s ", shell->cmd[cmd_index]->args[l++]);*/
 }
 
 void	redirection(t_shell *shell, char **args, int cmd_index)

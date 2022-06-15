@@ -16,10 +16,10 @@ int	run_cmd(t_shell *shell)
 {
 	if (shell->cmd_count == 1 && !shell->ispipe)
 	{
-		if (shell->redi >= 1)
-			old_fd(shell, 1);
-		else if (isrediorpipe(shell, shell->cmd[0]->args, '<') == 1)
+		if (isrediorpipe(shell, shell->cmd[0]->args, '<') == 1)
 			old_fd(shell, 2);
+		else if (shell->redi >= 1)
+			old_fd(shell, 1);
 		else
 			shell->cmd[0]->func(shell, 0);
 		shell->redi = 0;

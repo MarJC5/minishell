@@ -25,7 +25,10 @@ void	old_fd(t_shell *shell, int i)
 	{
 		shell->fd = dup(STDIN_FILENO);
 		redirection_input(shell, shell->cmd[0]->args, 0);
-		shell->cmd[0]->func(shell, 0);
+		if (shell->redi >= 1)
+			old_fd(shell, 1);
+		else
+			shell->cmd[0]->func(shell, 0);
 		dup2(shell->fd, STDIN_FILENO);
 	}
 }

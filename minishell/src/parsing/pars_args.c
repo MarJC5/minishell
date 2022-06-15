@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 08:46:53 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/14 17:28:36 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/15 11:38:48 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,8 @@ char	**pars_join(t_shell *shell, char *args, char c, int cmd_index)
 	i = (int)ft_strlen(merge) - (int)ft_strlen(shell->cmd[cmd_index]->name);
 	shell->cmd[cmd_index]->pars_args = ft_substr(merge,
 			ft_strlen(shell->cmd[cmd_index]->name) + 1, i);
-	free(merge);	
-	for (int i = 0; i < args_counter(tmp); i++)
-	{
-		ft_printf("-> %s\n",tmp[i]);
-	}
+	shell->cmd[cmd_index]->quotted = 1;
+	free(merge);
 	return (tmp);
 }
 

@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 12:54:56 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/14 16:33:39 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/15 11:27:40 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct s_cmd
 	int				in;
 	pid_t			pid;
 	int				cmd_pos;
+	int				quotted;
 	int				args_count;
 	struct s_shell	*shell;
 	void			(*func)(struct s_shell *, int);
@@ -175,9 +176,9 @@ char	*getname(char **args, int i, int j);
 int		check_read_quote(char *str);
 int		quote_counter(char *s, char c);
 char	*remove_char(char *str, char c);
+char	*remove_append(char *str, char c);
 char	*rm_quote_out(char *str, char c);
 void	pars_cmd_name_quote(char *str);
-void	pars_cmd_args_quote(char **str, int args_count, char c);
 void	pars_args(t_shell *shell, char *args, int cmd_index);
 
 #endif

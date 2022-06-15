@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 16:14:50 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/13 18:02:03 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/15 10:54:18 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,27 @@ int	quote_counter(char *s, char c)
 	if (j % 2 != 0)
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
+}
+
+char	*remove_append(char *str, char c)
+{
+	size_t	i;
+	char	*src;
+	char	*dst;
+
+	i = 0;
+	dst = str;
+	src = dst;
+	while (*src != '\0')
+	{
+		*dst = *src;
+		if (*dst != c)
+			dst++;
+		src++;
+		i++;
+	}
+	*dst = '\0';
+	return (dst);
 }
 
 char	*remove_char(char *str, char c)

@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 14:47:54 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/14 17:26:37 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/15 12:47:36 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,12 +76,26 @@ static void	cr_arg(t_shell *shell, char **args, int j)
 
 static void	echo_write(t_shell *shell, int cmd_index, int j)
 {
-	while (shell->cmd[cmd_index]->args[j] 
+	size_t	i;
+	size_t	end;
+
+	while (shell->cmd[cmd_index]->args[j]
 		&& j < shell->cmd[cmd_index]->args_count)
 	{
-		write(1, shell->cmd[cmd_index]->args[j],
-			  ft_strlen(shell->cmd[cmd_index]->args[j]));
-		if (++j != shell->cmd[cmd_index]->args_count)
+		i = 0;
+		end = ft_strlen(shell->cmd[cmd_index]->args[j]);
+		while (i < end)
+		{
+			if (shell->cmd[cmd_index]->args[j][i] == ' '
+				&& i == 0)
+				i++;
+			if (shell->cmd[cmd_index]->args[j][i] != '\"'
+				&& (i != 0 || i != end))
+				write(1, &shell->cmd[cmd_index]->args[j][i], 1);
+			i++;
+		}
+		if (++j != shell->cmd[cmd_index]->args_count
+			&& shell->cmd[cmd_index]->quotted == 0)
 			write(1, " ", 1);
 	}
 }
@@ -91,7 +105,7 @@ void	ft_echo(t_shell *shell, int cmd_index)
 	int		i;
 	int		start;
 
-	if (ft_strchr(shell->cmd[cmd_index]->args[0] , '-') == NULL)
+	if (ft_strchr(shell->cmd[cmd_index]->args[0], '-') == NULL)
 		start = 1;
 	else
 		start = 0;

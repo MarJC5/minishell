@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 21:16:18 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/14 16:30:10 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/15 11:55:23 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ static void	split_pipe_cmd(t_shell *shell, char *args)
 			pars_args(shell, tmp[i], i);
 			init_func(shell, i);
 			shell->cmd[0]->start = 1;
+			shell->cmd[i]->quotted = 0;
 		}
 		i++;
 	}
@@ -58,10 +59,10 @@ void	init_cmd(t_shell *shell, char *args)
 		return ;
 	if (j == 1 && ft_isspace(args))
 	{
-		
 		pars_args(shell, args, 0);
 		init_func(shell, 0);
 		shell->cmd[0]->start = 1;
+		shell->cmd[0]->quotted = 0;
 	}
 	else if (j > 1)
 		split_pipe_cmd(shell, args);

@@ -39,6 +39,7 @@ FILES	=	main.c \
 			res/free.c \
 			res/ascii.c \
 			parsing/pars_args.c \
+			parsing/pars_single.c \
 			parsing/quote_utils.c \
 			builtins/env.c \
 			builtins/cd.c \

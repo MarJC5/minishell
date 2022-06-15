@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 12:54:56 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/15 11:27:40 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/15 17:31:37 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ typedef struct s_shell
 	int			redi;
 	int			i;
 	int			j;
+	int			env_size;
 	int			fd;
 	int			cmd_count;
 	int			out_status;
@@ -184,5 +185,9 @@ char	*remove_append(char *str, char c);
 char	*rm_quote_out(char *str, char c);
 void	pars_cmd_name_quote(char *str);
 void	pars_args(t_shell *shell, char *args, int cmd_index);
+void	pars_cr_realloc(char *args, char *newval, int i, int j);
+void	pars_cr_itao(int ret_val, char *args, int i);
+void	pars_cr_arg(t_shell *shell, char *args, int j);
+void	pars_inside_quote(t_shell *shell, char **args, int c);
 
 #endif

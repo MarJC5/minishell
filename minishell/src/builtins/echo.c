@@ -6,12 +6,12 @@
 /*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 14:47:54 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/15 12:47:36 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/15 15:36:17 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-
+/*
 static void	cr_arg_realloc(char **args, char *newval, int i, int j)
 {
 	char	*begin;
@@ -72,7 +72,7 @@ static void	cr_arg(t_shell *shell, char **args, int j)
 		}
 		j++;
 	}
-}
+}*/
 
 static void	echo_write(t_shell *shell, int cmd_index, int j)
 {
@@ -119,7 +119,6 @@ void	ft_echo(t_shell *shell, int cmd_index)
 		}
 		else
 			i = 1;
-		cr_arg(shell, shell->cmd[cmd_index]->args, i);
 		echo_write(shell, cmd_index, start);
 		if (i == 1)
 			write(1, "\n", 1);

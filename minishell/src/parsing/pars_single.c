@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   pars_single.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 15:13:55 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/15 17:43:46 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/16 01:24:38 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-void	pars_cr_realloc(char *args, char *newval, int i, int j)
+char	*pars_cr_realloc(char *args, char *newval, int i, int j)
 {
 	char	*begin;
 	char	*end;
@@ -21,54 +21,43 @@ void	pars_cr_realloc(char *args, char *newval, int i, int j)
 	begin = NULL;
 	end = NULL;
 	tmp = NULL;
-	if (args[i] == '?')
+	//ft_printf("|> %s\n", args);
+	if (args[i] == '$')
 	{
-		begin = ft_substr(args, 0, (j - 1));
-		end = ft_substr(args, j + 1, ((int)ft_strlen(begin) - j));
-		tmp = ft_strjoin(begin, newval);
-		ft_printf("end |--> %s\n", end);
+		//ft_printf("|-> %s\n", args);
+		begin = ft_substr(args, 0, i);
+		end = ft_substr(args, j, (int)ft_strlen(args) - j);
 		tmp = ft_strjoin(begin, newval);
 		args = ft_strjoin(tmp, end);
-		ft_printf("result |==> %s\n", args);
+		//ft_printf("|--> %s\n", args);
 		free(begin);
 		free(end);
 		free(tmp);
 	}
-	else
-		args = newval;
+	return (args);
 }
 
-void	pars_cr_itao(int ret_val, char *args, int i)
-{
-	char	*ret;
-
-	ret = ft_itoa(ret_val);
-	pars_cr_realloc(args, ret, i, 1);
-	free(ret);
-}
-
-void	pars_cr_arg(t_shell *shell, char *args, int j)
+char	*pars_cr_arg(t_shell *shell, char *args, int j)
 {
 	char	*str;
 
 	if (args[j] == '$')
 	{
 		if (args[j + 1] == '?')
-			pars_cr_itao(g_exit_stat, args, j);
+			return (pars_cr_realloc(args, ft_itoa(g_exit_stat), j, 2));
 		else if (args[j + 1] != '\0')
 		{
 			str = get_env_var(shell, args);
-			ft_printf("new val|-> %s\n", str);
-			if (str)
-			{
-				pars_cr_realloc(args, ft_strjoin(ft_substr(args, 0, j - 1), str), j, shell->env_size);
-				ft_free_tab(str);
-			}
+			if (str != NULL)
+				return (pars_cr_realloc(args, str, j, shell->env_size + 2));
+			else
+				return (args);
 		}
 	}
+	return (NULL);
 }
 
-void	pars_inside_quote(t_shell *shell, char **args, int c)
+void	pars_inside_quote(t_shell *shell, int cmd_index, int c)
 {
 	int	i;
 	int j;
@@ -76,26 +65,60 @@ void	pars_inside_quote(t_shell *shell, char **args, int c)
 	int	dpose;
 
 	i = 0;
-	while (args[i] != NULL)
+	while (shell->cmd[cmd_index]->args[i])
 	{
-		qpose = ft_strchr_pos(args[i], c);
-		dpose = ft_strchr_pos(args[i], '$');
+		qpose = ft_strchr_pos(shell->cmd[cmd_index]->args[i], c);
+		dpose = ft_strchr_pos(shell->cmd[cmd_index]->args[i], '$');
 		if (dpose >= 0)
 		{
 			if (qpose >= 0)
 			{
 				j = qpose;
-				while (args[i][j])
+				while (shell->cmd[cmd_index]->args[i][j])
 				{
 					j++;
-					if (args[i][j] == c)
+					if (shell->cmd[cmd_index]->args[i][j] == c)
 						break ;
 				}
 				if (qpose < dpose && j > dpose)
 					;
 			}
 			else
-				pars_cr_arg(shell, args[i], dpose);
+				shell->cmd[cmd_index]->args[i] = pars_cr_arg(shell,
+					shell->cmd[cmd_index]->args[i], dpose);
+		}
+		i++;
+	}
+}
+
+void	pars_remove_quote(t_shell *shell, int cmd_index, int c, int out)
+{
+	int	i;
+	int j;
+	int	spose;
+	int	dpose;
+
+	i = 0;
+	while (shell->cmd[cmd_index]->args[i])
+	{
+		spose = ft_strchr_pos(shell->cmd[cmd_index]->args[i], c);
+		dpose = ft_strchr_pos(shell->cmd[cmd_index]->args[i], out);
+		if (dpose >= 0)
+		{
+			if (spose >= 0)
+			{
+				j = spose;
+				while (shell->cmd[cmd_index]->args[i][j])
+				{
+					j++;
+					if (shell->cmd[cmd_index]->args[i][j] == c)
+						break ;
+				}
+				if (spose < dpose && j > dpose)
+					;
+			}
+			else
+				remove_char(shell->cmd[cmd_index]->args[i], out);
 		}
 		i++;
 	}

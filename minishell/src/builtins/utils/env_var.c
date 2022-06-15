@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_var.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 10:52:16 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/15 17:28:34 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/16 00:41:54 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char	*get_env_var(t_shell *shell, char *arg)
 		{
 			str = ft_strtrim(shell->envp[i] + var_len, "=");
 			free(var);
-			break ;
+			break;
 		}
 		free(var);
 	}

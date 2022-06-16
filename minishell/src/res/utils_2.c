@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 09:22:06 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/12 17:25:01 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/16 11:26:14 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,18 @@ void	exit_status(int wstatus)
 {
 	if (WIFEXITED(wstatus))
 		g_exit_stat = WEXITSTATUS(wstatus);
+}
+
+int	ft_strchr_pos(char *s, char c)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+	{
+		if (s[i] == c)
+			return (i);
+		i++;
+	}
+	return (-1);
 }

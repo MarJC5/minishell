@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 10:50:02 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/16 09:17:29 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/16 12:57:28 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char	*format_envp(char *value, int size, int is_new)
 	{
 		arg = ft_substr(value, size + 1, ft_strlen(value));
 		var = ft_substr(value, 0, size + 1);
-		ret = ft_strjoin(var, append('\"', arg, '\"'));
+		ret = ft_strjoin(var, append('\0', arg, '\0'));
 		free(arg);
 		free(var);
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pars_args.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 08:46:53 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/16 08:59:22 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/16 12:52:52 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ char	**pars_join(t_shell *shell, char *args, char c, int cmd_index)
 	char	*new_args;
 
 	i = 0;
+	shell->cmd[cmd_index]->quotted = 1;
 	tmp = ft_split(args, c);
 	merge = ft_strdup("");
 	while (tmp[i])
@@ -53,7 +54,6 @@ char	**pars_join(t_shell *shell, char *args, char c, int cmd_index)
 	i = (int)ft_strlen(merge) - (int)ft_strlen(shell->cmd[cmd_index]->name);
 	shell->cmd[cmd_index]->pars_args = ft_substr(merge,
 			ft_strlen(shell->cmd[cmd_index]->name) + 1, i);
-	shell->cmd[cmd_index]->quotted = 1;
 	free(merge);
 	return (tmp);
 }
@@ -69,6 +69,7 @@ void	pars_args(t_shell *shell, char *args, int cmd_index)
 	shell->cmd[cmd_index]->out = -1;
 	shell->cmd[cmd_index]->pid = -1;
 	shell->cmd[cmd_index]->cmd_pos = cmd_index;
+	shell->cmd[cmd_index]->quotted = 0;
 	shell->cmd[cmd_index]->name = arg_to_lower(ft_strdup(tmp[0]));
 	pars_cmd_name_quote(shell->cmd[cmd_index]->name);
 	shell->cmd[cmd_index]->pars_args = NULL;

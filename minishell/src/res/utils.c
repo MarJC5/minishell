@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 10:52:05 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/13 21:06:59 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/16 11:48:33 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,5 +53,15 @@ int	str_err(char *str, char *err)
 	else if (str)
 		ft_putstr_fd(str, 2);
 	ft_printf("\n");
+	return (EXIT_FAILURE);
+}
+
+int	str_perr(char *name, char *arg)
+{
+	char	*msg;
+
+	msg = ft_strjoin(name, arg);
+	perror(msg);
+	free(msg);
 	return (EXIT_FAILURE);
 }

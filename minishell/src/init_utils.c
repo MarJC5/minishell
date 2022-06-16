@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 21:16:18 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/16 09:00:22 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/16 12:52:32 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ static void	split_pipe_cmd(t_shell *shell, char *args)
 			pars_args(shell, tmp[i], i);
 			init_func(shell, i);
 			shell->cmd[0]->start = 1;
-			shell->cmd[i]->quotted = 0;
 			pars_remove_quote(shell, i, '\'', '\"');
 			pars_inside_quote(shell, i, '\'');
 		}
@@ -73,10 +72,10 @@ void	init_cmd(t_shell *shell, char *args)
 		return ;
 	if (j == 1 && ft_isspace(args))
 	{
+
 		pars_args(shell, args, 0);
 		init_func(shell, 0);
 		shell->cmd[0]->start = 1;
-		shell->cmd[0]->quotted = 0;
 		pars_remove_quote(shell, 0, '\'', '\"');
 		pars_inside_quote(shell, 0, '\'');
 	}

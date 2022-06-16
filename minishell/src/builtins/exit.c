@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 14:52:30 by jmartin           #+#    #+#             */
-/*   Updated: 2022/05/31 07:32:31 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/16 12:14:16 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,8 @@
 
 void	ft_exit(t_shell *shell, int cmd_index)
 {
-	if (shell->cmd[cmd_index]->args_count > 1)
-	{
-		g_exit_stat = 1;
-		str_err("exit: too many arguments", NULL);
-	}
-	else
-	{
-		g_exit_stat = 0;
-		ft_free_read_args(shell, NULL);
-		free(shell);
-		exit(EXIT_SUCCESS);
-	}
+	(void) cmd_index;
+	ft_free_read_args(shell, NULL);
+	free(shell);
+	exit(g_exit_stat);
 }

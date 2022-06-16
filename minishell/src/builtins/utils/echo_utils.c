@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   echo_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 15:54:09 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/16 09:10:05 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/16 12:31:53 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../inc/minishell.h"
 
-static void	pars_first_trim(t_shell *shell, char *args, int cmd_index, int i)
+void	pars_first_trim(t_shell *shell, char *args, int cmd_index, int i)
 {
 	size_t	trim;
 	size_t	start;

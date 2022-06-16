@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 15:13:55 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/16 01:24:38 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/16 09:29:21 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,15 @@ char	*pars_cr_realloc(char *args, char *newval, int i, int j)
 	begin = NULL;
 	end = NULL;
 	tmp = NULL;
-	//ft_printf("|> %s\n", args);
+	ft_printf("|> %s\n", args);
 	if (args[i] == '$')
 	{
-		//ft_printf("|-> %s\n", args);
+		ft_printf("|-> %s\n", args);
 		begin = ft_substr(args, 0, i);
 		end = ft_substr(args, j, (int)ft_strlen(args) - j);
 		tmp = ft_strjoin(begin, newval);
 		args = ft_strjoin(tmp, end);
-		//ft_printf("|--> %s\n", args);
+		ft_printf("|--> %s\n", args);
 		free(begin);
 		free(end);
 		free(tmp);
@@ -49,7 +49,7 @@ char	*pars_cr_arg(t_shell *shell, char *args, int j)
 		{
 			str = get_env_var(shell, args);
 			if (str != NULL)
-				return (pars_cr_realloc(args, str, j, shell->env_size + 2));
+				return (pars_cr_realloc(args, str, j, ft_strlen(str) + 2));
 			else
 				return (args);
 		}
@@ -65,7 +65,7 @@ void	pars_inside_quote(t_shell *shell, int cmd_index, int c)
 	int	dpose;
 
 	i = 0;
-	while (shell->cmd[cmd_index]->args[i])
+	while (shell->cmd[cmd_index]->args[i] != NULL)
 	{
 		qpose = ft_strchr_pos(shell->cmd[cmd_index]->args[i], c);
 		dpose = ft_strchr_pos(shell->cmd[cmd_index]->args[i], '$');

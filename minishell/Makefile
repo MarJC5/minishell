@@ -9,7 +9,7 @@ NAME	= minishell
 
 CC		= cc
 CFLAGS	= -Wall -Wextra -Werror
-CFLAGS += -g3
+#CFLAGS += -g3
 
 #################################################################
 # READLINE														#
@@ -17,14 +17,14 @@ CFLAGS += -g3
 # Find where the package is installed: brew info readline		#
 #################################################################
 
-RL_V	:= $(shell brew list --versions  readline | sed 's/.*[[:blank:]]//')
-RL_P	:= $(shell brew --cellar readline)
-RL		= $(RL_P)/$(RL_V)
-LIBS	= -L $(RL)/lib/ -lreadline -lhistory
+#RL_V	:= $(shell brew list --versions  readline | sed 's/.*[[:blank:]]//')
+#RL_P	:= $(shell brew --cellar readline)
+#RL		= $(RL_P)/$(RL_V)
+#LIBS	= -L $(RL)/lib/ -lreadline -lhistory
 
 # READLINE BACKUP
-#RL		= ../doc/readline/8.1.2
-#LIBS	= -L $(RL)/lib/ -lreadline
+RL		= ../doc/readline/8.1.2
+LIBS	= -L $(RL)/lib/ -lreadline
 
 INC		= -I. -I $(RL)/include/
 
@@ -72,7 +72,7 @@ all: $(NAME)
 
 $(NAME): $(OBJ)
 	@$(MAKE) -C ./newlibft
-@$(CC) $(CFLAGS) $(OBJ) $(LIBS) -o $(NAME) $(LIBFT)
+	@$(CC) $(CFLAGS) $(OBJ) $(LIBS) -o $(NAME) $(LIBFT)
 	@echo "[$(ORANGE)$(NAME)$(RESET)] Creation *.o files & compilation : $(GREEN)OK$(RESET)"
 	@echo "[\033[1;32msuccess$(RESET)]: $(NAME) is ready"
 

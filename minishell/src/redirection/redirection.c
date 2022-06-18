@@ -25,7 +25,7 @@ void	redirection_arg(t_shell *shell, int cmd_index, int i, int j)
 	count = 0;
 	i2 = 0;
 	g = 0;
-	c = shell->cmd[cmd_index]->args[shell->i][shell->j];
+	c = shell->cmd[cmd_index]->args[shell->cmd[cmd_index]->i][shell->cmd[cmd_index]->j];
 	while (shell->cmd[cmd_index]->args[count])
 		count++;
 	str = ft_calloc((count + 1), sizeof(char *));
@@ -33,16 +33,17 @@ void	redirection_arg(t_shell *shell, int cmd_index, int i, int j)
 	count = 0;
 	while (shell->cmd[cmd_index]->args[count])
 	{
-		if (count == shell->i)
+		if (count == shell->cmd[cmd_index]->i)
 		{
 			tmp = ft_split_with_delimiter(shell->cmd[cmd_index]->args[count], c);
-			if (shell->j != 0)
+			if (shell->cmd[cmd_index]->j != 0)
 				str[i2++] = ft_strdup(tmp[0]);
 			if (shell->cmd[cmd_index]->args[i][j])
 				str[i2++] = ft_strdup(&shell->cmd[cmd_index]->args[i][j]);
 			count = i + 1;
-			while (tmp[g])
-				ft_free_tab(tmp[g++]);
+			g = args_counter(tmp);
+			while (g != 0)
+				ft_free_tab(tmp[g--]);
 		}
 		else
 			str[i2++] = ft_strdup(shell->cmd[cmd_index]->args[count++]);
@@ -59,8 +60,8 @@ void	redirection(t_shell *shell, char **args, int cmd_index)
 	char	cwd[PATH_MAX];
 
 	name = NULL;
-	isrediorpipe(shell, args, '>');
-	name = getname(shell, args, shell->i, shell->j, cmd_index);
+	isrediorpipe(shell, cmd_index, args, '>');
+	name = getname(shell, args, shell->cmd[cmd_index]->i, shell->cmd[cmd_index]->j, cmd_index);
 	temp = ft_strjoin(getcwd(cwd, sizeof(cwd)), name);
 	free(name);
 	name = temp;
@@ -80,8 +81,8 @@ void	redirection_input(t_shell *shell, char **args, int cmd_index)
 	char	cwd[PATH_MAX];
 
 	name = NULL;
-	isrediorpipe(shell, args, '<');
-	name = getname(shell, args, shell->i, shell->j, cmd_index);
+	isrediorpipe(shell, cmd_index, args, '<');
+	name = getname(shell, args, shell->cmd[cmd_index]->i, shell->cmd[cmd_index]->j, cmd_index);
 	temp = ft_strjoin(getcwd(cwd, sizeof(cwd)), name);
 	free(name);
 	name = temp;

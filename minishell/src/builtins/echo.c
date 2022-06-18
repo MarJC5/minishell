@@ -52,7 +52,7 @@ static void	cr_arg(t_shell *shell, char **args, int j)
 
 	while (args[j])
 	{
-		if (ft_strchr(args[j], '$') > 0)
+		if (ft_strchr(args[j], '$'))
 		{
 			i = 0;
 			while (args[j][i++] != '$')

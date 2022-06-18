@@ -12,7 +12,27 @@
 
 #include "../../inc/minishell.h"
 
-int	isrediorpipe(t_shell *shell, char **args, char sign)
+int	isrediorpipe_two(char **args, char sign)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (args[i])
+	{
+		j = 0;
+		while (args[i][j])
+		{
+			if (args[i][j] == sign)
+				return (1);
+			j++;
+		}
+		i++;
+	}
+	return (0);
+}
+
+int	isrediorpipe(t_shell *shell, int cmd_index, char **args, char sign)
 {
 	int	i;
 	int	j;
@@ -25,8 +45,8 @@ int	isrediorpipe(t_shell *shell, char **args, char sign)
 		{
 			if (args[i][j] == sign)
 			{
-				shell->i = i;
-				shell->j = j;
+				shell->cmd[cmd_index]->i = i;
+				shell->cmd[cmd_index]->j = j;
 				return (1);
 			}
 			j++;

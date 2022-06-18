@@ -42,6 +42,8 @@ typedef struct s_cmd
 	char			*name;
 	char			*pars_args;
 	int				start;
+	int				i;
+	int				j;
 	int				out;
 	int				in;
 	pid_t			pid;
@@ -59,8 +61,6 @@ typedef struct s_shell
 	int			ispipe;
 	int			bcklash_n;
 	int			redi;
-	int			i;
-	int			j;
 	int			fd;
 	int			cmd_count;
 	int			out_status;
@@ -166,11 +166,12 @@ void	pipex(t_shell *shell);
 void	redirection(t_shell *shell, char **args, int cmd_index);
 void	is_pipe(char *line, t_shell *shell);
 void	close_loop(t_shell *shell);
-int		isrediorpipe(t_shell *shell, char **args, char sign);
+int		isrediorpipe(t_shell *shell, int cmd_index, char **args, char sign);
 int		isdoubleredi(char **args, char sign);
 char	*getname(t_shell *shell, char **args, int i, int j, int cmd_index);
 void	redirection_input(t_shell *shell, char **args, int cmd_index);
 void	redirection_arg(t_shell *shell, int cmd_index, int i, int j);
+int		isrediorpipe_two(char **args, char sign);
 
 /**
  * QUOTE

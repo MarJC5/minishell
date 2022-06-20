@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 21:16:18 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/16 12:52:32 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/20 16:33:29 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ void	init_cmd(t_shell *shell, char *args)
 		return ;
 	if (j == 1 && ft_isspace(args))
 	{
-
 		pars_args(shell, args, 0);
 		init_func(shell, 0);
 		shell->cmd[0]->start = 1;

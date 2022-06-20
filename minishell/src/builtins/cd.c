@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 14:47:44 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/16 12:03:07 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/20 16:33:48 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ void	ft_cd(t_shell *shell, int cmd_index)
 	i = 0;
 	g_exit_stat = 1;
 	env_updater(shell, "OLDPWD", getcwd(shell->current_path, 100));
-	if (shell->cmd[cmd_index]->args[++i] != NULL || shell->cmd[cmd_index]->args_count == 1)
+	if (shell->cmd[cmd_index]->args[++i] != NULL
+		|| shell->cmd[cmd_index]->args_count == 1)
 	{
 		if (chdir(shell->cmd[cmd_index]->args[i]) == -1)
 			str_perr("cd: ", shell->cmd[cmd_index]->args[i]);

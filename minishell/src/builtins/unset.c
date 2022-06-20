@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 12:05:05 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/16 13:02:34 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/20 16:36:13 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,8 @@ void	unset(t_shell *shell, int cmd_index)
 		while (shell->cmd[cmd_index]->args[++i])
 		{
 			if (shell->cmd[cmd_index]->quotted == 1)
-				pars_first_trim(shell, shell->cmd[cmd_index]->args[i], cmd_index, i - 1);
+				pars_first_trim(shell, shell->cmd[cmd_index]->args[i],
+					cmd_index, i - 1);
 			remove_envp(shell, shell->cmd[cmd_index]->args[i],
 				args_counter(shell->envp));
 			g_exit_stat = 0;

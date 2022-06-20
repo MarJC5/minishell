@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 15:54:09 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/16 12:31:53 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/20 16:37:29 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ void	pars_first_trim(t_shell *shell, char *args, int cmd_index, int i)
 			tmp = ft_substr(shell->cmd[cmd_index]->args[i], start, trim);
 			tmp2 = ft_strdup(args);
 			free(shell->cmd[cmd_index]->args[i + 1]);
-			shell->cmd[cmd_index]->args[i + 1] = ft_strjoin(ft_strtrim(tmp, "\""),
-					ft_strtrim(tmp2, "\""));
+			shell->cmd[cmd_index]->args[i + 1] = ft_strjoin(
+					ft_strtrim(tmp, "\""), ft_strtrim(tmp2, "\""));
 			free(tmp);
 			free(tmp2);
 		}

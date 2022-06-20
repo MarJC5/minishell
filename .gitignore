@@ -2,9 +2,9 @@
 .DS_Store
 .vscode
 ./minishell/minishell
-./cmake-build-debug
+cmake-build-debug/
 CMakeLists.txt
-./.idea
+.idea/
 
 # Prerequisites
 *.d

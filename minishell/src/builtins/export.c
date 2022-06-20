@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 20:27:21 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/16 12:56:26 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/20 16:34:34 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,8 @@ void	export(t_shell *shell, int cmd_index)
 			while (shell->cmd[cmd_index]->args[++i])
 			{
 				if (shell->cmd[cmd_index]->quotted == 1)
-					pars_first_trim(shell, shell->cmd[cmd_index]->args[i], cmd_index, i - 1);
+					pars_first_trim(shell, shell->cmd[cmd_index]->args[i],
+						cmd_index, i - 1);
 				update_envp(shell, shell->cmd[cmd_index]->args[i],
 					args_counter(shell->envp),
 					is_env_valid(shell->cmd[cmd_index]->args[i]));

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 10:20:44 by tpaquier          #+#    #+#             */
-/*   Updated: 2022/06/13 21:21:36 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/20 16:41:08 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,8 @@ void	open_dir(t_shell *shell, char **path, char *str, int cmd_index)
 
 int	check_dir(char **path, char *str, struct dirent *file, DIR *dir)
 {
-	if (ft_strcmp(file->d_name, str) == 0 ||
-			access(str, X_OK) == 0)
+	if (ft_strcmp(file->d_name, str) == 0
+		|| access(str, X_OK) == 0)
 	{
 		ft_free_multi_tab(path);
 		closedir(dir);

@@ -14,9 +14,9 @@
 
 void check_access(t_shell *shell, int cmd_index)
 {
-	if (access(shell->cmd[cmd_index]->name, X_OK) != 0)
+	if (access(shell->cmd[cmd_index]->name,(X_OK)) != 0)
 		str_perr(NULL, shell->cmd[cmd_index]->name);
-	else if (access(shell->cmd[cmd_index]->name, X_OK) == 0)
+	else if (access(shell->cmd[cmd_index]->name, (X_OK)) == 0)
 		g_exit_stat = execve(shell->cmd[cmd_index]->name, shell->cmd[cmd_index]->args,
 							 shell->envp);
 }

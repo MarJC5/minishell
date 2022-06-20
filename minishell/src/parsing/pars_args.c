@@ -28,7 +28,7 @@ void	pars_cmd_name_quote(char *str)
 {
 	if (quote_counter(str, '\"') == 0)
 		remove_char(str, '\"');
-	else if (quote_counter(str, '\'') == 0)
+	if (quote_counter(str, '\'') == 0)
 		remove_char(str, '\'');
 }
 
@@ -70,10 +70,10 @@ void	pars_args(t_shell *shell, char *args, int cmd_index)
 	shell->cmd[cmd_index]->pid = -1;
 	shell->cmd[cmd_index]->cmd_pos = cmd_index;
 	shell->cmd[cmd_index]->quotted = 0;
-	shell->cmd[cmd_index]->name = arg_to_lower(ft_strdup(tmp[0]));
+	shell->cmd[cmd_index]->name = ft_strdup(tmp[0]);
 	pars_cmd_name_quote(shell->cmd[cmd_index]->name);
 	shell->cmd[cmd_index]->pars_args = NULL;
-	if (ft_strchr(args, '\"') != NULL)
+	if (ft_strchr(args, '\"') != NULL && ft_strchr(args, ' ') != NULL)
 		shell->cmd[cmd_index]->args = pars_join(shell, args, '\"', cmd_index);
 	else
 		shell->cmd[cmd_index]->args = ft_split(args, ' ');

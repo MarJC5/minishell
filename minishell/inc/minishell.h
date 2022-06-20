@@ -42,6 +42,8 @@ typedef struct s_cmd
 	char			*name;
 	char			*pars_args;
 	int				start;
+	int				namei;
+	int				namej;
 	int				out;
 	int				in;
 	pid_t			pid;
@@ -174,6 +176,7 @@ int		isdoubleredi(char **args, char sign);
 char	*getname(t_shell *shell, char **args, int i, int j, int cmd_index);
 void	redirection_input(t_shell *shell, char **args, int cmd_index);
 void	redirection_arg(t_shell *shell, int cmd_index, int i, int j);
+int		ft_more_redi(char **args,char sign);
 
 /**
  * QUOTE

@@ -16,6 +16,10 @@ void	old_fd(t_shell *shell, int i)
 {
 	if (i == 1)
 	{
+		if (ft_more_redi(shell->cmd[0]->args, '>') == 1)
+		{
+			printf("bash: syntax error near unexpected token `>'\n");
+		}
 		shell->fd = dup(STDOUT_FILENO);
 		redirection(shell, shell->cmd[0]->args, 0);
 		shell->cmd[0]->func(shell, 0);
@@ -23,6 +27,10 @@ void	old_fd(t_shell *shell, int i)
 	}
 	else
 	{
+		if (ft_more_redi(shell->cmd[0]->args, '<') == 1)
+		{
+			printf("bash: syntax error near unexpected token `<'\n");
+		}
 		shell->fd = dup(STDIN_FILENO);
 		redirection_input(shell, shell->cmd[0]->args, 0);
 		if (shell->redi >= 1)

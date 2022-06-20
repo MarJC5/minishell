@@ -60,6 +60,34 @@ int	isdoubleredi(char **args, char sign)
 	return (0);
 }
 
+int	ft_more_redi(char **args,char sign)
+{
+	int	i;
+	int	j;
+	int	count;
+
+	i = 0;
+	count = 0;
+	while (args[i])
+	{
+		j = 0;
+		while (args[i][j])
+		{
+			if (args[i][j] == sign)
+			{
+				count++;
+				if (count == 3)
+					return 1;
+			}
+			else
+				count = 0;
+			j++;
+		}
+		i++;
+	}
+	return (0);
+}
+
 char	*getname(t_shell *shell, char **args, int i, int j, int cmd_index)
 {
 	char	*name;
@@ -84,6 +112,7 @@ char	*getname(t_shell *shell, char **args, int i, int j, int cmd_index)
 	while (args[i][j] && args[i][j] != '>' && args[i][j] != '<')
 		name[g++] = args[i][j++];
 	name[g] = '\0';
-	redirection_arg(shell, cmd_index, i, j);
+	shell->cmd[cmd_index]->namei = i;
+	shell->cmd[cmd_index]->namej = j;
 	return (name);
 }

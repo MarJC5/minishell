@@ -22,6 +22,7 @@ void	redirection_arg(t_shell *shell, int cmd_index, int i, int j)
 	char	c;
 
 	str = NULL;
+	tmp = NULL;
 	count = 0;
 	i2 = 0;
 	g = 0;
@@ -31,7 +32,7 @@ void	redirection_arg(t_shell *shell, int cmd_index, int i, int j)
 	str = ft_calloc((count + 1), sizeof(char *));
 	str[count + 1] = NULL;
 	count = 0;
-	while (shell->cmd[cmd_index]->args[count])
+	while (shell->cmd[cmd_index]->args[count]) //Ca segfault ici
 	{
 		if (count == shell->i)
 		{
@@ -41,8 +42,9 @@ void	redirection_arg(t_shell *shell, int cmd_index, int i, int j)
 			if (shell->cmd[cmd_index]->args[i][j])
 				str[i2++] = ft_strdup(&shell->cmd[cmd_index]->args[i][j]);
 			count = i + 1;
-			while (tmp[g])
-				ft_free_tab(tmp[g++]);
+			g = (args_counter(tmp));
+			while (g != 0)
+				ft_free_tab(tmp[g--]);
 		}
 		else
 			str[i2++] = ft_strdup(shell->cmd[cmd_index]->args[count++]);
@@ -59,6 +61,8 @@ void	redirection(t_shell *shell, char **args, int cmd_index)
 	char	cwd[PATH_MAX];
 
 	name = NULL;
+	shell->cmd[cmd_index]->namei = 0;
+	shell->cmd[cmd_index]->namej = 0;
 	isrediorpipe(shell, args, '>');
 	name = getname(shell, args, shell->i, shell->j, cmd_index);
 	temp = ft_strjoin(getcwd(cwd, sizeof(cwd)), name);
@@ -70,6 +74,7 @@ void	redirection(t_shell *shell, char **args, int cmd_index)
 		shell->cmd[cmd_index]->out = open(name, O_CREAT | O_RDWR | O_TRUNC, 0666);
 	dup2(shell->cmd[cmd_index]->out, STDOUT_FILENO);
 	close(shell->cmd[cmd_index]->out);
+	redirection_arg(shell, cmd_index, shell->cmd[cmd_index]->namei, shell->cmd[cmd_index]->namej);
 	free(name);
 }
 
@@ -78,8 +83,12 @@ void	redirection_input(t_shell *shell, char **args, int cmd_index)
 	char	*name;
 	char	*temp;
 	char	cwd[PATH_MAX];
-
+	int		i;
+	
 	name = NULL;
+	i = 0;
+	shell->cmd[cmd_index]->namei = 0;
+	shell->cmd[cmd_index]->namej = 0;
 	isrediorpipe(shell, args, '<');
 	name = getname(shell, args, shell->i, shell->j, cmd_index);
 	temp = ft_strjoin(getcwd(cwd, sizeof(cwd)), name);
@@ -88,8 +97,11 @@ void	redirection_input(t_shell *shell, char **args, int cmd_index)
 	shell->cmd[cmd_index]->in = open(name, O_RDONLY);
 	dup2(shell->cmd[cmd_index]->in, STDIN_FILENO);
 	close(shell->cmd[cmd_index]->in);
+	redirection_arg(shell, cmd_index, shell->cmd[cmd_index]->namei, shell->cmd[cmd_index]->namej);
+	if (shell->cmd[cmd_index]->in == -1)
+	{
+		printf("bash: %s: No such file or directory\n", name);
+	}
 	free(name);
-	int i;
-	i = 0;
 	while (i++ < 10000000);
 }

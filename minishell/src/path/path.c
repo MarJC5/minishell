@@ -12,6 +12,15 @@
 
 #include "../../inc/minishell.h"
 
+void check_access(t_shell *shell, int cmd_index)
+{
+	if (access(shell->cmd[cmd_index]->name, X_OK) != 0)
+		str_perr(NULL, shell->cmd[cmd_index]->name);
+	else if (access(shell->cmd[cmd_index]->name, X_OK) == 0)
+		g_exit_stat = execve(shell->cmd[cmd_index]->name, shell->cmd[cmd_index]->args,
+							 shell->envp);
+}
+
 void	path_exec(t_shell *shell, int cmd_index)
 {
 	char		**path;
@@ -26,8 +35,11 @@ void	path_exec(t_shell *shell, int cmd_index)
 	}
 	if (child_proc == 0)
 	{
-		open_dir(shell, path,
-			shell->cmd[cmd_index]->name, cmd_index);
+		if (ft_strchr(shell->cmd[cmd_index]->name, '/') == NULL)
+			open_dir(shell, path,
+					 shell->cmd[cmd_index]->name, cmd_index);
+		else
+			check_access(shell, cmd_index);
 		exit(EXIT_SUCCESS);
 	}
 	else

@@ -158,8 +158,8 @@ void	ctrl_handler(int sig);
  */
 void	path_exec(t_shell *shell, int cmd_index);
 void	open_dir(t_shell *shell, char **path, char *str, int cmd_index);
+void	check_access(t_shell *shell, int cmd_index);
 char	**path_finder(t_shell *shell);
-char	*bin_chek(char **split, char *str);
 int		dir_exist(t_shell *shell, char *str, int i);
 
 /**

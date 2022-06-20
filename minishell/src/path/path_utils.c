@@ -62,7 +62,8 @@ void	open_dir(t_shell *shell, char **path, char *str, int cmd_index)
 
 int	check_dir(char **path, char *str, struct dirent *file, DIR *dir)
 {
-	if (ft_strcmp(file->d_name, str) == 0)
+	if (ft_strcmp(file->d_name, str) == 0 ||
+			access(str, X_OK) == 0)
 	{
 		ft_free_multi_tab(path);
 		closedir(dir);
@@ -71,21 +72,12 @@ int	check_dir(char **path, char *str, struct dirent *file, DIR *dir)
 	return (0);
 }
 
-char	*bin_chek(char **split, char *str)
-{
-	if (ft_strncmp(str, "/bin/", 5) == 0)
-		str = ft_strdup(split[1]);
-	ft_free_multi_tab(split);
-	return (str);
-}
-
 int	dir_exist(t_shell *shell, char *str, int i)
 {
 	DIR				*dir;
 	struct dirent	*file;
 	char			**path;
 
-	str = bin_chek(ft_split(str, '/'), str);
 	path = path_finder(shell);
 	while (path != NULL && path[++i])
 	{

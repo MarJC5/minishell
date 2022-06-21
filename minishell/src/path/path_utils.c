@@ -62,46 +62,41 @@ void	open_dir(t_shell *shell, char **path, char *str, int cmd_index)
 
 int	check_dir(char **path, char *str, struct dirent *file, DIR *dir)
 {
-	if (ft_strcmp(file->d_name, str) == 0)
+	(void)path;
+	if (ft_strcmp(file->d_name, str) == 0
+		|| access(str, X_OK) == 0)
 	{
-		ft_free_multi_tab(path);
+		//ft_free_multi_tab(path);
 		closedir(dir);
 		return (1);
 	}
 	return (0);
 }
 
-char	*bin_chek(char **split, char *str)
+int	dir_exist(t_shell *shell, int cmd_index)
 {
-	if (ft_strncmp(str, "/bin/", 5) == 0)
-		str = ft_strdup(split[1]);
-	ft_free_multi_tab(split);
-	return (str);
-}
-
-int	dir_exist(t_shell *shell, char *str, int i)
-{
-	DIR				*dir;
-	struct dirent	*file;
 	char			**path;
+	char			*tmp;
+	char			*acctmp;
+	int				i;
 
-	str = bin_chek(ft_split(str, '/'), str);
+	i = 0;
 	path = path_finder(shell);
-	while (path != NULL && path[++i])
+	while (path[i])
 	{
-		dir = opendir(path[i]);
-		if (dir != NULL)
+		acctmp =ft_strjoin(append('\0', path[i], '/'), shell->cmd[cmd_index]->name);
+		if (access(acctmp, (X_OK)) == 0)
 		{
-			file = readdir(dir);
-			while (file != NULL)
-			{
-				if (check_dir(path, str, file, dir) != 1)
-					file = readdir(dir);
-				else
-					return (1);
-			}
-			closedir(dir);
+			tmp = ft_strdup(shell->cmd[cmd_index]->name);
+			free(shell->cmd[cmd_index]->name);
+			shell->cmd[cmd_index]->name = ft_strjoin(path[i], tmp);
+			ft_free_multi_tab(path);
+			free(tmp);
+			free(acctmp);
+			return 1;
 		}
+		free(acctmp);
+		i++;
 	}
 	ft_free_multi_tab(path);
 	return (0);

@@ -54,7 +54,9 @@ char	**redirection_arg(t_shell *shell, int cmd_index, int i, int j)
 	g = 0;
 	cna = ft_cna(shell, i, j, cmd_index);
 	c = shell->cmd[cmd_index]->args[shell->i][shell->j];
-	str = ft_calloc(cna, sizeof(char *));
+	str = malloc(cna * sizeof(char *));
+	if (!str)
+		return (NULL);
 	str[cna] = NULL;
 	while (shell->cmd[cmd_index]->args[count])// segfault ici
 	{
@@ -105,8 +107,8 @@ void	redirection(t_shell *shell, char **args, int cmd_index)
 	shell->cmd[cmd_index]->args = redirection_arg(shell, cmd_index,
 		shell->cmd[cmd_index]->namei, shell->cmd[cmd_index]->namej);
 	free(name);
-	if (isrediorpipe(shell, shell->cmd[cmd_index]->args, '>') == 1)
-		redirection(shell, shell->cmd[cmd_index]->args, cmd_index);
+	/*if (isrediorpipe(shell, shell->cmd[cmd_index]->args, '>') == 1)
+		redirection(shell, shell->cmd[cmd_index]->args, cmd_index);*/
 }
 
 int	redirection_input(t_shell *shell, char **args, int cmd_index)

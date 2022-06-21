@@ -174,8 +174,8 @@ void	close_loop(t_shell *shell);
 int		isrediorpipe(t_shell *shell, char **args, char sign);
 int		isdoubleredi(char **args, char sign);
 char	*getname(t_shell *shell, char **args, int i, int j, int cmd_index);
-void	redirection_input(t_shell *shell, char **args, int cmd_index);
-void	redirection_arg(t_shell *shell, int cmd_index, int i, int j);
+int		redirection_input(t_shell *shell, char **args, int cmd_index);
+char	**redirection_arg(t_shell *shell, int cmd_index, int i, int j);
 int		ft_more_redi(char **args,char sign);
 
 /**

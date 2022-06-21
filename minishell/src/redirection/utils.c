@@ -96,7 +96,7 @@ char	*getname(t_shell *shell, char **args, int i, int j, int cmd_index)
 	g = 0;
 	if (args[i][j + 1] && args[i][j + 1] != '>' && args[i][j + 1] != '<')
 		name = malloc(ft_strlen(&args[i][++j]) + 2);
-	else if (args[i][j + 1] == '>' && args[i][j + 1] == '<' && args[i][j + 3])
+	else if (args[i][j + 3] && (args[i][j + 1] == '>' || args[i][j + 1] == '<'))
 		name = malloc(ft_strlen(&args[i][j += 2]) + 2);
 	else
 	{

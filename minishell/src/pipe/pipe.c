@@ -44,14 +44,10 @@ int	handle_in(t_shell *shell, int cmd_index)
 
 void	child_process(t_shell *shell, int cmd_index)
 {
-	char	**path;
-
-	path = path_finder(shell);
 	shell->out_status = handle_out(shell, cmd_index);
 	shell->in_status = handle_in(shell, cmd_index);
 	close_loop(shell);
-	open_dir(shell, path, shell->cmd[cmd_index]->name, cmd_index);
-	free(path);
+	check_access(shell, cmd_index);
 	exit(EXIT_SUCCESS);
 }
 

@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 10:20:44 by tpaquier          #+#    #+#             */
-/*   Updated: 2022/06/20 16:41:08 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/21 16:45:35 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,68 +32,38 @@ char	**path_finder(t_shell *shell)
 	return (NULL);
 }
 
-void	open_dir(t_shell *shell, char **path, char *str, int cmd_index)
+static void	swap_cmd_name(t_shell *shell, int cmd_index, char *path, char *new)
 {
-	DIR				*dir;
-	struct dirent	*file;
+	new = ft_strdup(shell->cmd[cmd_index]->name);
+	free(shell->cmd[cmd_index]->name);
+	shell->cmd[cmd_index]->name = ft_strjoin(path, new);
+	free(new);
+}
+
+int	dir_exist(t_shell *shell, int cmd_index)
+{
+	char			**path;
+	char			*tmp;
+	char			*acctmp;
 	int				i;
 
-	i = -1;
-	while (path[++i])
-	{
-		dir = opendir(path[i]);
-		if (dir != NULL)
-		{
-			file = readdir(dir);
-			while (file != NULL)
-			{
-				if (ft_strcmp(file->d_name, str) == 0)
-				{
-					g_exit_stat = execve(ft_strjoin(append('\0', path[i], '/'),
-								file->d_name), shell->cmd[cmd_index]->args,
-							shell->envp);
-				}
-				file = readdir(dir);
-			}
-			closedir(dir);
-		}
-	}
-}
-
-int	check_dir(char **path, char *str, struct dirent *file, DIR *dir)
-{
-	if (ft_strcmp(file->d_name, str) == 0
-		|| access(str, X_OK) == 0)
-	{
-		ft_free_multi_tab(path);
-		closedir(dir);
-		return (1);
-	}
-	return (0);
-}
-
-int	dir_exist(t_shell *shell, char *str, int i)
-{
-	DIR				*dir;
-	struct dirent	*file;
-	char			**path;
-
+	i = 0;
 	path = path_finder(shell);
-	while (path != NULL && path[++i])
+	tmp = NULL;
+	acctmp = NULL;
+	while (path[i])
 	{
-		dir = opendir(path[i]);
-		if (dir != NULL)
+		acctmp = ft_strjoin(append('\0', path[i], '/'),
+				shell->cmd[cmd_index]->name);
+		if (access(acctmp, (X_OK)) == 0)
 		{
-			file = readdir(dir);
-			while (file != NULL)
-			{
-				if (check_dir(path, str, file, dir) != 1)
-					file = readdir(dir);
-				else
-					return (1);
-			}
-			closedir(dir);
+			swap_cmd_name(shell, cmd_index, path[i], tmp);
+			ft_free_multi_tab(path);
+			free(acctmp);
+			return (1);
 		}
+		free(acctmp);
+		i++;
 	}
 	ft_free_multi_tab(path);
 	return (0);

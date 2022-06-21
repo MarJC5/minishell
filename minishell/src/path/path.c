@@ -23,10 +23,8 @@ void	check_access(t_shell *shell, int cmd_index)
 
 void	path_exec(t_shell *shell, int cmd_index)
 {
-	char		**path;
 	pid_t		child_proc;
 
-	path = path_finder(shell);
 	child_proc = fork();
 	if (child_proc == -1)
 	{
@@ -35,14 +33,9 @@ void	path_exec(t_shell *shell, int cmd_index)
 	}
 	if (child_proc == 0)
 	{
-		if (ft_strchr(shell->cmd[cmd_index]->name, '/') == NULL)
-			open_dir(shell, path,
-				shell->cmd[cmd_index]->name, cmd_index);
-		else
-			check_access(shell, cmd_index);
+		check_access(shell, cmd_index);
 		exit(EXIT_SUCCESS);
 	}
 	else
 		waitpid(child_proc, NULL, 0);
-	ft_free_multi_tab(path);
 }

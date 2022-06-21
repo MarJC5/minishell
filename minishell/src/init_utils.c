@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 21:16:18 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/20 16:33:29 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/21 16:55:42 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,26 @@ void	old_fd(t_shell *shell, int i)
 {
 	if (i == 1)
 	{
-		shell->fd = dup(STDOUT_FILENO);
-		redirection(shell, shell->cmd[0]->args, 0);
-		shell->cmd[0]->func(shell, 0);
-		dup2(shell->fd, STDOUT_FILENO);
+		if (ft_more_redi(shell->cmd[0]->args, '>') == 1)
+		{
+			str_err("minishell: syntax error near unexpected token `>'", NULL);
+			return ;
+		}
+			shell->fd = dup(STDOUT_FILENO);
+			redirection(shell, shell->cmd[0]->args, 0);
+			shell->cmd[0]->func(shell, 0);
+			dup2(shell->fd, STDOUT_FILENO);
 	}
 	else
 	{
+		if (ft_more_redi(shell->cmd[0]->args, '<') == 1)
+		{
+			printf("minishell: syntax error near unexpected token `<'\n", NULL);
+			return ;
+		}
 		shell->fd = dup(STDIN_FILENO);
-		redirection_input(shell, shell->cmd[0]->args, 0);
+		if (redirection_input(shell, shell->cmd[0]->args, 0) == 1)
+			return ;
 		if (shell->redi >= 1)
 			old_fd(shell, 1);
 		else

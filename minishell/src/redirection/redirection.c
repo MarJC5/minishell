@@ -128,7 +128,6 @@ int	redirection_input(t_shell *shell, int cmd_index)
 	name = temp;
 	shell->cmd[cmd_index]->in = open(name, O_RDONLY);
 	dup2(shell->cmd[cmd_index]->in, STDIN_FILENO);
-	close(shell->cmd[cmd_index]->in);
 	shell->cmd[cmd_index]->args = redirection_arg(shell, cmd_index,
 		shell->cmd[cmd_index]->namei, shell->cmd[cmd_index]->namej);
 	if (shell->cmd[cmd_index]->in == -1)
@@ -137,6 +136,7 @@ int	redirection_input(t_shell *shell, int cmd_index)
 		free(name);
 		return (1);
 	}
+	close(shell->cmd[cmd_index]->in);
 	free(name);
 	if (isrediorpipe(shell, cmd_index, '<') == 1)
 		return(redirection_input(shell, cmd_index));

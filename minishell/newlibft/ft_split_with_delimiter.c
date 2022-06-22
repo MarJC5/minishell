@@ -27,7 +27,7 @@ static	char	*ft_split_malloc(char const *s, char c, int start)
 		c2++;
 		start++;
 	}
-	str = (char *)malloc(sizeof(char) * (c2 + 1));
+		str = malloc((c2 + 1) * sizeof(char *));
 	if (str == NULL)
 		return (NULL);
 	while (s[i2] != c && s[i2])

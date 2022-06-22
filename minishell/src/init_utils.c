@@ -22,7 +22,7 @@ void	old_fd(t_shell *shell, int i)
 			return ;
 		}
 			shell->fd = dup(STDOUT_FILENO);
-			redirection(shell, 0);
+			redirection(shell, shell->cmd[0]->args, 0);
 			shell->cmd[0]->func(shell, 0);
 			dup2(shell->fd, STDOUT_FILENO);
 	}
@@ -30,11 +30,11 @@ void	old_fd(t_shell *shell, int i)
 	{
 		if (ft_more_redi(shell->cmd[0]->args, '<') == 1)
 		{
-			str_err("minishell: syntax error near unexpected token `<'", NULL);
+			printf("minishell: syntax error near unexpected token `<'\n", NULL);
 			return ;
 		}
 		shell->fd = dup(STDIN_FILENO);
-		if (redirection_input(shell, 0) == 1)
+		if (redirection_input(shell, shell->cmd[0]->args, 0) == 1)
 			return ;
 		if (shell->redi >= 1)
 			old_fd(shell, 1);

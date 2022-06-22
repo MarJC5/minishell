@@ -167,7 +167,7 @@ int		dir_exist(t_shell *shell, int cmd_index);
  * REDIRECTION & PIPE
  */
 void	pipex(t_shell *shell);
-void	redirection(t_shell *shell, int cmd_index);
+void	redirection(t_shell *shell, char **args, int cmd_index);
 void	is_pipe(char *line, t_shell *shell);
 void	close_loop(t_shell *shell);
 int		isrediorpipe(t_shell *shell, char **args, char sign);

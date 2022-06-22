@@ -3,27 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 14:45:03 by jmartin           #+#    #+#             */
-/*   Updated: 2022/05/31 10:05:49 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/21 17:07:40 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-int	isrediorpipe(t_shell *shell, int cmd_index, char sign)
+int	isrediorpipe(t_shell *shell, char **args, char sign)
 {
 	int	i;
 	int	j;
 
 	i = 0;
-	while (shell->cmd[cmd_index]->args[i])
+	while (args[i])
 	{
 		j = 0;
-		while (shell->cmd[cmd_index]->args[i][j])
+		while (args[i][j])
 		{
-			if (shell->cmd[cmd_index]->args[i][j] == sign)
+			if (args[i][j] == sign)
 			{
 				shell->i = i;
 				shell->j = j;
@@ -71,7 +71,7 @@ int	ft_more_redi(char **args,char sign)
 	while (args[i])
 	{
 		j = 0;
-		while (args[i][j]) // crash ici quand wc < test > test2
+		while (args[i][j])
 		{
 			if (args[i][j] == sign)
 			{
@@ -96,7 +96,7 @@ char	*getname(t_shell *shell, char **args, int i, int j, int cmd_index)
 	g = 0;
 	if (args[i][j + 1] && args[i][j + 1] != '>' && args[i][j + 1] != '<')
 		name = malloc(ft_strlen(&args[i][++j]) + 2);
-	else if ((ft_strlen(args[i]) - j) >= 3 && (args[i][j + 1] == '>' || args[i][j + 1] == '<'))
+	else if (args[i][j + 3] && (args[i][j + 1] == '>' || args[i][j + 1] == '<'))
 		name = malloc(ft_strlen(&args[i][j += 2]) + 2);
 	else
 	{

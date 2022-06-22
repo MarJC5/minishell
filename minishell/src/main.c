@@ -12,26 +12,11 @@
 
 #include "../inc/minishell.h"
 
-void	ft_struct(t_shell *shell)
-{
-	shell->ispipe = 0;
-	shell->bcklash_n = 0;
-	shell->redi = 0;
-	shell->i = 0;
-	shell->j = 0;
-	shell->env_size = 0;
-	shell->fd = 0;
-	shell->cmd_count = 0;
-	shell->out_status = 0;
-	shell->in_status = 0;
-	shell->exit_status = 0;
-}
-
 int	run_cmd(t_shell *shell)
 {
 	if (shell->cmd_count == 1 && !shell->ispipe)
 	{
-		if (isrediorpipe(shell, 0, '<') == 1)
+		if (isrediorpipe(shell, shell->cmd[0]->args, '<') == 1)
 			old_fd(shell, 2);
 		else if (shell->redi >= 1)
 			old_fd(shell, 1);
@@ -63,7 +48,6 @@ int	main(int argc, char **argv, char **envp)
 	line = init_read(shell);
 	while (line)
 	{
-		ft_struct(shell);
 		if (ft_isspace(line))
 		{
 			init_cmd(shell, line);

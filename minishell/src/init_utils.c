@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 21:16:18 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/16 12:52:32 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/21 16:55:42 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ void	init_cmd(t_shell *shell, char *args)
 {
 	int	j;
 
-	j = 0;
 	is_pipe(args, shell);
 	if (shell->ispipe >= 1)
 		j = ++shell->ispipe;

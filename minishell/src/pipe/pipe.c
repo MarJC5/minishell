@@ -47,8 +47,7 @@ void	child_process(t_shell *shell, int cmd_index)
 	shell->out_status = handle_out(shell, cmd_index);
 	shell->in_status = handle_in(shell, cmd_index);
 	close_loop(shell);
-	if (dir_exist(shell, cmd_index) == 1)
-		shell->cmd[cmd_index]->func = path_exec;
+	check_access(shell, cmd_index);
 	exit(EXIT_SUCCESS);
 }
 
@@ -80,3 +79,4 @@ void	pipex(t_shell *shell)
 		i++;
 	}
 }
+

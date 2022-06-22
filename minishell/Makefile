@@ -17,14 +17,14 @@ CFLAGS += -g3
 # Find where the package is installed: brew info readline		#
 #################################################################
 
-#RL_V	:= $(shell brew list --versions  readline | sed 's/.*[[:blank:]]//')
-#RL_P	:= $(shell brew --cellar readline)
-#RL		= $(RL_P)/$(RL_V)
-#LIBS	= -L $(RL)/lib/ -lreadline -lhistory
+RL_V	:= $(shell brew list --versions  readline | sed 's/.*[[:blank:]]//')
+RL_P	:= $(shell brew --cellar readline)
+RL		= $(RL_P)/$(RL_V)
+LIBS	= -L $(RL)/lib/ -lreadline -lhistory
 
 # READLINE BACKUP
-RL		= ../doc/readline/8.1.2
-LIBS	= -L $(RL)/lib/ -lreadline
+#RL		= ../doc/readline/8.1.2
+#LIBS	= -L $(RL)/lib/ -lreadline
 
 INC		= -I. -I $(RL)/include/
 
@@ -96,6 +96,6 @@ fclean: clean
 re: fclean all
 
 valgrind:
-	valgrind --leak-check=full --track-origins=yes -s ./$(NAME)
+	valgrind --leak-check=full ./$(NAME)
 
 .PHONY: all clean fclean re valgrind

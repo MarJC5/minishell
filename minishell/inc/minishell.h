@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 12:54:56 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/16 12:48:16 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/21 16:57:43 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,9 +159,8 @@ void	ctrl_handler(int sig);
  * PATH
  */
 void	path_exec(t_shell *shell, int cmd_index);
-void	open_dir(t_shell *shell, char **path, char *str, int cmd_index);
+void	check_access(t_shell *shell, int cmd_index);
 char	**path_finder(t_shell *shell);
-char	*bin_chek(char **split, char *str);
 int		dir_exist(t_shell *shell, int cmd_index);
 
 /**
@@ -171,10 +170,10 @@ void	pipex(t_shell *shell);
 void	redirection(t_shell *shell, int cmd_index);
 void	is_pipe(char *line, t_shell *shell);
 void	close_loop(t_shell *shell);
-int		isrediorpipe(t_shell *shell, int cmd_index, char sign);
+int		isrediorpipe(t_shell *shell, char **args, char sign);
 int		isdoubleredi(char **args, char sign);
 char	*getname(t_shell *shell, char **args, int i, int j, int cmd_index);
-int		redirection_input(t_shell *shell, int cmd_index);
+int		redirection_input(t_shell *shell, char **args, int cmd_index);
 char	**redirection_arg(t_shell *shell, int cmd_index, int i, int j);
 int		ft_more_redi(char **args,char sign);
 

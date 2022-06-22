@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 16:14:50 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/15 10:54:18 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/21 16:45:04 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,3 +90,4 @@ char	*rm_quote_out(char *str, char c)
 	*dst = '\0';
 	return (dst);
 }
+

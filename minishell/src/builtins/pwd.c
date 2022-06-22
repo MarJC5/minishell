@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 09:27:32 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/16 11:57:31 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/21 16:50:18 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 void	pwd(t_shell *shell, int cmd_index)
 {
 	char	cwd[PATH_MAX];
-	(void) cmd_index;
-	(void) shell;
 
+	if (!shell->cmd[cmd_index]->name)
+		return ;
 	g_exit_stat = 1;
 	if (getcwd(cwd, sizeof(cwd)) != NULL)
 	{

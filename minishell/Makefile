@@ -9,7 +9,7 @@ NAME	= minishell
 
 CC		= cc
 CFLAGS	= -Wall -Wextra -Werror
-#CFLAGS += -g3
+CFLAGS += -g3
 
 #################################################################
 # READLINE														#
@@ -96,6 +96,6 @@ fclean: clean
 re: fclean all
 
 valgrind:
-	valgrind --leak-check=full ./$(NAME)
+	valgrind --leak-check=full --track-origins=yes -s ./$(NAME)
 
 .PHONY: all clean fclean re valgrind

@@ -14,13 +14,18 @@
 
 char	**path_finder(t_shell *shell)
 {
-	int	i;
+	char	**tmp;
+	int		i;
 
 	i = 0;
+	tmp = NULL;
 	while (shell->envp[i])
 	{
 		if (ft_strncmp(shell->envp[i], "PATH=", 5) == 0)
-			return (ft_split(ft_strchr(shell->envp[i], '=') + 1, ':'));
+		{
+			tmp = ft_split(ft_strchr(shell->envp[i], '=') + 1, ':');
+			return (tmp);
+		}
 		i++;
 		if (!shell->envp[i])
 		{
@@ -81,21 +86,27 @@ int	dir_exist(t_shell *shell, int cmd_index)
 	int				i;
 
 	i = 0;
+	tmp = NULL;
+	acctmp = NULL;
 	path = path_finder(shell);
 	while (path[i])
 	{
-		acctmp =ft_strjoin(append('\0', path[i], '/'), shell->cmd[cmd_index]->name);
+		acctmp = ft_strjoin(append('\0', path[i], '/'), shell->cmd[cmd_index]->name);
 		if (access(acctmp, (X_OK)) == 0)
 		{
 			tmp = ft_strdup(shell->cmd[cmd_index]->name);
 			free(shell->cmd[cmd_index]->name);
+			shell->cmd[cmd_index]->name = NULL;
 			shell->cmd[cmd_index]->name = ft_strjoin(path[i], tmp);
-			ft_free_multi_tab(path);
 			free(tmp);
+			tmp = NULL;
 			free(acctmp);
-			return 1;
+			acctmp = NULL;
+			ft_free_multi_tab(path);
+			return (1);
 		}
 		free(acctmp);
+		acctmp = NULL;
 		i++;
 	}
 	ft_free_multi_tab(path);

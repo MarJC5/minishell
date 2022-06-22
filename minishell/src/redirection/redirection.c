@@ -12,6 +12,10 @@
 
 #include "../../inc/minishell.h"
 
+//problème quand plusieurs redi du même type son collé et wc <test>test2 aussi donc split par > ou < avant la fonctiona arg
+// wc <test <orgnoengo
+// les " " à gérer pour mon parsing -> espace nom de fichier et caractère NULL des guillement
+
 int		ft_cna(t_shell *shell, int endi, int endj, int cmd_index)
 {
 	int	i;
@@ -54,11 +58,8 @@ char	**redirection_arg(t_shell *shell, int cmd_index, int i, int j)
 	g = 0;
 	cna = ft_cna(shell, i, j, cmd_index);
 	c = shell->cmd[cmd_index]->args[shell->i][shell->j];
-	str = malloc(cna * sizeof(char *));
-	if (!str)
-		return (NULL);
-	str[cna] = NULL;
-	while (shell->cmd[cmd_index]->args[count])// segfault ici
+	str = ft_calloc(cna, sizeof(char *));
+	while (shell->cmd[cmd_index]->args[count])
 	{
 		if (count == shell->i)
 		{
@@ -82,23 +83,21 @@ char	**redirection_arg(t_shell *shell, int cmd_index, int i, int j)
 	return (str);
 }
 
-void	redirection(t_shell *shell, char **args, int cmd_index)
+void	redirection(t_shell *shell, int cmd_index)
 {
 	char	*name;
 	char	*temp;
 	char	cwd[PATH_MAX];
-	int		i;
 
-	i = 0;
 	name = NULL;
 	shell->cmd[cmd_index]->namei = 0;
 	shell->cmd[cmd_index]->namej = 0;
-	isrediorpipe(shell, args, '>');
-	name = getname(shell, args, shell->i, shell->j, cmd_index);
+	isrediorpipe(shell, cmd_index, '>');
+	name = getname(shell, shell->cmd[cmd_index]->args, shell->i, shell->j, cmd_index);
 	temp = ft_strjoin(getcwd(cwd, sizeof(cwd)), name);
 	free(name);
 	name = temp;
-	if (isdoubleredi(args, '>') == 2)
+	if (isdoubleredi(shell->cmd[cmd_index]->args, '>') == 2)
 		shell->cmd[cmd_index]->out = open(name, O_CREAT | O_RDWR | O_APPEND, 0666);
 	else
 		shell->cmd[cmd_index]->out = open(name, O_CREAT | O_RDWR | O_TRUNC, 0666);
@@ -107,11 +106,11 @@ void	redirection(t_shell *shell, char **args, int cmd_index)
 	shell->cmd[cmd_index]->args = redirection_arg(shell, cmd_index,
 		shell->cmd[cmd_index]->namei, shell->cmd[cmd_index]->namej);
 	free(name);
-	/*if (isrediorpipe(shell, shell->cmd[cmd_index]->args, '>') == 1)
-		redirection(shell, shell->cmd[cmd_index]->args, cmd_index);*/
+	if (isrediorpipe(shell, cmd_index, '>') == 1)
+		redirection(shell, cmd_index);
 }
 
-int	redirection_input(t_shell *shell, char **args, int cmd_index)
+int	redirection_input(t_shell *shell, int cmd_index)
 {
 	char	*name;
 	char	*temp;
@@ -122,8 +121,8 @@ int	redirection_input(t_shell *shell, char **args, int cmd_index)
 	i = 0;
 	shell->cmd[cmd_index]->namei = 0;
 	shell->cmd[cmd_index]->namej = 0;
-	isrediorpipe(shell, args, '<');
-	name = getname(shell, args, shell->i, shell->j, cmd_index);
+	isrediorpipe(shell, cmd_index, '<');
+	name = getname(shell, shell->cmd[cmd_index]->args, shell->i, shell->j, cmd_index);
 	temp = ft_strjoin(getcwd(cwd, sizeof(cwd)), name);
 	free(name);
 	name = temp;
@@ -135,11 +134,12 @@ int	redirection_input(t_shell *shell, char **args, int cmd_index)
 	if (shell->cmd[cmd_index]->in == -1)
 	{
 		str_err("minishell: file not found: ", name);
+		free(name);
 		return (1);
 	}
 	free(name);
-	if (isrediorpipe(shell, shell->cmd[cmd_index]->args, '<') == 1)
-		return(redirection_input(shell, shell->cmd[cmd_index]->args, cmd_index));
+	if (isrediorpipe(shell, cmd_index, '<') == 1)
+		return(redirection_input(shell, cmd_index));
 	while (i++ < 10000000);
 	return (0);
 }

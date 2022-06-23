@@ -12,18 +12,6 @@
 
 #include "../../inc/minishell.h"
 
-int	check_read_quote(char *str)
-{
-	if (quote_counter(str, '\"') == 1
-		|| quote_counter(str, '\'') == 1)
-	{
-		g_exit_stat = 127;
-		str_err("minishell: syntax error", NULL);
-		return (EXIT_FAILURE);
-	}
-	return (EXIT_SUCCESS);
-}
-
 void	pars_cmd_name_quote(char *str)
 {
 	if (quote_counter(str, '\"') == 0)
@@ -51,9 +39,8 @@ char	**pars_join(t_shell *shell, char *args, char c, int cmd_index)
 		free(new_args);
 		i++;
 	}
-	i = (int)ft_strlen(merge) - (int)ft_strlen(shell->cmd[cmd_index]->name);
-	shell->cmd[cmd_index]->pars_args = ft_substr(merge,
-			ft_strlen(shell->cmd[cmd_index]->name) + 1, i);
+	shell->cmd[cmd_index]->pars_args = ft_strdup(merge);
+	ft_printf("|-> %s\n-----------\n", shell->cmd[cmd_index]->pars_args);
 	free(merge);
 	return (tmp);
 }
@@ -73,7 +60,7 @@ void	pars_args(t_shell *shell, char *args, int cmd_index)
 	shell->cmd[cmd_index]->name = ft_strdup(tmp[0]);
 	pars_cmd_name_quote(shell->cmd[cmd_index]->name);
 	shell->cmd[cmd_index]->pars_args = NULL;
-	if (ft_strchr(args, '\"') != NULL && ft_strchr(args, ' ') != NULL)
+	if (ft_strchr(args, '\"') != NULL)
 		shell->cmd[cmd_index]->args = pars_join(shell, args, '\"', cmd_index);
 	else
 		shell->cmd[cmd_index]->args = ft_split(args, ' ');

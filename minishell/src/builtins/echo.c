@@ -32,8 +32,7 @@ static void	echo_write(t_shell *shell, int cmd_index, int j)
 				write(1, &shell->cmd[cmd_index]->args[j][i], 1);
 			i++;
 		}
-		if (++j != shell->cmd[cmd_index]->args_count
-			&& shell->cmd[cmd_index]->quotted == 0)
+		if (++j != shell->cmd[cmd_index]->args_count)
 			write(1, " ", 1);
 	}
 }

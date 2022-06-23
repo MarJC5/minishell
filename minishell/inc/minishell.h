@@ -104,7 +104,6 @@ int		ft_isspace(char *str);
 void	old_fd(t_shell *shell, int i);
 int		ft_strchr_pos(char *s, char c);
 
-
 /**
  * PWD
  */
@@ -138,7 +137,6 @@ void	*remove_envp(t_shell *shell, char *value, int size);
  */
 void	ft_echo(t_shell *shell, int cmd_index);
 void	pars_echo_endl(t_shell *shell, char **args, int cmd_index, int start);
-
 
 /**
  * CD
@@ -176,7 +174,7 @@ int		isdoubleredi(char **args, char sign);
 char	*getname(t_shell *shell, char **args, int i, int j, int cmd_index);
 int		redirection_input(t_shell *shell, int cmd_index);
 char	**redirection_arg(t_shell *shell, int cmd_index, int i, int j);
-int		ft_more_redi(char **args,char sign);
+int		ft_more_redi(char **args, char sign);
 void	heredoc(t_shell *shell, int cmd_index);
 
 /**

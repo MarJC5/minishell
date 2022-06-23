@@ -58,14 +58,13 @@ static void	split_pipe_cmd(t_shell *shell, char *args)
 
 	i = 0;
 	tmp = ft_split(args, '|');
-	shell->cmd_count = 0;
 	while (tmp[i])
 	{
 		if (ft_isspace(tmp[i]))
 		{
 			pars_args(shell, tmp[i], i);
 			init_func(shell, i);
-			shell->cmd[0]->start = 1;
+			shell->cmd[i]->start = 1;
 		}
 		i++;
 	}
@@ -81,8 +80,6 @@ void	init_cmd(t_shell *shell, char *args)
 		j = ++shell->ispipe;
 	else
 		j = 1;
-	shell->bcklash_n = 0;
-	shell->cmd_count = 0;
 	shell->cmd = malloc(j * sizeof(t_cmd));
 	if (!shell->cmd)
 		return ;
@@ -91,7 +88,10 @@ void	init_cmd(t_shell *shell, char *args)
 		pars_args(shell, args, 0);
 		init_func(shell, 0);
 		shell->cmd[0]->start = 1;
-		pars_remove_quote(shell, 0, '\'', '\"');
+		for (int i = 0; i < args_counter(shell->cmd[0]->args); i++) {
+			ft_printf("|-> %s\n", shell->cmd[0]->args[i]);
+		}
+		ft_printf("-----------\n");
 	}
 	else if (j > 1)
 		split_pipe_cmd(shell, args);

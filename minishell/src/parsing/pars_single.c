@@ -57,40 +57,6 @@ char	*pars_cr_arg(t_shell *shell, char *args, int j)
 	return (NULL);
 }
 
-void	pars_inside_quote(t_shell *shell, int cmd_index, int c)
-{
-	int	i;
-	int	j;
-	int	qpose;
-	int	dpose;
-
-	i = 0;
-	while (shell->cmd[cmd_index]->args[i] != NULL)
-	{
-		qpose = ft_strchr_pos(shell->cmd[cmd_index]->args[i], c);
-		dpose = ft_strchr_pos(shell->cmd[cmd_index]->args[i], '$');
-		if (dpose >= 0)
-		{
-			if (qpose >= 0)
-			{
-				j = qpose;
-				while (shell->cmd[cmd_index]->args[i][j])
-				{
-					j++;
-					if (shell->cmd[cmd_index]->args[i][j] == c)
-						break ;
-				}
-				if (qpose < dpose && j > dpose)
-					;
-			}
-			else
-				shell->cmd[cmd_index]->args[i] = pars_cr_arg(shell,
-						shell->cmd[cmd_index]->args[i], dpose);
-		}
-		i++;
-	}
-}
-
 void	pars_remove_quote(t_shell *shell, int cmd_index, int c, int out)
 {
 	int	i;

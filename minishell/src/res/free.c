@@ -41,7 +41,7 @@ void	ft_free_read_args(t_shell *shell, char *line)
 	
 	i = 0;
 	while (i < shell->cmd_count)
-		ft_free_multi_tab(shell->cmd[i++]->args); //problème ici, segfault crash a la ligne 19
+		ft_free_multi_tab(shell->cmd[i++]->args);
 	i = 0;
 	while (i < shell->cmd_count)
 	{

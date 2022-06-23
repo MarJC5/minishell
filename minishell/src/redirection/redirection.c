@@ -12,22 +12,23 @@
 
 #include "../../inc/minishell.h"
 
-//problème quand plusieurs redi du même type son collé et wc <test>test2 aussi donc split par > ou < avant la fonctiona arg
-// wc <test <orgnoengo
 // les " " à gérer pour mon parsing -> espace nom de fichier et caractère NULL des guillement
 
 int		ft_cna(t_shell *shell, int endi, int endj, int cmd_index)
 {
 	int	i;
 	int	ct;
-	(void)endj;
 
 	i = 0;
 	ct = 0;
 	while (shell->cmd[cmd_index]->args[i])
 	{
 		if (i == shell->i && shell->j == 0)
+		{
 			i = endi;
+			if ((size_t)endj != ft_strlen(shell->cmd[cmd_index]->args[i]))
+				ct++;
+		}
 		else if (i == shell->i && shell->j != 0)
 		{
 			i = endi;
@@ -61,7 +62,9 @@ char	**redirection_arg(t_shell *shell, int cmd_index, int i, int j)
 	str = ft_calloc(cna, sizeof(char *));
 	while (shell->cmd[cmd_index]->args[count])
 	{
-		if (count == shell->i)
+		if (count != shell->i)
+			str[i2++] = ft_strdup(shell->cmd[cmd_index]->args[count++]);
+		else
 		{
 			tmp = ft_split_with_delimiter(shell->cmd[cmd_index]->args[count], c);
 			if (shell->j != 0)
@@ -74,8 +77,6 @@ char	**redirection_arg(t_shell *shell, int cmd_index, int i, int j)
 				ft_free_tab(tmp[g--]);
 			free(tmp);
 		}
-		else
-			str[i2++] = ft_strdup(shell->cmd[cmd_index]->args[count++]);
 	}
 	while (count >= 0)
 		ft_free_tab(shell->cmd[cmd_index]->args[count--]);
@@ -127,7 +128,6 @@ int	redirection_input(t_shell *shell, int cmd_index)
 	free(name);
 	name = temp;
 	shell->cmd[cmd_index]->in = open(name, O_RDONLY);
-	dup2(shell->cmd[cmd_index]->in, STDIN_FILENO);
 	shell->cmd[cmd_index]->args = redirection_arg(shell, cmd_index,
 		shell->cmd[cmd_index]->namei, shell->cmd[cmd_index]->namej);
 	if (shell->cmd[cmd_index]->in == -1)
@@ -136,10 +136,11 @@ int	redirection_input(t_shell *shell, int cmd_index)
 		free(name);
 		return (1);
 	}
-	close(shell->cmd[cmd_index]->in);
 	free(name);
 	if (isrediorpipe(shell, cmd_index, '<') == 1)
 		return(redirection_input(shell, cmd_index));
+	dup2(shell->cmd[cmd_index]->in, STDIN_FILENO);
+	close(shell->cmd[cmd_index]->in);
 	while (i++ < 10000000);
 	return (0);
 }

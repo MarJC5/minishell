@@ -66,12 +66,12 @@ int	dir_exist(t_shell *shell, int cmd_index)
 		{
 			swap_cmd_name(shell, cmd_index, path[i], tmp);
 			free(acctmp);
-      acctmp = NULL;
-      ft_free_multi_tab(path);
+      		acctmp = NULL;
+      		ft_free_multi_tab(path);
 			return (1);
 		}
 		free(acctmp);
-    acctmp = NULL;
+    	acctmp = NULL;
 		i++;
 	}
 	ft_free_multi_tab(path);

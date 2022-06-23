@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 10:52:16 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/20 16:37:51 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/16 11:25:57 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	*get_env_var(t_shell *shell, char *arg)
 			{
 				str = ft_strtrim(shell->envp[i] + var_len, "=");
 				free(var);
-				break ;
+				break;
 			}
 			free(var);
 		}

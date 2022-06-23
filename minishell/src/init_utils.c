@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 21:16:18 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/21 16:55:42 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/16 12:52:32 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	old_fd(t_shell *shell, int i)
 			return ;
 		}
 			shell->fd = dup(STDOUT_FILENO);
-			redirection(shell, shell->cmd[0]->args, 0);
+			redirection(shell, 0);
 			shell->cmd[0]->func(shell, 0);
 			dup2(shell->fd, STDOUT_FILENO);
 	}
@@ -30,11 +30,11 @@ void	old_fd(t_shell *shell, int i)
 	{
 		if (ft_more_redi(shell->cmd[0]->args, '<') == 1)
 		{
-			printf("minishell: syntax error near unexpected token `<'\n", NULL);
+			str_err("minishell: syntax error near unexpected token `<'", NULL);
 			return ;
 		}
 		shell->fd = dup(STDIN_FILENO);
-		if (redirection_input(shell, shell->cmd[0]->args, 0) == 1)
+		if (redirection_input(shell, 0) == 1)
 			return ;
 		if (shell->redi >= 1)
 			old_fd(shell, 1);
@@ -71,6 +71,7 @@ void	init_cmd(t_shell *shell, char *args)
 {
 	int	j;
 
+	j = 0;
 	is_pipe(args, shell);
 	if (shell->ispipe >= 1)
 		j = ++shell->ispipe;

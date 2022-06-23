@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pars_single.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 15:13:55 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/20 16:38:52 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/16 09:29:21 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ char	*pars_cr_arg(t_shell *shell, char *args, int j)
 void	pars_inside_quote(t_shell *shell, int cmd_index, int c)
 {
 	int	i;
-	int	j;
+	int j;
 	int	qpose;
 	int	dpose;
 
@@ -81,11 +81,13 @@ void	pars_inside_quote(t_shell *shell, int cmd_index, int c)
 						break ;
 				}
 				if (qpose < dpose && j > dpose)
-					;
+				{
+				    ;
+				}
 			}
 			else
 				shell->cmd[cmd_index]->args[i] = pars_cr_arg(shell,
-						shell->cmd[cmd_index]->args[i], dpose);
+					shell->cmd[cmd_index]->args[i], dpose);
 		}
 		i++;
 	}
@@ -94,7 +96,7 @@ void	pars_inside_quote(t_shell *shell, int cmd_index, int c)
 void	pars_remove_quote(t_shell *shell, int cmd_index, int c, int out)
 {
 	int	i;
-	int	j;
+	int j;
 	int	spose;
 	int	dpose;
 
@@ -115,7 +117,9 @@ void	pars_remove_quote(t_shell *shell, int cmd_index, int c, int out)
 						break ;
 				}
 				if (spose < dpose && j > dpose)
-					;
+				{
+				    ;
+				}
 			}
 			else
 				remove_char(shell->cmd[cmd_index]->args[i], out);

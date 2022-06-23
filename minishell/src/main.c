@@ -19,6 +19,7 @@ void	ft_struct(t_shell *shell)
 	shell->redi = 0;
 	shell->i = 0;
 	shell->j = 0;
+	shell->heredoc = 0;
 	shell->env_size = 0;
 	shell->fd = 0;
 	shell->cmd_count = 0;
@@ -42,7 +43,7 @@ int	run_cmd(t_shell *shell)
 	}
 	else if (shell->cmd_count >= 1 && shell->ispipe > shell->cmd_count)
 		str_err("minishell: syntax error near unexpected token `|'",
-			NULL);
+		        NULL);
 	else if (shell->cmd_count > 1)
 		pipex(shell);
 	return (EXIT_FAILURE);

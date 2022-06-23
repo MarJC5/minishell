@@ -63,6 +63,7 @@ typedef struct s_shell
 	int			redi;
 	int			i;
 	int			j;
+	int			heredoc;
 	int			env_size;
 	int			fd;
 	int			cmd_count;
@@ -176,6 +177,7 @@ char	*getname(t_shell *shell, char **args, int i, int j, int cmd_index);
 int		redirection_input(t_shell *shell, int cmd_index);
 char	**redirection_arg(t_shell *shell, int cmd_index, int i, int j);
 int		ft_more_redi(char **args,char sign);
+void	heredoc(t_shell *shell, int cmd_index);
 
 /**
  * QUOTE

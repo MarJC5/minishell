@@ -21,10 +21,11 @@ void	old_fd(t_shell *shell, int i)
 			str_err("minishell: syntax error near unexpected token `>'", NULL);
 			return ;
 		}
-			shell->fd = dup(STDOUT_FILENO);
-			redirection(shell, 0);
-			shell->cmd[0]->func(shell, 0);
-			dup2(shell->fd, STDOUT_FILENO);
+		shell->fd = dup(STDOUT_FILENO);
+		redirection(shell, 0);
+		shell->cmd[0]->func(shell, 0);
+		dup2(shell->fd, STDOUT_FILENO);
+		close(shell->fd);
 	}
 	else
 	{
@@ -34,13 +35,19 @@ void	old_fd(t_shell *shell, int i)
 			return ;
 		}
 		shell->fd = dup(STDIN_FILENO);
-		if (redirection_input(shell, 0) == 1)
+		if(isdoubleredi(shell->cmd[0]->args, '<') == 2)
+			heredoc(shell, 0);
+		else if (redirection_input(shell, 0) == 1)
 			return ;
 		if (shell->redi >= 1)
 			old_fd(shell, 1);
 		else
 			shell->cmd[0]->func(shell, 0);
+		if (shell->heredoc == 1)
+			unlink("temp_minishell");
+		shell->heredoc = 0;
 		dup2(shell->fd, STDIN_FILENO);
+		close(shell->fd);
 	}
 }
 
@@ -59,8 +66,6 @@ static void	split_pipe_cmd(t_shell *shell, char *args)
 			pars_args(shell, tmp[i], i);
 			init_func(shell, i);
 			shell->cmd[0]->start = 1;
-			pars_remove_quote(shell, i, '\'', '\"');
-			pars_inside_quote(shell, i, '\'');
 		}
 		i++;
 	}
@@ -87,7 +92,6 @@ void	init_cmd(t_shell *shell, char *args)
 		init_func(shell, 0);
 		shell->cmd[0]->start = 1;
 		pars_remove_quote(shell, 0, '\'', '\"');
-		pars_inside_quote(shell, 0, '\'');
 	}
 	else if (j > 1)
 		split_pipe_cmd(shell, args);

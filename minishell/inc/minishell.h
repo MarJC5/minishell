@@ -167,13 +167,13 @@ int		dir_exist(t_shell *shell, int cmd_index);
  * REDIRECTION & PIPE
  */
 void	pipex(t_shell *shell);
-void	redirection(t_shell *shell, char **args, int cmd_index);
+void	redirection(t_shell *shell, int cmd_index);
 void	is_pipe(char *line, t_shell *shell);
 void	close_loop(t_shell *shell);
-int		isrediorpipe(t_shell *shell, char **args, char sign);
+int		isrediorpipe(t_shell *shell, int cmd_index, char sign);
 int		isdoubleredi(char **args, char sign);
 char	*getname(t_shell *shell, char **args, int i, int j, int cmd_index);
-int		redirection_input(t_shell *shell, char **args, int cmd_index);
+int		redirection_input(t_shell *shell, int cmd_index);
 char	**redirection_arg(t_shell *shell, int cmd_index, int i, int j);
 int		ft_more_redi(char **args,char sign);
 

@@ -19,8 +19,10 @@ void	close_loop(t_shell *shell)
 	i = -1;
 	while (++i < shell->cmd_count)
 	{
-		close(shell->cmd[i]->out);
-		close(shell->cmd[i]->in);
+		if (shell->cmd[i]->out != -1)
+			close(shell->cmd[i]->out);
+		if (shell->cmd[i]->in != -1)
+			close(shell->cmd[i]->in);
 	}
 }
 

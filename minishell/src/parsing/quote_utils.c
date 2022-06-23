@@ -90,3 +90,4 @@ char	*rm_quote_out(char *str, char c)
 	*dst = '\0';
 	return (dst);
 }
+

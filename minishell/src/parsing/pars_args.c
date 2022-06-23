@@ -82,3 +82,4 @@ void	pars_args(t_shell *shell, char *args, int cmd_index)
 	shell->cmd_count++;
 	ft_free_multi_tab(tmp);
 }
+

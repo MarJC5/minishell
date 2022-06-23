@@ -52,7 +52,7 @@ int	str_err(char *str, char *err)
 	}
 	else if (str)
 		ft_putstr_fd(str, 2);
-	ft_printf("\n");
+	ft_putstr_fd("\n", 2);
 	return (EXIT_FAILURE);
 }
 

@@ -25,6 +25,7 @@ void	old_fd(t_shell *shell, int i)
 			redirection(shell, 0);
 			shell->cmd[0]->func(shell, 0);
 			dup2(shell->fd, STDOUT_FILENO);
+			close(shell->fd);
 	}
 	else
 	{
@@ -34,13 +35,19 @@ void	old_fd(t_shell *shell, int i)
 			return ;
 		}
 		shell->fd = dup(STDIN_FILENO);
-		if (redirection_input(shell, 0) == 1)
+		if(isdoubleredi(shell->cmd[0]->args, '<') == 2)
+			heredoc(shell, 0);
+		else if (redirection_input(shell, 0) == 1)
 			return ;
 		if (shell->redi >= 1)
 			old_fd(shell, 1);
 		else
 			shell->cmd[0]->func(shell, 0);
+		if (shell->heredoc == 1)
+			unlink("temp_minishell");
+		shell->heredoc = 0;
 		dup2(shell->fd, STDIN_FILENO);
+		close(shell->fd);
 	}
 }
 

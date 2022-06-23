@@ -19,6 +19,7 @@ void	ft_struct(t_shell *shell)
 	shell->redi = 0;
 	shell->i = 0;
 	shell->j = 0;
+	shell->heredoc = 0;
 	shell->env_size = 0;
 	shell->fd = 0;
 	shell->cmd_count = 0;

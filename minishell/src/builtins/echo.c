@@ -14,27 +14,10 @@
 
 static void	echo_write(t_shell *shell, int cmd_index, int j)
 {
-	size_t	i;
-	size_t	end;
-
-	while (shell->cmd[cmd_index]->args[j]
-		&& j < shell->cmd[cmd_index]->args_count)
-	{
-		i = 0;
-		end = ft_strlen(shell->cmd[cmd_index]->args[j]);
-		while (i < end)
-		{
-			if (shell->cmd[cmd_index]->args[j][i] == ' '
-				&& i == 0)
-				i++;
-			if (shell->cmd[cmd_index]->args[j][i] != '\"'
-				&& (i != 0 || i != end))
-				write(1, &shell->cmd[cmd_index]->args[j][i], 1);
-			i++;
-		}
-		if (++j != shell->cmd[cmd_index]->args_count)
-			write(1, " ", 1);
-	}
+	write(1, &shell->cmd[cmd_index]->args[j]
+		, ft_strlen(shell->cmd[cmd_index]->args[j]));
+	if (++j != shell->cmd[cmd_index]->args_count)
+		write(1, " ", 1);
 }
 
 void	ft_echo(t_shell *shell, int cmd_index)
@@ -46,7 +29,7 @@ void	ft_echo(t_shell *shell, int cmd_index)
 		start = 1;
 	else
 		start = 0;
-	pars_echo_endl(shell, shell->cmd[cmd_index]->args, cmd_index, start);
+	//pars_echo_endl(shell, shell->cmd[cmd_index]->args, cmd_index, start);
 	if (shell->cmd[cmd_index]->args[start])
 	{
 		if (shell->bcklash_n)

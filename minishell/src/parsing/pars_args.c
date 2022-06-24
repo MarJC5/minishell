@@ -20,28 +20,188 @@ void	pars_cmd_name_quote(char *str)
 		remove_char(str, '\'');
 }
 
-char	**pars_join(t_shell *shell, char *args, char c, int cmd_index)
+char quote_counter_sign(char **args)
 {
-	int		i;
-	char	**tmp;
-	char	*merge;
-	char	*new_args;
+	int	i;
+	int	j;
+	int c;
+	char sign;
 
 	i = 0;
-	shell->cmd[cmd_index]->quotted = 1;
-	tmp = ft_split(args, c);
-	merge = ft_strdup("");
-	while (tmp[i])
+	c = 0;
+	while (args[i])
 	{
-		new_args = ft_strjoin(merge, append('\"', tmp[i], '\"'));
-		free(merge);
-		merge = ft_strdup(new_args);
-		free(new_args);
+		j = 0;
+		while (args[i][j])
+		{
+			if (args[i][j] == '\"' || args[i][j] == '\'')
+			{
+				if (c == 0)
+					sign = args[i][j];
+				if (sign == args[i][j] && c > 0)
+					c = 0;
+				else
+					c++;
+			}
+			j++;
+		}
 		i++;
 	}
-	shell->cmd[cmd_index]->pars_args = ft_strdup(merge);
-	ft_printf("|-> %s\n-----------\n", shell->cmd[cmd_index]->pars_args);
-	free(merge);
+	if (c != 0)
+		return (sign);
+	return ('\0');
+}
+
+void quote_finder(t_shell *shell, int cmd_index, int i)
+{
+	int j;
+
+	j = 0;
+	while (shell->cmd[cmd_index]->args[i][j])
+	{
+		if (shell->cmd[cmd_index]->args[i][j] == '\"' || shell->cmd[cmd_index]->args[i][j] == '\'')
+		{
+			shell->sq = shell->cmd[cmd_index]->args[i][j];
+			shell->sqj = i;
+			return;
+		}
+		j++;
+	}
+	shell->sq = '\0';
+}
+
+void quote_finder_two(t_shell *shell, char *args, int task)
+{
+	int	i;
+
+	i = 0;
+	if (task == 0)
+	{
+		while (args[i])
+		{
+			if (args[i] == shell->sq)
+			{
+				shell->eq = args[i];
+				return;
+			}
+			i++;
+		}
+	}
+	else
+	{
+		i = shell->sqj + 1;
+		while (args[i])
+		{
+			if (args[i] == shell->sq)
+			{
+				shell->eq = args[i];
+				return;
+			}
+			i++;
+		}
+	}
+	shell->sq = '\0';
+}
+
+int ft_counter_space(t_shell *shell, char **args, int cmd_index)
+{
+	int i;
+	int c;
+	int i2;
+	int count;
+
+	i = 0;
+	c = 0;
+	count = 0;
+	i2 = 0;
+	shell->sq = '\0';
+	shell->eq = '\0';
+	shell->sqi = 0;
+	shell->sqj = 0;
+	while (args[i])
+	{
+		if (shell->sq == '\0')
+		{
+			quote_finder(shell, cmd_index, i);
+			shell->sqi = i;
+		}
+		if (shell->sq != '\0')
+			count++;
+		if (args[i][0] == ' ' && count == 0)
+			;
+		else
+			c++;
+		if (shell->sq != '\0')
+		{
+			if (shell->sqi == i)
+				quote_finder_two(shell, args[i], 1);
+			else
+				quote_finder_two(shell, args[i], 0);
+			if (shell->eq == shell->sq)
+			{
+				count = 0;
+				shell->sq = '\0';
+			}
+		}
+		i++;
+		i2++;
+	}
+	shell->sq = '\0';
+	shell->eq = '\0';
+	shell->sqi = 0;
+	shell->sqj = 0;
+	return (c);
+}
+
+char    **pars_space(t_shell *shell, int i, int cmd_index)
+{
+	char **tmp;
+	int count;
+	int i2;
+
+	i2 = 0;
+	tmp = NULL;
+	count = ft_counter_space(shell, shell->cmd[cmd_index]->args, cmd_index);
+	printf("counter : %d\n", count);
+	tmp = ft_calloc(count, sizeof(char *));
+	count = 0;
+	i = 0;
+	shell->sq = '\0';
+	shell->eq = '\0';
+	shell->sqi = 0;
+	shell->sqj = 0;
+	while (i < args_counter(shell->cmd[cmd_index]->args) - 1)
+	{
+		if (shell->sq == '\0')
+		{
+			quote_finder(shell, cmd_index, i);
+			shell->sqi = i;
+		}
+		if (shell->sq != '\0')
+			count++;
+		if (shell->cmd[cmd_index]->args[i][0] == ' ' && count == 0)
+			i++;
+		else if (i < (args_counter(shell->cmd[cmd_index]->args) - 1))
+			tmp[i2++] = ft_strdup(shell->cmd[cmd_index]->args[i++]);
+		if (shell->sq != '\0')
+		{
+			if (shell->sqi == i)
+				quote_finder_two(shell, shell->cmd[cmd_index]->args[i], 1);
+			else
+				quote_finder_two(shell, shell->cmd[cmd_index]->args[i], 0);
+			if (shell->eq == shell->sq)
+			{
+				count = 0;
+				shell->sq = '\0';
+			}
+		}
+	}
+	while (i >= 0)
+		ft_free_tab(shell->cmd[cmd_index]->args[i--]);
+	free(shell->cmd[cmd_index]->args);
+	int y = 0;
+	while (tmp[y])
+		printf("%s\n", tmp[y++]);
 	return (tmp);
 }
 
@@ -60,8 +220,14 @@ void	pars_args(t_shell *shell, char *args, int cmd_index)
 	shell->cmd[cmd_index]->name = ft_strdup(tmp[0]);
 	pars_cmd_name_quote(shell->cmd[cmd_index]->name);
 	shell->cmd[cmd_index]->pars_args = NULL;
-	if (ft_strchr(args, '\"') != NULL)
-		shell->cmd[cmd_index]->args = pars_join(shell, args, '\"', cmd_index);
+	if (ft_strchr(args, '\'')  || ft_strchr(args, '\"'))
+	{
+		shell->cmd[cmd_index]->args = ft_split_with_delimiter(args, ' ');
+		if (quote_counter_sign(shell->cmd[cmd_index]->args) == '\0')
+			shell->cmd[cmd_index]->args = pars_space(shell, 0, cmd_index);
+		else
+			printf("Erreur\n");
+	}
 	else
 		shell->cmd[cmd_index]->args = ft_split(args, ' ');
 	shell->cmd[cmd_index]->args_count = args_counter(

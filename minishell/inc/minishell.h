@@ -67,6 +67,10 @@ typedef struct s_shell
 	int			env_size;
 	int			fd;
 	int			cmd_count;
+	char        sq;
+	char        eq;
+	int         sqi;
+	int         sqj;
 	int			out_status;
 	int			in_status;
 	int			exit_status;

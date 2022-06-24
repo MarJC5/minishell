@@ -88,10 +88,6 @@ void	init_cmd(t_shell *shell, char *args)
 		pars_args(shell, args, 0);
 		init_func(shell, 0);
 		shell->cmd[0]->start = 1;
-		for (int i = 0; i < args_counter(shell->cmd[0]->args); i++) {
-			ft_printf("|-> %s\n", shell->cmd[0]->args[i]);
-		}
-		ft_printf("-----------\n");
 	}
 	else if (j > 1)
 		split_pipe_cmd(shell, args);

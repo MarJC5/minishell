@@ -274,14 +274,16 @@ char    **pars_space(t_shell *shell, int i, int cmd_index)
 	{
 		if (shell->sq == '\0')
 		{
-			quote_finder(shell, cmd_index, i);
+			quote_finder(shell, cmd_index, i); // always empty
 			shell->sqi = i;
 		}
 		if (shell->sq != '\0')
+		{
 			count++;
+		}
 		if (shell->cmd[cmd_index]->args[i][0] == ' ' && count == 0) // c'est ici !!!
 			i++;
-		if (i < (args_counter(shell->cmd[cmd_index]->args) - 1))
+		else if (i < (args_counter(shell->cmd[cmd_index]->args) - 1))
 		{
 			printf("-%s-\n", shell->cmd[cmd_index]->args[i]);
 			tmp[i2++] = ft_strdup(shell->cmd[cmd_index]->args[i++]);

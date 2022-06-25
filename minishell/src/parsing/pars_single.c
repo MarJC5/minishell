@@ -81,7 +81,9 @@ void	pars_inside_quote(t_shell *shell, int cmd_index, int c)
 						break ;
 				}
 				if (qpose < dpose && j > dpose)
+				{
 					;
+				}
 			}
 			else
 				shell->cmd[cmd_index]->args[i] = pars_cr_arg(shell,
@@ -115,7 +117,9 @@ void	pars_remove_quote(t_shell *shell, int cmd_index, int c, int out)
 						break ;
 				}
 				if (spose < dpose && j > dpose)
+				{
 					;
+				}
 			}
 			else
 				remove_char(shell->cmd[cmd_index]->args[i], out);

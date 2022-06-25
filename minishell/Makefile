@@ -53,7 +53,10 @@ FILES	=	main.c \
 			builtins/utils/env_var.c \
 			builtins/utils/init_func.c \
 			redirection/redirection.c \
+			redirection/heredoc.c \
 			redirection/utils.c \
+			redirection/redi_args.c \
+			redirection/redinput.c \
 			pipe/pipe.c \
 			pipe/pipe_utils.c \
 			path/path.c \

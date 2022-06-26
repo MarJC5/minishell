@@ -101,7 +101,8 @@ int		str_err(char *str, char *err);
 int		str_perr(char *name, char *arg);
 int		args_counter(char **args);
 int		ft_isspace(char *str);
-void	old_fd(t_shell *shell, int i);
+void	old_fd(t_shell *shell);
+void	old_fd_two(t_shell *shell);
 int		ft_strchr_pos(char *s, char c);
 
 

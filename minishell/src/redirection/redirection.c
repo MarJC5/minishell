@@ -12,10 +12,16 @@
 
 #include "../../inc/minishell.h"
 
-// les " " à gérer pour mon parsing -> espace nom de fichier et caractère NULL des guillement
-// >> test XXX pour les redis
-// rajoute les heredocs alors que ca devrais les supprimer
-// lance la redis même si la commande n'existe pas
+// >> test XXX pour les redis : change bien le cmd->name mais dans init_func tjr l'ancien
+// rajoute les heredocs alors que ca devrais les supprimer --
+// lance la redis même si la commande n'existe pas : pas besoin de changer
+
+void	ft_cmd_name_changer(t_shell *shell, int cmd_index)
+{
+	ft_free_tab(shell->cmd[cmd_index]->name);
+	shell->cmd[cmd_index]->name = NULL;
+	shell->cmd[cmd_index]->name = ft_strdup(shell->cmd[cmd_index]->args[0]);
+}
 
 void	redirection(t_shell *shell, int cmd_index)
 {
@@ -42,4 +48,5 @@ void	redirection(t_shell *shell, int cmd_index)
 	free(name);
 	if (isrediorpipe(shell, cmd_index, '>') == 1)
 		redirection(shell, cmd_index);
+	ft_cmd_name_changer(shell, cmd_index);
 }

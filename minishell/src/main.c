@@ -33,9 +33,9 @@ int	run_cmd(t_shell *shell)
 	if (shell->cmd_count == 1 && !shell->ispipe)
 	{
 		if (isrediorpipe(shell, 0, '<') == 1)
-			old_fd(shell, 2);
+			old_fd_two(shell);
 		else if (shell->redi >= 1)
-			old_fd(shell, 1);
+			old_fd(shell);
 		else
 			shell->cmd[0]->func(shell, 0);
 		shell->redi = 0;

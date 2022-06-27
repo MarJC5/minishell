@@ -34,7 +34,7 @@ void	old_fd_two(t_shell *shell)
 		str_err("minishell: syntax error near unexpected token `<'", NULL);
 		return ;
 	}
-	shell->fd = dup(STDIN_FILENO);
+	shell->fd_in = dup(STDIN_FILENO);
 	if(isdoubleredi(shell->cmd[0]->args, '<') == 2)
 		heredoc(shell, 0);
 	else if (redirection_input(shell, 0) == 1)
@@ -49,8 +49,8 @@ void	old_fd_two(t_shell *shell)
 	if (shell->heredoc == 1)
 		unlink("temp_minishell");
 	shell->heredoc = 0;
-	dup2(shell->fd, STDIN_FILENO);
-	close(shell->fd);
+	dup2(shell->fd_in, STDIN_FILENO);
+	close(shell->fd_in);
 }
 
 static void	split_pipe_cmd(t_shell *shell, char *args)

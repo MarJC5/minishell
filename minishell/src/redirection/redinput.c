@@ -54,7 +54,7 @@ int	redirection_input(t_shell *shell, int cmd_index)
 	if (shell->cmd[cmd_index]->in == -1)
 		return (ft_err_redinput(name));
 	free(name);
-	ft_cmd_name_changer(shell, cmd_index);
+	//ft_cmd_name_changer(shell, cmd_index);
 	if (isrediorpipe(shell, cmd_index, '<') == 1)
 		return (redirection_input(shell, cmd_index));
 	while (i++ < 10000000)

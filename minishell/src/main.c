@@ -21,7 +21,8 @@ void	ft_struct(t_shell *shell)
 	shell->j = 0;
 	shell->heredoc = 0;
 	shell->env_size = 0;
-	shell->fd = 0;
+	shell->fd = -1;
+	shell->fd_in = -1;
 	shell->cmd_count = 0;
 	shell->out_status = 0;
 	shell->in_status = 0;

@@ -68,6 +68,7 @@ typedef struct s_shell
 	int			heredoc;
 	int			env_size;
 	int			fd;
+	int			fd_in;
 	int			cmd_count;
 	char        sq;
 	char        eq;

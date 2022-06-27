@@ -25,17 +25,21 @@ void	path_exec(t_shell *shell, int cmd_index)
 {
 	pid_t		child_proc;
 
-	child_proc = fork();
-	if (child_proc == -1)
+	if (shell->cmd[cmd_index]->pid == -1)
 	{
-		perror("fork");
-		exit(EXIT_FAILURE);
+		printf("ca lance le fork\n");
+		child_proc = fork();
+		if (child_proc == -1)
+		{
+			perror("fork");
+			exit(EXIT_FAILURE);
+		}
+		if (child_proc == 0)
+		{
+			check_access(shell, cmd_index);
+			exit(EXIT_SUCCESS);
+		}
+		else
+			waitpid(child_proc, NULL, 0);
 	}
-	if (child_proc == 0)
-	{
-		check_access(shell, cmd_index);
-		exit(EXIT_SUCCESS);
-	}
-	else
-		waitpid(child_proc, NULL, 0);
 }

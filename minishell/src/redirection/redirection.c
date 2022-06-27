@@ -57,5 +57,5 @@ void	redirection(t_shell *shell, int cmd_index)
 	free(name);
 	if (isrediorpipe(shell, cmd_index, '>') == 1)
 		redirection(shell, cmd_index);
-	ft_cmd_name_changer(shell, cmd_index);
+	//ft_cmd_name_changer(shell, cmd_index);
 }

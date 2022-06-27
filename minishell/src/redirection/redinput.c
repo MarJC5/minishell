@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirection.c                                      :+:      :+:    :+:   */
+/*   redinput.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 14:45:11 by jmartin           #+#    #+#             */
-/*   Updated: 2022/05/31 10:05:32 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/28 00:36:04 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	*redinput_name(t_shell *shell, int cmd_index)
 void	ft_cmd_name_changer_eco_line(t_shell *shell, int cmd_index)
 {
 	ft_cmd_name_changer(shell, cmd_index);
-	dir_exist(shell, cmd_index);
+	dir_exist(shell, cmd_index, NULL, NULL);
 }
 
 int	redirection_input(t_shell *shell, int cmd_index)

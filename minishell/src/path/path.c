@@ -16,7 +16,7 @@ void	check_access(t_shell *shell, int cmd_index)
 {
 	if (access(shell->cmd[cmd_index]->name, (X_OK)) == 0)
 		execve(shell->cmd[cmd_index]->name,
-		       shell->cmd[cmd_index]->args, shell->envp);
+			shell->cmd[cmd_index]->args, shell->envp);
 	else
 		shell->cmd[cmd_index]->func(shell, cmd_index);
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirection.c                                      :+:      :+:    :+:   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 14:45:11 by jmartin           #+#    #+#             */
-/*   Updated: 2022/05/31 10:05:32 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/28 00:35:48 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	while_heredoc(t_shell *shell, char *kw, int cmd_index)
 void	ft_cmd_name_changer_eco_line_heredoc(t_shell *shell, int cmd_index)
 {
 	ft_cmd_name_changer(shell, cmd_index);
-	dir_exist(shell, cmd_index);
+	dir_exist(shell, cmd_index, NULL, NULL);
 }
 
 void	heredoc(t_shell *shell, int cmd_index)

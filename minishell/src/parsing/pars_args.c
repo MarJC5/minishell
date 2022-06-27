@@ -34,7 +34,6 @@ char	*ft_join_quote(t_shell *shell, int cmd_index, int *i)
 		if (shell->eq != '\0')
 			c = 1;
 		merge = ft_strjoin(tmp, shell->cmd[cmd_index]->args[*i]);
-		printf("merge = %s\n", merge);
 		free(tmp);
 		tmp = ft_strdup(merge);
 		free(merge);

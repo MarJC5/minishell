@@ -29,7 +29,7 @@ void	init_func(t_shell *shell, int i)
 		shell->cmd[i]->func = ft_echo;
 	else if (ft_strcmp(arg_to_lower(shell->cmd[i]->name), "exit") == 0)
 		shell->cmd[i]->func = ft_exit;
-	else if (dir_exist(shell, i) == 1)
+	else if (dir_exist(shell, i, NULL, NULL) == 1)
 		shell->cmd[i]->func = path_exec;
 	else
 		shell->cmd[i]->func = builtin_error;

@@ -31,7 +31,7 @@ int	handle_in(t_shell *shell, int cmd_index)
 {
 	if (isrediorpipe(shell, cmd_index, '<') == 1)
 	{
-		if(isdoubleredi(shell->cmd[0]->args, '<') == 2)
+		if (isdoubleredi(shell->cmd[0]->args, '<') == 2)
 		{
 			heredoc(shell, 0);
 			unlink("temp_minishell");
@@ -85,4 +85,3 @@ void	pipex(t_shell *shell)
 		i++;
 	}
 }
-

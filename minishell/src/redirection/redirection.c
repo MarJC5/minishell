@@ -59,6 +59,6 @@ void	redirection(t_shell *shell, int cmd_index)
 	if (ft_strchr(shell->cmd[cmd_index]->name, '>'))
 	{
 		ft_cmd_name_changer(shell, cmd_index);
-		dir_exist(shell, cmd_index);
+		dir_exist(shell, cmd_index, NULL, NULL);
 	}
 }

@@ -58,8 +58,8 @@ typedef struct s_shell
 {
 	char		**envp;
 	char		*current_path;
-	char        *line;
-	char        *redinput;
+	char		*line;
+	char		*redinput;
 	int			ispipe;
 	int			bcklash_n;
 	int			redi;
@@ -70,10 +70,10 @@ typedef struct s_shell
 	int			fd;
 	int			fd_in;
 	int			cmd_count;
-	char        sq;
-	char        eq;
-	int         sqi;
-	int         sqj;
+	char		sq;
+	char		eq;
+	int			sqi;
+	int			sqj;
 	int			out_status;
 	int			in_status;
 	int			exit_status;
@@ -90,21 +90,21 @@ void	ft_free_read_args(t_shell *shell, char *line);
 /**
  * SHELL
  */
-int		run_cmd(t_shell *shell);
+char	*init_read(t_shell *shell);
 void	exit_status(int wstatus);
 void	set_envp(t_shell *shell, char **envp);
 void	init_cmd(t_shell *shell, char *args);
 void	init_func(t_shell *shell, int i);
-char	*init_read(t_shell *shell);
+int		run_cmd(t_shell *shell);
 
 /**
  * UTILS
  */
-void	ascii_prompt(void);
-void	builtin_error(t_shell *shell, int cmd_index);
 char	*append(char before, char *str, char after);
 char	*append_last(char *str, char after);
 char	*arg_to_lower(char *str);
+void	ascii_prompt(void);
+void	builtin_error(t_shell *shell, int cmd_index);
 int		str_err(char *str, char *err);
 int		str_perr(char *name, char *arg);
 int		args_counter(char **args);
@@ -112,9 +112,9 @@ int		ft_isspace(char *str);
 
 void	old_fd(t_shell *shell);
 void	old_fd_two(t_shell *shell);
-int	  ft_onlyspace(char *str);
+void	ft_redo_char(t_shell *shell, int cmd_index);
+int		ft_onlyspace(char *str);
 int		ft_strchr_pos(char *s, char c);
-void  ft_redo_char(t_shell *shell, int cmd_index);
 
 /**
  * PWD
@@ -124,9 +124,9 @@ void	pwd(t_shell *shell, int cmd_index);
 /**
  * ENV
  */
-void	env(t_shell *shell, int cmd_index);
 char	*get_env_var(t_shell *shell, char *arg);
 char	*env_updater(t_shell *shell, char *name, char *value);
+void	env(t_shell *shell, int cmd_index);
 
 /**
  * EXPORT
@@ -169,50 +169,45 @@ void	ctrl_handler(int sig);
 /**
  * PATH
  */
+char	**path_finder(t_shell *shell);
 void	path_exec(t_shell *shell, int cmd_index);
 void	check_access(t_shell *shell, int cmd_index);
-char	**path_finder(t_shell *shell);
-int		dir_exist(t_shell *shell, int cmd_index);
+int		dir_exist(t_shell *shell, int cmd_index, char *tmp, char *acctmp);
 
 /**
  * REDIRECTION & PIPE
  */
+char	*getname(t_shell *shell, int i, int j, int cmd_index);
+char	**redirection_arg(t_shell *shell, int cmd_index, int i, int j);
 void	pipex(t_shell *shell);
 void	redirection(t_shell *shell, int cmd_index);
 void	is_pipe(char *line, t_shell *shell);
 void	close_loop(t_shell *shell);
-int		isrediorpipe(t_shell *shell, int cmd_index, char sign);
-int		isdoubleredi(char **args, char sign);
-char	*getname(t_shell *shell, int i, int j, int cmd_index);
-int		redirection_input(t_shell *shell, int cmd_index);
-char	**redirection_arg(t_shell *shell, int cmd_index, int i, int j);
-int		ft_more_redi(char **args,char sign);
 void	heredoc(t_shell *shell, int cmd_index);
 void	ft_cmd_name_changer(t_shell *shell, int cmd_index);
+int		isrediorpipe(t_shell *shell, int cmd_index, char sign);
+int		isdoubleredi(char **args, char sign);
+int		redirection_input(t_shell *shell, int cmd_index);
+int		ft_more_redi(char **args, char sign);
 
 /**
  * QUOTE
  *
  */
-
-int		check_read_quote(char *str);
-int		quote_counter(char *s, char c);
 char	*remove_char(char *str, char c);
-char	*remove_append(char *str, char c);
-char	*rm_quote_out(char *str, char c);
-void	pars_cmd_name_quote(char *str);
-void	pars_args(t_shell *shell, char *args, int cmd_index);
 char	*pars_cr_realloc(char *args, char *newval, int i, int j);
 char	*pars_cr_arg(t_shell *shell, char *args, int j);
-void	pars_inside_quote(t_shell *shell, int cmd_index, int c);
-void	pars_first_trim(t_shell *shell, char *args, int cmd_index, int i);
+char	*ft_join_quote(t_shell *shell, int cmd_index, int *i);
 char	**pars_space(t_shell *shell, int i, int i2, int cmd_index);
-char	quote_counter_sign(char **args, int i, int j, int c);
-void	quote_finder(t_shell *shell, int cmd_index, int i);
-int		ft_counter_space(t_shell *shell, char **args, int cmd_index);
 char	**pars_remove_quote_out(char **str, int i, char save);
+char	quote_counter_sign(char **args, int i, int j, int c);
 void	quote_finder_two(t_shell *shell, char *args, int task);
 void	ft_reset_eq_sq(t_shell *shell);
-char	*ft_join_quote(t_shell *shell, int cmd_index, int *i);
+void	pars_cmd_name_quote(char *str);
+void	pars_args(t_shell *shell, char *args, int cmd_index);
+void	quote_finder(t_shell *shell, int cmd_index, int i);
+void	replace_spec_char(char *args, int i, int count, char save);
+int		quote_counter(char *s, char c);
+int		ft_counter_space(t_shell *shell, char **args, int cmd_index);
 
 #endif

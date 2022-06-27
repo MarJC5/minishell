@@ -45,6 +45,7 @@ FILES	=	main.c \
 			parsing/pars_space.c \
 			parsing/quote_utils_2.c \
 			parsing/quote_utils.c \
+			parsing/replace_args.c \
 			builtins/env.c \
 			builtins/cd.c \
 			builtins/echo.c \

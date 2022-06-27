@@ -14,32 +14,29 @@
 
 static void	echo_write(t_shell *shell, int cmd_index, int j)
 {
-	write(1, &shell->cmd[cmd_index]->args[j]
-		, ft_strlen(shell->cmd[cmd_index]->args[j]));
-	if (++j != shell->cmd[cmd_index]->args_count)
-		write(1, " ", 1);
+	while (shell->cmd[cmd_index]->args[j])
+	{
+		write(1, shell->cmd[cmd_index]->args[j],
+			ft_strlen(shell->cmd[cmd_index]->args[j]));
+		if (++j != shell->cmd[cmd_index]->args_count)
+			write(1, " ", 1);
+	}
 }
 
 void	ft_echo(t_shell *shell, int cmd_index)
 {
-	int		i;
-	int		start;
+	int	i;
+	int	j;
 
-	if (ft_strchr(shell->cmd[cmd_index]->args[0], '-') == NULL)
-		start = 1;
+	j = 1;
+	i = 0;
+	if (ft_strcmp(shell->cmd[cmd_index]->args[1], "-n") == 0)
+		j = 2;
 	else
-		start = 0;
-	//pars_echo_endl(shell, shell->cmd[cmd_index]->args, cmd_index, start);
-	if (shell->cmd[cmd_index]->args[start])
+		i = 1;
+	if (shell->cmd[cmd_index]->args[i])
 	{
-		if (shell->bcklash_n)
-		{
-			i = 2;
-			start += 1;
-		}
-		else
-			i = 1;
-		echo_write(shell, cmd_index, start);
+		echo_write(shell, cmd_index, j);
 		if (i == 1)
 			write(1, "\n", 1);
 	}

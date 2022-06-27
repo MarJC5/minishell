@@ -53,6 +53,12 @@ void	while_heredoc(t_shell *shell, char *kw, int cmd_index)
 	}
 }
 
+void	ft_cmd_name_changer_eco_line_heredoc(t_shell *shell, int cmd_index)
+{
+	ft_cmd_name_changer(shell, cmd_index);
+	dir_exist(shell, cmd_index);
+}
+
 void	heredoc(t_shell *shell, int cmd_index)
 {
 	char	*kw;
@@ -72,7 +78,8 @@ void	heredoc(t_shell *shell, int cmd_index)
 		unlink("temp_minishell");
 		heredoc(shell, cmd_index);
 	}
-	ft_cmd_name_changer(shell, cmd_index);
+	if (ft_strchr(shell->cmd[cmd_index]->name, '<'))
+		ft_cmd_name_changer_eco_line_heredoc(shell, cmd_index);
 	close(shell->cmd[cmd_index]->in);
 	shell->cmd[cmd_index]->in = open("temp_minishell", O_RDONLY);
 	dup2(shell->cmd[cmd_index]->in, STDIN_FILENO);

@@ -27,7 +27,6 @@ void	path_exec(t_shell *shell, int cmd_index)
 
 	if (shell->cmd[cmd_index]->pid == -1)
 	{
-		printf("ca lance le fork\n");
 		child_proc = fork();
 		if (child_proc == -1)
 		{

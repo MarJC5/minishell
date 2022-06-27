@@ -34,6 +34,12 @@ char	*redinput_name(t_shell *shell, int cmd_index)
 	return (name);
 }
 
+void	ft_cmd_name_changer_eco_line(t_shell *shell, int cmd_index)
+{
+	ft_cmd_name_changer(shell, cmd_index);
+	dir_exist(shell, cmd_index);
+}
+
 int	redirection_input(t_shell *shell, int cmd_index)
 {
 	char	*name;
@@ -51,10 +57,11 @@ int	redirection_input(t_shell *shell, int cmd_index)
 		close(shell->cmd[cmd_index]->in);
 	shell->cmd[cmd_index]->args = redirection_arg(shell, cmd_index,
 			shell->cmd[cmd_index]->namei, shell->cmd[cmd_index]->namej);
+	if (ft_strchr(shell->cmd[cmd_index]->name, '<'))
+		ft_cmd_name_changer_eco_line(shell, cmd_index);
 	if (shell->cmd[cmd_index]->in == -1)
 		return (ft_err_redinput(name));
 	free(name);
-	//ft_cmd_name_changer(shell, cmd_index);
 	if (isrediorpipe(shell, cmd_index, '<') == 1)
 		return (redirection_input(shell, cmd_index));
 	while (i++ < 10000000)

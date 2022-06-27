@@ -32,6 +32,21 @@ int	ft_isspace(char *str)
 	return (0);
 }
 
+int	ft_onlyspace(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == ' ')
+			i++;
+		else
+			return (0);
+	}
+	return (1);
+}
+
 char	*arg_to_lower(char *str)
 {
 	int		i;

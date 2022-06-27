@@ -100,7 +100,6 @@ void quote_finder_two(t_shell *shell, char *args, int task)
 			i++;
 		}
 	}
-	shell->sq = '\0';
 }
 
 int ft_counter_space(t_shell *shell, char **args, int cmd_index)
@@ -268,39 +267,25 @@ char    **pars_space(t_shell *shell, int i, int cmd_index)
 	i = 0;
 	shell->sq = '\0';
 	shell->eq = '\0';
-	shell->sqi = 0;
-	shell->sqj = 0;
 	while (i < args_counter(shell->cmd[cmd_index]->args) - 1)
 	{
 		if (shell->sq == '\0')
+			quote_finder(shell, cmd_index, i);
+		else if (shell->sq != '\0')
 		{
-			quote_finder(shell, cmd_index, i); // always empty
-			shell->sqi = i;
+			if (shell->sq != '\0' && shell->eq == '\0')
+				count++;
 		}
-		if (shell->sq != '\0')
-		{
-			count++;
-		}
-		if (shell->cmd[cmd_index]->args[i][0] == ' ' && count == 0) // c'est ici !!!
+		if (ft_onlyspace(shell->cmd[cmd_index]->args[i]) && count == 0)
 			i++;
-		else if (i < (args_counter(shell->cmd[cmd_index]->args) - 1))
+		else
 		{
-			printf("-%s-\n", shell->cmd[cmd_index]->args[i]);
+			quote_finder_two(shell, shell->cmd[cmd_index]->args[i], 1);
 			tmp[i2++] = ft_strdup(shell->cmd[cmd_index]->args[i++]);
-			printf("->%s-\n", tmp[i2 - 1]);
 		}
-		if (shell->sq != '\0')
-		{
-			if (shell->sqi == i)
-				quote_finder_two(shell, shell->cmd[cmd_index]->args[i], 1);
-			else
-				quote_finder_two(shell, shell->cmd[cmd_index]->args[i], 0);
-			if (shell->eq == shell->sq)
-			{
-				count = 0;
-				shell->sq = '\0';
-			}
-		}
+		if (shell->eq != '\0')
+			count = 0;
+		printf("count %i\n", count);
 	}
 	/*int y = 0;
 	while (tmp[y])
@@ -326,7 +311,6 @@ void	pars_args(t_shell *shell, char *args, int cmd_index)
 	shell->cmd[cmd_index]->quotted = 0;
 	shell->cmd[cmd_index]->name = ft_strdup(tmp[0]);
 	pars_cmd_name_quote(shell->cmd[cmd_index]->name);
-	shell->cmd[cmd_index]->pars_args = NULL;
 	if (ft_strchr(args, '\'')  || ft_strchr(args, '\"'))
 	{
 		shell->cmd[cmd_index]->args = ft_split_with_delimiter(args, ' ');

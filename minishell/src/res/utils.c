@@ -40,6 +40,19 @@ char	*append(char before, char *str, char after)
 	return (str);
 }
 
+char	*append_last(char *str, char after)
+{
+	size_t	len;
+
+	len = ft_strlen(str);
+	if (after)
+	{
+		str[len] = after;
+		str[len + 1] = 0;
+	}
+	return (str);
+}
+
 int	str_err(char *str, char *err)
 {
 	char	*msg;

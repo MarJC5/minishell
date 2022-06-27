@@ -48,7 +48,7 @@ void	child_process(t_shell *shell, int cmd_index)
 	shell->in_status = handle_in(shell, cmd_index);
 	close_loop(shell);
 	check_access(shell, cmd_index);
-	exit(EXIT_SUCCESS);
+	g_exit_stat = -1;
 }
 
 void	pipex(t_shell *shell)

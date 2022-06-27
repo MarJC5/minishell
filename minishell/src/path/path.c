@@ -14,10 +14,11 @@
 
 void	check_access(t_shell *shell, int cmd_index)
 {
-
 	if (access(shell->cmd[cmd_index]->name, (X_OK)) == 0)
-		g_exit_stat = execve(shell->cmd[cmd_index]->name,
-				shell->cmd[cmd_index]->args, shell->envp);
+	{
+		execve(shell->cmd[cmd_index]->name,
+		       shell->cmd[cmd_index]->args, shell->envp);
+	}
 	else
 		shell->cmd[cmd_index]->func(shell, cmd_index);
 }

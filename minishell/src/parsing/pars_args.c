@@ -149,117 +149,127 @@ int ft_counter_space(t_shell *shell, char **args, int cmd_index)
 	shell->eq = '\0';
 	shell->sqi = 0;
 	shell->sqj = 0;
-	return (c);
+	return (++c);
 }
 
-/*int ft_count_badquote(t_shell *shell, int cmd_index)
+char	*avoid_char(char *str, int i)
 {
+	char	*src;
+	char	*dst;
+	int     j;
 
-}*/
+	dst = str;
+	src = dst;
+	j = 0;
+	while (*src != '\0')
+	{
+		*dst = *src;
+		if (i != j++)
+			dst++;
+		src++;
+	}
+	*dst = '\0';
+	return (dst);
+}
 
-/*char **pars_remove_quote_out(t_shell *shell, int cmd_index, char **str)
+char **pars_remove_quote_out(t_shell *shell, int cmd_index, char **str)
 {
-	char **tmp;
-	char **stmp;
-	int count;
+	char *tmp;
+	char *merge;
+	char  save;
 	int i;
-	int g;
-	int c;
-	int i2;
+	(void)shell;
+	(void)cmd_index;
 
 	i = 0;
-	i2 = 0;
-	g = 0;
-	c = 0;
-	tmp = NULL;
-	stmp = NULL;
-	count = ft_count_badquote(shell, cmd_index);
-	tmp = ft_calloc(count, sizeof(char *));
-	count = 0;
-	shell->sq = '\0';
-	shell->eq = '\0';
-	shell->sqi = 0;
-	shell->sqj = 0;
-	while (str[count])
+	while (i < args_counter(str))
 	{
-		if (count != shell->sqi && c == 0)
-			tmp[i++] = ft_strdup(str[count++]);
-		else
+		if (ft_onlyspace(str[i]) == 0)
+			append_last(str[i], 24);
+		i++;
+	}
+	i = 0;
+	merge = ft_strdup("");
+	while (i < args_counter(str))
+	{
+		tmp = ft_strjoin(merge, str[i++]);
+		free(merge);
+		merge = ft_strdup(tmp);
+		free(tmp);
+		printf("->%s<-\n", merge);
+	}
+	i = 0;
+	save = '\0';
+	int count = 0;
+	while (merge[i])
+	{
+		if ((merge[i] == '\'' || merge[i] == '\"'))
 		{
-			stmp = ft_split_with_delimiter(str[count], shell->sq);
-			while (stmp[i2])
+			if (save == '\0')
+				save = merge[i];
+			if (save == merge[i])
 			{
-				if (stmp[i2][0] != shell->sq)
-					tmp[i++] = strdup(stmp[i2++]);
-				else
-					c++;
-				if (c == 2)
-					c = 0;
+				printf("count -> %d\n", count);
+				count++;
+				avoid_char(merge, i);
+				i--;
+				if (count >= 2)
+				{
+					save = '\0';
+					count = 0;
+				}
 			}
-			count++;
-			g = (args_counter(stmp));
-			while (g >= 0)
-				ft_free_tab(stmp[g--]);
-			free(stmp);
 		}
+		i++;
 	}
-	int y = 0;
-	while (tmp[y])
-		printf("-> %s\n", tmp[y++]);
+	printf("new str = %s\n", merge);
+	i = (args_counter(str));
 	while (i >= 0)
 		ft_free_tab(str[i--]);
 	free(str);
-	return (tmp);
-}*/
+	str = ft_split(merge, 24);
+	int y = 0;
+	while (str[y])
+		printf("[%s]\n", str[y++]);
+	return (str);
+}
 
-/*char **pars_remove_quote_out(t_shell *shell, int cmd_index, char **str)
+char    *ft_join_quote(t_shell *shell, int cmd_index, int *i)
 {
-	char **tmp;
-	char **stmp;
-	int count;
-	int i;
-	int g;
-	int c;
-	int i2;
+		char    *tmp;
+		char    *merge;
+		int     c;
 
-	i = 0;
-	i2 = 0;
-	g = 0;
-	c = 0;
-	tmp = NULL;
-	stmp = NULL;
-	count = ft_count_badquote(shell, cmd_index);
-	tmp = ft_calloc(count, sizeof(char *));
-	count = 0;
-	shell->sq = '\0';
-	shell->eq = '\0';
-	shell->sqi = 0;
-	shell->sqj = 0;
-	while (str[count])
-	{
-		if (str[count] == shell->sqi)
-	}
-	int y = 0;
-	while (tmp[y])
-		printf("-> %s\n", tmp[y++]);
-	while (i >= 0)
-		ft_free_tab(str[i--]);
-	free(str);
-	return (tmp);
-}*/
+		c = 0;
+		tmp = ft_strdup("");
+		while (*i < args_counter(shell->cmd[cmd_index]->args) - 1 && c == 0)
+		{
+			quote_finder_two(shell, shell->cmd[cmd_index]->args[*i], 1);
+			if (shell->eq != '\0')
+				c = 1;
+			merge = ft_strjoin(tmp, shell->cmd[cmd_index]->args[*i]);
+			printf("merge = %s\n", merge);
+			free(tmp);
+			tmp = ft_strdup(merge);
+			free(merge);
+			*i += 1;
+		}
+		return (tmp);
+}
 
 char    **pars_space(t_shell *shell, int i, int cmd_index)
 {
 	char **tmp;
+	char *merge;
 	int count;
 	int i2;
 
 	int y = 0;
 	while (shell->cmd[cmd_index]->args[y])
 		printf("-%s-\n", shell->cmd[cmd_index]->args[y++]);
-
 	i2 = 0;
 	tmp = NULL;
+	merge = ft_strdup("");
 	count = ft_counter_space(shell, shell->cmd[cmd_index]->args, cmd_index);
 	printf("counter : %d\n", count);
 	tmp = ft_calloc(count, sizeof(char *));
@@ -273,6 +283,13 @@ char    **pars_space(t_shell *shell, int i, int cmd_index)
 			quote_finder(shell, cmd_index, i);
 		else if (shell->sq != '\0')
 		{
+			quote_finder_two(shell, shell->cmd[cmd_index]->args[i], 1);
+			if (shell->sq != '\0' && shell->eq != '\0')
+			{
+				count = 0;
+				shell->sq = '\0';
+				shell->eq = '\0';
+			}
 			if (shell->sq != '\0' && shell->eq == '\0')
 				count++;
 		}
@@ -280,21 +297,22 @@ char    **pars_space(t_shell *shell, int i, int cmd_index)
 			i++;
 		else
 		{
-			quote_finder_two(shell, shell->cmd[cmd_index]->args[i], 1);
-			tmp[i2++] = ft_strdup(shell->cmd[cmd_index]->args[i++]);
+
+			if (shell->sq == '\0')
+				tmp[i2++] = ft_strdup(shell->cmd[cmd_index]->args[i++]);
+			else
+				tmp[i2++] = ft_join_quote(shell, cmd_index, &i);
+			if (i != args_counter(shell->cmd[cmd_index]->args) -1)
+				quote_finder_two(shell, shell->cmd[cmd_index]->args[i], 0);
 		}
-		if (shell->eq != '\0')
-			count = 0;
-		printf("count %i\n", count);
 	}
-	/*int y = 0;
+	y = 0;
 	while (tmp[y])
-		printf("%s\n", tmp[y++]);*/
-	//tmp = pars_remove_quote_out(shell, cmd_index, tmp);
+		printf("|%s|\n", tmp[y++]);
 	while (i >= 0)
 		ft_free_tab(shell->cmd[cmd_index]->args[i--]);
 	free(shell->cmd[cmd_index]->args);
-	return (tmp);
+	return (pars_remove_quote_out(shell, cmd_index, tmp));
 }
 
 void	pars_args(t_shell *shell, char *args, int cmd_index)

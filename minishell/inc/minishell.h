@@ -100,6 +100,7 @@ char	*init_read(t_shell *shell);
 void	ascii_prompt(void);
 void	builtin_error(t_shell *shell, int cmd_index);
 char	*append(char before, char *str, char after);
+char	*append_last(char *str, char after);
 char	*arg_to_lower(char *str);
 int		str_err(char *str, char *err);
 int		str_perr(char *name, char *arg);

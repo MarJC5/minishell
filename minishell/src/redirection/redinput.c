@@ -27,8 +27,7 @@ char	*redinput_name(t_shell *shell, int cmd_index)
 
 	temp = NULL;
 	name = NULL;
-	name = getname(shell, shell->cmd[cmd_index]->args, shell->i,
-        shell->j, cmd_index);
+	name = getname(shell, shell->i, shell->j, cmd_index);
 	temp = ft_strjoin(getcwd(cwd, sizeof(cwd)), name);
 	free(name);
 	name = temp;
@@ -39,7 +38,7 @@ int	redirection_input(t_shell *shell, int cmd_index)
 {
 	char	*name;
 	int		i;
-	
+
 	name = NULL;
 	i = 0;
 	shell->cmd[cmd_index]->namei = 0;
@@ -51,12 +50,14 @@ int	redirection_input(t_shell *shell, int cmd_index)
 	if (shell->cmd[cmd_index]->in != -1)
 		close(shell->cmd[cmd_index]->in);
 	shell->cmd[cmd_index]->args = redirection_arg(shell, cmd_index,
-		shell->cmd[cmd_index]->namei, shell->cmd[cmd_index]->namej);
+			shell->cmd[cmd_index]->namei, shell->cmd[cmd_index]->namej);
 	if (shell->cmd[cmd_index]->in == -1)
 		return (ft_err_redinput(name));
 	free(name);
+	ft_cmd_name_changer(shell, cmd_index);
 	if (isrediorpipe(shell, cmd_index, '<') == 1)
-		return(redirection_input(shell, cmd_index));
-	while (i++ < 10000000);
+		return (redirection_input(shell, cmd_index));
+	while (i++ < 10000000)
+		;
 	return (0);
 }

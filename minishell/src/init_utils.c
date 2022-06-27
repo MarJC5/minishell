@@ -21,6 +21,7 @@ void	old_fd(t_shell *shell)
 	}
 	shell->fd = dup(STDOUT_FILENO);
 	redirection(shell, 0);
+	init_func(shell, 0);
 	shell->cmd[0]->func(shell, 0);
 	dup2(shell->fd, STDOUT_FILENO);
 	close(shell->fd);
@@ -41,7 +42,10 @@ void	old_fd_two(t_shell *shell)
 	if (shell->redi >= 1)
 		old_fd(shell);
 	else
+	{
+		init_func(shell, 0);
 		shell->cmd[0]->func(shell, 0);
+	}
 	if (shell->heredoc == 1)
 		unlink("temp_minishell");
 	shell->heredoc = 0;

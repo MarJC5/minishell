@@ -35,12 +35,12 @@ char	*ft_get_keyword(t_shell *shell, char **str, int cmd_index)
 	return (name);
 }
 
-void    while_heredoc(t_shell *shell, char *kw, int cmd_index)
+void	while_heredoc(t_shell *shell, char *kw, int cmd_index)
 {
-    char *hline;
+	char	*hline;
 
-    hline = NULL;
-    while (1)
+	hline = NULL;
+	while (1)
 	{
 		hline = readline("> ");
 		if (ft_strcmp(kw, hline) == 0)
@@ -57,18 +57,22 @@ void	heredoc(t_shell *shell, int cmd_index)
 {
 	char	*kw;
 
-    kw = NULL;
-	if (shell->heredoc == 0)
-		shell->cmd[cmd_index]->in = open("temp_minishell",
-           O_CREAT | O_RDWR | O_APPEND, 0666);
+	kw = NULL;
+	shell->cmd[cmd_index]->in = open("temp_minishell",
+			O_CREAT | O_RDWR | O_APPEND, 0666);
 	shell->heredoc = 1;
 	kw = ft_get_keyword(shell, shell->cmd[cmd_index]->args, cmd_index);
-    while_heredoc(shell, kw, cmd_index);
+	while_heredoc(shell, kw, cmd_index);
 	ft_free_tab(kw);
 	shell->cmd[cmd_index]->args = redirection_arg(shell, cmd_index,
-		shell->cmd[cmd_index]->namei, shell->cmd[cmd_index]->namej);
+			shell->cmd[cmd_index]->namei, shell->cmd[cmd_index]->namej);
 	if (isdoubleredi(shell->cmd[cmd_index]->args, '<') == 2)
-		return(heredoc(shell, cmd_index));
+	{
+		close(shell->cmd[cmd_index]->in);
+		unlink("temp_minishell");
+		heredoc(shell, cmd_index);
+	}
+	ft_cmd_name_changer(shell, cmd_index);
 	close(shell->cmd[cmd_index]->in);
 	shell->cmd[cmd_index]->in = open("temp_minishell", O_RDONLY);
 	dup2(shell->cmd[cmd_index]->in, STDIN_FILENO);

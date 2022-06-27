@@ -60,7 +60,7 @@ int	isdoubleredi(char **args, char sign)
 	return (0);
 }
 
-int	ft_more_redi(char **args,char sign)
+int	ft_more_redi(char **args, char sign)
 {
 	int	i;
 	int	j;
@@ -71,13 +71,13 @@ int	ft_more_redi(char **args,char sign)
 	while (args[i])
 	{
 		j = 0;
-		while (args[i][j]) // crash ici quand wc < test > test2
+		while (args[i][j])
 		{
 			if (args[i][j] == sign)
 			{
 				count++;
 				if (count == 3)
-					return 1;
+					return (1);
 			}
 			else
 				count = 0;
@@ -88,31 +88,37 @@ int	ft_more_redi(char **args,char sign)
 	return (0);
 }
 
-char	*getname(t_shell *shell, char **args, int i, int j, int cmd_index)
+void	set_var_struct(t_shell *shell, int i, int j, int cmd_index)
 {
+	shell->cmd[cmd_index]->namei = i;
+	shell->cmd[cmd_index]->namej = j;
+}
+
+char	*getname(t_shell *shell, int i, int j, int cmd_index)
+{
+	char	**args;
 	char	*name;
 	int		g;
 
 	g = 0;
+	args = shell->cmd[cmd_index]->args;
 	if (args[i][j + 1] && args[i][j + 1] != '>' && args[i][j + 1] != '<')
 		name = malloc(ft_strlen(&args[i][++j]) + 2);
-	else if ((ft_strlen(args[i]) - j) >= 3 && (args[i][j + 1] == '>' || args[i][j + 1] == '<'))
+	else if ((ft_strlen(args[i]) - j) >= 3 && (args[i][j + 1] == '>'
+		|| args[i][j + 1] == '<'))
 		name = malloc(ft_strlen(&args[i][j += 2]) + 2);
 	else
 	{
 		if (args[i + 1])
-		{
 			name = malloc(ft_strlen(args[++i]) + 2);
-			j = 0;
-		}
 		else
 			return (NULL);
+		j = 0;
 	}
 	name[g++] = '/';
 	while (args[i][j] && args[i][j] != '>' && args[i][j] != '<')
 		name[g++] = args[i][j++];
 	name[g] = '\0';
-	shell->cmd[cmd_index]->namei = i;
-	shell->cmd[cmd_index]->namej = j;
+	set_var_struct(shell, i, j, cmd_index);
 	return (name);
 }

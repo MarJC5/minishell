@@ -174,11 +174,12 @@ void	is_pipe(char *line, t_shell *shell);
 void	close_loop(t_shell *shell);
 int		isrediorpipe(t_shell *shell, int cmd_index, char sign);
 int		isdoubleredi(char **args, char sign);
-char	*getname(t_shell *shell, char **args, int i, int j, int cmd_index);
+char	*getname(t_shell *shell, int i, int j, int cmd_index);
 int		redirection_input(t_shell *shell, int cmd_index);
 char	**redirection_arg(t_shell *shell, int cmd_index, int i, int j);
 int		ft_more_redi(char **args,char sign);
 void	heredoc(t_shell *shell, int cmd_index);
+void	ft_cmd_name_changer(t_shell *shell, int cmd_index);
 
 /**
  * QUOTE

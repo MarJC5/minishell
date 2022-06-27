@@ -12,7 +12,7 @@
 
 #include "../../inc/minishell.h"
 
-int		ft_cna(t_shell *shell, int endi, int endj, int cmd_index)
+int	ft_cna(t_shell *shell, int endi, int endj, int cmd_index)
 {
 	int	i;
 	int	ct;
@@ -40,23 +40,29 @@ int		ft_cna(t_shell *shell, int endi, int endj, int cmd_index)
 	return (ct);
 }
 
-void    ft_free_tmp(char **tmp)
+void	ft_free_tmp(char **tmp)
 {
-    int g;
+	int	g;
 
-    g = (args_counter(tmp));
+	g = (args_counter(tmp));
 	while (g >= 0)
 		ft_free_tab(tmp[g--]);
 	free(tmp);
-    tmp = NULL;
+	tmp = NULL;
 }
 
-void    ft_free_args(t_shell *shell, int cmd_index, int count)
+void	ft_free_args(t_shell *shell, int cmd_index, int count)
 {
-    while (count >= 0)
+	while (count >= 0)
 		ft_free_tab(shell->cmd[cmd_index]->args[count--]);
 	free(shell->cmd[cmd_index]->args);
-    shell->cmd[cmd_index]->args = NULL;
+	shell->cmd[cmd_index]->args = NULL;
+}
+
+void	ft_seteur_var(int *count, int *i2)
+{
+	*count = 0;
+	*i2 = 0;
 }
 
 char	**redirection_arg(t_shell *shell, int cmd_index, int i, int j)
@@ -66,8 +72,7 @@ char	**redirection_arg(t_shell *shell, int cmd_index, int i, int j)
 	int		count;
 	int		i2;
 
-	count = 0;
-	i2 = 0;
+	ft_seteur_var(&count, &i2);
 	str = ft_calloc(ft_cna(shell, i, j, cmd_index), sizeof(char *));
 	while (shell->cmd[cmd_index]->args[count])
 	{
@@ -76,7 +81,7 @@ char	**redirection_arg(t_shell *shell, int cmd_index, int i, int j)
 		else
 		{
 			tmp = ft_split_with_delimiter(shell->cmd[cmd_index]->args[count],
-                shell->cmd[cmd_index]->args[shell->i][shell->j]);
+					shell->cmd[cmd_index]->args[shell->i][shell->j]);
 			if (shell->j != 0)
 				str[i2++] = ft_strdup(tmp[0]);
 			if (shell->cmd[cmd_index]->args[i][j])
@@ -85,6 +90,6 @@ char	**redirection_arg(t_shell *shell, int cmd_index, int i, int j)
 			ft_free_tmp(tmp);
 		}
 	}
-    ft_free_args(shell, cmd_index, count);
+	ft_free_args(shell, cmd_index, count);
 	return (str);
 }

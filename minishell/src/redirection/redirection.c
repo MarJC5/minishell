@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+
 #include "../../inc/minishell.h"
 
 void	ft_cmd_name_changer(t_shell *shell, int cmd_index)

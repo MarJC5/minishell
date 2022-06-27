@@ -58,6 +58,8 @@ typedef struct s_shell
 {
 	char		**envp;
 	char		*current_path;
+	char        *line;
+	char        *redinput;
 	int			ispipe;
 	int			bcklash_n;
 	int			redi;
@@ -67,6 +69,10 @@ typedef struct s_shell
 	int			env_size;
 	int			fd;
 	int			cmd_count;
+	char        sq;
+	char        eq;
+	int         sqi;
+	int         sqj;
 	int			out_status;
 	int			in_status;
 	int			exit_status;
@@ -96,15 +102,18 @@ char	*init_read(t_shell *shell);
 void	ascii_prompt(void);
 void	builtin_error(t_shell *shell, int cmd_index);
 char	*append(char before, char *str, char after);
+char	*append_last(char *str, char after);
 char	*arg_to_lower(char *str);
 int		str_err(char *str, char *err);
 int		str_perr(char *name, char *arg);
 int		args_counter(char **args);
 int		ft_isspace(char *str);
+
 void	old_fd(t_shell *shell);
 void	old_fd_two(t_shell *shell);
+int	  ft_onlyspace(char *str);
 int		ft_strchr_pos(char *s, char c);
-
+void  ft_redo_char(t_shell *shell, int cmd_index);
 
 /**
  * PWD
@@ -139,7 +148,6 @@ void	*remove_envp(t_shell *shell, char *value, int size);
  */
 void	ft_echo(t_shell *shell, int cmd_index);
 void	pars_echo_endl(t_shell *shell, char **args, int cmd_index, int start);
-
 
 /**
  * CD

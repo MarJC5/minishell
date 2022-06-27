@@ -14,6 +14,8 @@
 
 void	ctrl_handler(int sig)
 {
+	if (g_exit_stat == -1)
+		return ;
 	if (sig == SIGINT)
 	{
 		g_exit_stat = 128 + SIGINT;

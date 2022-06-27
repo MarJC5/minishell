@@ -41,10 +41,10 @@ static void	swap_cmd_name(t_shell *shell, int cmd_index, char *path, char *new)
 {
 	new = ft_strdup(shell->cmd[cmd_index]->name);
 	free(shell->cmd[cmd_index]->name);
-  shell->cmd[cmd_index]->name = NULL;
+    shell->cmd[cmd_index]->name = NULL;
 	shell->cmd[cmd_index]->name = ft_strjoin(path, new);
 	free(new);
-  new = NULL;
+    new = NULL;
 }
 
 int	dir_exist(t_shell *shell, int cmd_index)
@@ -60,7 +60,7 @@ int	dir_exist(t_shell *shell, int cmd_index)
 	acctmp = NULL;
 	while (path[i])
 	{
-		if (access(shell->cmd[cmd_index]->name, (X_OK)) == 0)
+		if (ft_strchr(shell->cmd[cmd_index]->name, '/'))
 				return (1);
 		acctmp = ft_strjoin(append('\0', path[i], '/'),
 				shell->cmd[cmd_index]->name);
@@ -79,3 +79,4 @@ int	dir_exist(t_shell *shell, int cmd_index)
 	ft_free_multi_tab(path);
 	return (0);
 }
+

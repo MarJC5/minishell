@@ -32,8 +32,8 @@ int	run_cmd(t_shell *shell)
 {
 	if (shell->cmd_count == 1 && !shell->ispipe)
 	{
-		if (isrediorpipe(shell, 0, '<') == 1)
-			old_fd_two(shell);
+		if (shell->redinput)
+			old_fd(shell, 2);
 		else if (shell->redi >= 1)
 			old_fd(shell);
 		else
@@ -43,7 +43,7 @@ int	run_cmd(t_shell *shell)
 	}
 	else if (shell->cmd_count >= 1 && shell->ispipe > shell->cmd_count)
 		str_err("minishell: syntax error near unexpected token `|'",
-			NULL);
+		        NULL);
 	else if (shell->cmd_count > 1)
 		pipex(shell);
 	return (EXIT_FAILURE);
@@ -53,7 +53,6 @@ int	main(int argc, char **argv, char **envp)
 {
 	struct termios	saved;
 	t_shell			*shell;
-	char			*line;
 
 	(void) argc;
 	(void) argv;
@@ -61,18 +60,18 @@ int	main(int argc, char **argv, char **envp)
 	shell = malloc(sizeof(t_shell));
 	set_envp(shell, envp);
 	init_signals(&saved);
-	line = init_read(shell);
-	while (line)
+	shell->line = init_read(shell);
+	while (shell->line)
 	{
 		ft_struct(shell);
-		if (ft_isspace(line))
+		if (ft_isspace(shell->line))
 		{
-			init_cmd(shell, line);
+			init_cmd(shell, ft_strdup(shell->line));
 			run_cmd(shell);
-			add_history(line);
-			ft_free_read_args(shell, line);
+			add_history(shell->line);
+			ft_free_read_args(shell, shell->line);
 		}
-		line = init_read(shell);
+		shell->line = init_read(shell);
 	}
 	tcsetattr(STDIN_FILENO, TCSANOW, &saved);
 	free(shell);

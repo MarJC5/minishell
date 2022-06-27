@@ -14,6 +14,7 @@
 
 void	init_func(t_shell *shell, int i)
 {
+	ft_redo_char(shell, i);
 	if (ft_strcmp(arg_to_lower(shell->cmd[i]->name), "unset") == 0)
 		shell->cmd[i]->func = unset;
 	else if (ft_strcmp(arg_to_lower(shell->cmd[i]->name), "export") == 0)

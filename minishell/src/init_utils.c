@@ -60,33 +60,79 @@ static void	split_pipe_cmd(t_shell *shell, char *args)
 
 	i = 0;
 	tmp = ft_split(args, '|');
-	shell->cmd_count = 0;
 	while (tmp[i])
 	{
 		if (ft_isspace(tmp[i]))
 		{
 			pars_args(shell, tmp[i], i);
 			init_func(shell, i);
-			shell->cmd[0]->start = 1;
-			pars_remove_quote(shell, i, '\'', '\"');
-			pars_inside_quote(shell, i, '\'');
+			shell->cmd[i]->start = 1;
 		}
 		i++;
 	}
 	ft_free_multi_tab(tmp);
 }
 
+void    ft_replace_char(char *str, char c)
+{
+	int i;
+
+	i = 0;
+	while (&str[i] != ft_strrchr(str, c))
+	{
+
+		if (str[i] == '|')
+			str[i] = 27;
+		else if (str[i] == '<')
+			str[i] = 6;
+		else if (str[i] == '>')
+			str[i] = 11;
+		i++;
+	}
+}
+
+void    replace_spec_char(char *args)
+{
+	int count;
+	int i;
+	char save;
+
+	i = 0;
+	save = '\0';
+	count = 0;
+	while (args[i])
+	{
+		if ((args[i] == '\'' || args[i] == '\"'))
+		{
+			if (save == '\0')
+				save = args[i];
+			if (save == args[i])
+			{
+				printf("count -> %d\n", count);
+				count++;
+				ft_replace_char(&args[i], save);
+				if (count >= 2)
+				{
+					save = '\0';
+					count = 0;
+				}
+			}
+		}
+		i++;
+	}
+}
+
 void	init_cmd(t_shell *shell, char *args)
 {
 	int	j;
 
+	replace_spec_char(args);
+	shell->redinput = ft_strchr(args, '<');
 	is_pipe(args, shell);
 	if (shell->ispipe >= 1)
 		j = ++shell->ispipe;
 	else
 		j = 1;
-	shell->bcklash_n = 0;
-	shell->cmd_count = 0;
 	shell->cmd = malloc(j * sizeof(t_cmd));
 	if (!shell->cmd)
 		return ;
@@ -95,11 +141,10 @@ void	init_cmd(t_shell *shell, char *args)
 		pars_args(shell, args, 0);
 		init_func(shell, 0);
 		shell->cmd[0]->start = 1;
-		pars_remove_quote(shell, 0, '\'', '\"');
-		pars_inside_quote(shell, 0, '\'');
 	}
 	else if (j > 1)
 		split_pipe_cmd(shell, args);
+	free(args);
 }
 
 char	*init_read(t_shell *shell)

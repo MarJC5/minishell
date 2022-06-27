@@ -14,20 +14,22 @@
 
 void	ctrl_handler(int sig)
 {
-	if (g_exit_stat == -1)
-		return ;
 	if (sig == SIGINT)
 	{
-		g_exit_stat = 128 + SIGINT;
+		if (g_exit_stat == -1)
+			return ;
 		rl_replace_line("", 0);
 		ft_putendl_fd("", 1);
 		rl_on_new_line();
 		rl_redisplay();
+		g_exit_stat = 128 + SIGINT;
 	}
 	else if (sig == SIGQUIT)
 	{
-		g_exit_stat = 128 + SIGQUIT;
+		if (g_exit_stat == -1)
+			return ;
 		rl_on_new_line();
 		rl_redisplay();
+		g_exit_stat = 128 + SIGQUIT;
 	}
 }

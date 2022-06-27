@@ -48,8 +48,8 @@ void	ft_free_read_args(t_shell *shell, char *line)
 		free(shell->cmd[i]->name);
 		free(shell->cmd[i++]);
 	}
-	if (shell->cmd)
-		free(shell->cmd);
 	if (line)
 		free(line);
+	if (shell->cmd)
+		free(shell->cmd);
 }

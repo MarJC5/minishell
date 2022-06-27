@@ -9,7 +9,7 @@ NAME	= minishell
 
 CC		= cc
 CFLAGS	= -Wall -Wextra -Werror
-CFLAGS += -g3
+#CFLAGS += -g3
 
 #################################################################
 # READLINE														#
@@ -17,14 +17,14 @@ CFLAGS += -g3
 # Find where the package is installed: brew info readline		#
 #################################################################
 
-#RL_V	:= $(shell brew list --versions  readline | sed 's/.*[[:blank:]]//')
-#RL_P	:= $(shell brew --cellar readline)
-#RL		= $(RL_P)/$(RL_V)
-#LIBS	= -L $(RL)/lib/ -lreadline -lhistory
+RL_V	:= $(shell brew list --versions  readline | sed 's/.*[[:blank:]]//')
+RL_P	:= $(shell brew --cellar readline)
+RL		= $(RL_P)/$(RL_V)
+LIBS	= -L $(RL)/lib/ -lreadline -lhistory
 
 # READLINE BACKUP
-RL		= ../doc/readline/8.1.2
-LIBS	= -L $(RL)/lib/ -lreadline
+#RL		= ../doc/readline/8.1.2
+#LIBS	= -L $(RL)/lib/ -lreadline
 
 INC		= -I. -I $(RL)/include/
 
@@ -39,7 +39,11 @@ FILES	=	main.c \
 			res/free.c \
 			res/ascii.c \
 			parsing/pars_args.c \
+			parsing/pars_remove.c \
 			parsing/pars_single.c \
+			parsing/pars_space_2.c \
+			parsing/pars_space.c \
+			parsing/quote_utils_2.c \
 			parsing/quote_utils.c \
 			builtins/env.c \
 			builtins/cd.c \

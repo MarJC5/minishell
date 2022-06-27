@@ -73,14 +73,13 @@ static void	split_pipe_cmd(t_shell *shell, char *args)
 	ft_free_multi_tab(tmp);
 }
 
-void    ft_replace_char(char *str, char c)
+void	ft_replace_char(char *str, char c)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (&str[i] != ft_strrchr(str, c))
 	{
-
 		if (str[i] == '|')
 			str[i] = 27;
 		else if (str[i] == '<')
@@ -91,11 +90,11 @@ void    ft_replace_char(char *str, char c)
 	}
 }
 
-void    replace_spec_char(char *args)
+void	replace_spec_char(char *args)
 {
-	int count;
-	int i;
-	char save;
+	int		count;
+	int		i;
+	char	save;
 
 	i = 0;
 	save = '\0';
@@ -108,7 +107,6 @@ void    replace_spec_char(char *args)
 				save = args[i];
 			if (save == args[i])
 			{
-				printf("count -> %d\n", count);
 				count++;
 				ft_replace_char(&args[i], save);
 				if (count >= 2)

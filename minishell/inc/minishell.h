@@ -205,7 +205,14 @@ void	pars_args(t_shell *shell, char *args, int cmd_index);
 char	*pars_cr_realloc(char *args, char *newval, int i, int j);
 char	*pars_cr_arg(t_shell *shell, char *args, int j);
 void	pars_inside_quote(t_shell *shell, int cmd_index, int c);
-void	pars_remove_quote(t_shell *shell, int cmd_index, int c, int out);
 void	pars_first_trim(t_shell *shell, char *args, int cmd_index, int i);
+char	**pars_space(t_shell *shell, int i, int i2, int cmd_index);
+char	quote_counter_sign(char **args, int i, int j, int c);
+void	quote_finder(t_shell *shell, int cmd_index, int i);
+int		ft_counter_space(t_shell *shell, char **args, int cmd_index);
+char	**pars_remove_quote_out(char **str, int i, char save);
+void	quote_finder_two(t_shell *shell, char *args, int task);
+void	ft_reset_eq_sq(t_shell *shell);
+char	*ft_join_quote(t_shell *shell, int cmd_index, int *i);
 
 #endif

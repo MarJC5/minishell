@@ -58,6 +58,8 @@ typedef struct s_shell
 {
 	char		**envp;
 	char		*current_path;
+	char        *line;
+	char        *redinput;
 	int			ispipe;
 	int			bcklash_n;
 	int			redi;
@@ -109,6 +111,7 @@ int		ft_isspace(char *str);
 int	    ft_onlyspace(char *str);
 void	old_fd(t_shell *shell, int i);
 int		ft_strchr_pos(char *s, char c);
+void    ft_redo_char(t_shell *shell, int cmd_index);
 
 /**
  * PWD

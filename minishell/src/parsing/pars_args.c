@@ -234,6 +234,29 @@ char **pars_remove_quote_out(t_shell *shell, int cmd_index, char **str)
 	return (str);
 }
 
+void    ft_redo_char(t_shell *shell, int cmd_index)
+{
+	int i;
+	int j;
+
+	i = 0;
+	while (i < args_counter(shell->cmd[cmd_index]->args))
+	{
+		j = 0;
+		while (shell->cmd[cmd_index]->args[i][j])
+		{
+			if (shell->cmd[cmd_index]->args[i][j] == 27)
+				shell->cmd[cmd_index]->args[i][j] = '|';
+			else if (shell->cmd[cmd_index]->args[i][j] == 6)
+				shell->cmd[cmd_index]->args[i][j] = '<';
+			else if (shell->cmd[cmd_index]->args[i][j] == 11)
+				shell->cmd[cmd_index]->args[i][j] = '>';
+			j++;
+		}
+		i++;
+	}
+}
+
 char    *ft_join_quote(t_shell *shell, int cmd_index, int *i)
 {
 		char    *tmp;
@@ -254,6 +277,8 @@ char    *ft_join_quote(t_shell *shell, int cmd_index, int *i)
 			free(merge);
 			*i += 1;
 		}
+		//ft_replace_char(shell, tmp, shell->eq);
+		printf("------------------\n");
 		return (tmp);
 }
 
@@ -344,4 +369,3 @@ void	pars_args(t_shell *shell, char *args, int cmd_index)
 	shell->cmd_count++;
 	ft_free_multi_tab(tmp);
 }
-

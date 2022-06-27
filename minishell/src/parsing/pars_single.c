@@ -89,3 +89,4 @@ void	pars_remove_quote(t_shell *shell, int cmd_index, int c, int out)
 		i++;
 	}
 }
+

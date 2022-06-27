@@ -79,3 +79,4 @@ int	dir_exist(t_shell *shell, int cmd_index)
 	ft_free_multi_tab(path);
 	return (0);
 }
+

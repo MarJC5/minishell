@@ -17,14 +17,14 @@ CFLAGS += -g3
 # Find where the package is installed: brew info readline		#
 #################################################################
 
-RL_V	:= $(shell brew list --versions  readline | sed 's/.*[[:blank:]]//')
-RL_P	:= $(shell brew --cellar readline)
-RL		= $(RL_P)/$(RL_V)
-LIBS	= -L $(RL)/lib/ -lreadline -lhistory
+#RL_V	:= $(shell brew list --versions  readline | sed 's/.*[[:blank:]]//')
+#RL_P	:= $(shell brew --cellar readline)
+#RL		= $(RL_P)/$(RL_V)
+#LIBS	= -L $(RL)/lib/ -lreadline -lhistory
 
 # READLINE BACKUP
-#RL		= ../doc/readline/8.1.2
-#LIBS	= -L $(RL)/lib/ -lreadline
+RL		= ../doc/readline/8.1.2
+LIBS	= -L $(RL)/lib/ -lreadline
 
 INC		= -I. -I $(RL)/include/
 
@@ -53,7 +53,10 @@ FILES	=	main.c \
 			builtins/utils/env_var.c \
 			builtins/utils/init_func.c \
 			redirection/redirection.c \
+			redirection/heredoc.c \
 			redirection/utils.c \
+			redirection/redi_args.c \
+			redirection/redinput.c \
 			pipe/pipe.c \
 			pipe/pipe_utils.c \
 			path/path.c \

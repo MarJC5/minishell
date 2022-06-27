@@ -10,194 +10,52 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+
 #include "../../inc/minishell.h"
 
-// les " " à gérer pour mon parsing -> espace nom de fichier et caractère NULL des guillement
-// >> test XXX pour les redis
-
-int		ft_cna(t_shell *shell, int endi, int endj, int cmd_index)
+void	ft_cmd_name_changer(t_shell *shell, int cmd_index)
 {
-	int	i;
-	int	ct;
-
-	i = 0;
-	ct = 0;
-	while (shell->cmd[cmd_index]->args[i])
-	{
-		if (i == shell->i && shell->j == 0)
-		{
-			i = endi;
-			if ((size_t)endj != ft_strlen(shell->cmd[cmd_index]->args[i]))
-				ct++;
-		}
-		else if (i == shell->i && shell->j != 0)
-		{
-			i = endi;
-			ct++;
-		}
-		else
-			ct++;
-		i++;
-	}
-	ct++;
-	return (ct);
+	ft_free_tab(shell->cmd[cmd_index]->name);
+	shell->cmd[cmd_index]->name = NULL;
+	shell->cmd[cmd_index]->name = ft_strdup(shell->cmd[cmd_index]->args[0]);
 }
 
-char	**redirection_arg(t_shell *shell, int cmd_index, int i, int j)
+char	*redinput_name_two(t_shell *shell, int cmd_index)
 {
-	char	**str;
-	char	**tmp;
-	int		count;
-	int		i2;
-	int		cna;
-	int		g;
-	char	c;
+	char	cwd[PATH_MAX];
+	char	*name;
+	char	*temp;
 
-	str = NULL;
-	tmp = NULL;
-	count = 0;
-	i2 = 0;
-	g = 0;
-	cna = ft_cna(shell, i, j, cmd_index);
-	c = shell->cmd[cmd_index]->args[shell->i][shell->j];
-	str = ft_calloc(cna, sizeof(char *));
-	while (shell->cmd[cmd_index]->args[count])
-	{
-		if (count != shell->i)
-			str[i2++] = ft_strdup(shell->cmd[cmd_index]->args[count++]);
-		else
-		{
-			tmp = ft_split_with_delimiter(shell->cmd[cmd_index]->args[count], c);
-			if (shell->j != 0)
-				str[i2++] = ft_strdup(tmp[0]);
-			if (shell->cmd[cmd_index]->args[i][j])
-				str[i2++] = ft_strdup(&shell->cmd[cmd_index]->args[i][j]);
-			count = i + 1;
-			g = (args_counter(tmp));
-			while (g >= 0)
-				ft_free_tab(tmp[g--]);
-			free(tmp);
-		}
-	}
-	while (count >= 0)
-		ft_free_tab(shell->cmd[cmd_index]->args[count--]);
-	free(shell->cmd[cmd_index]->args);
-	return (str);
+	temp = NULL;
+	name = NULL;
+	name = getname(shell, shell->i, shell->j, cmd_index);
+	temp = ft_strjoin(getcwd(cwd, sizeof(cwd)), name);
+	free(name);
+	name = temp;
+	return (name);
 }
 
 void	redirection(t_shell *shell, int cmd_index)
 {
 	char	*name;
-	char	*temp;
-	char	cwd[PATH_MAX];
 
 	name = NULL;
 	shell->cmd[cmd_index]->namei = 0;
 	shell->cmd[cmd_index]->namej = 0;
 	isrediorpipe(shell, cmd_index, '>');
-	name = getname(shell, shell->cmd[cmd_index]->args, shell->i, shell->j, cmd_index);
-	temp = ft_strjoin(getcwd(cwd, sizeof(cwd)), name);
-	free(name);
-	name = temp;
+	name = redinput_name_two(shell, cmd_index);
 	if (isdoubleredi(shell->cmd[cmd_index]->args, '>') == 2)
-		shell->cmd[cmd_index]->out = open(name, O_CREAT | O_RDWR | O_APPEND, 0666);
+		shell->cmd[cmd_index]->out = open(name, O_CREAT | O_RDWR | O_APPEND,
+				0666);
 	else
-		shell->cmd[cmd_index]->out = open(name, O_CREAT | O_RDWR | O_TRUNC, 0666);
+		shell->cmd[cmd_index]->out = open(name, O_CREAT | O_RDWR | O_TRUNC,
+				0666);
 	dup2(shell->cmd[cmd_index]->out, STDOUT_FILENO);
 	close(shell->cmd[cmd_index]->out);
 	shell->cmd[cmd_index]->args = redirection_arg(shell, cmd_index,
-	                                              shell->cmd[cmd_index]->namei, shell->cmd[cmd_index]->namej);
+			shell->cmd[cmd_index]->namei, shell->cmd[cmd_index]->namej);
 	free(name);
-	printf("%d\n", shell->cmd[cmd_index]->out);
 	if (isrediorpipe(shell, cmd_index, '>') == 1)
 		redirection(shell, cmd_index);
-}
-
-int	redirection_input(t_shell *shell, int cmd_index)
-{
-	char	*name;
-	char	*temp;
-	char	cwd[PATH_MAX];
-	int		i;
-
-	name = NULL;
-	i = 0;
-	shell->cmd[cmd_index]->namei = 0;
-	shell->cmd[cmd_index]->namej = 0;
-	isrediorpipe(shell, cmd_index, '<');
-	name = getname(shell, shell->cmd[cmd_index]->args, shell->i, shell->j, cmd_index);
-	temp = ft_strjoin(getcwd(cwd, sizeof(cwd)), name);
-	free(name);
-	name = temp;
-	shell->cmd[cmd_index]->in = open(name, O_RDONLY);
-	dup2(shell->cmd[cmd_index]->in, STDIN_FILENO);
-	close(shell->cmd[cmd_index]->in);
-	shell->cmd[cmd_index]->args = redirection_arg(shell, cmd_index,
-	                                              shell->cmd[cmd_index]->namei, shell->cmd[cmd_index]->namej);
-	if (shell->cmd[cmd_index]->in == -1)
-	{
-		str_err("minishell: file not found: ", name);
-		free(name);
-		return (1);
-	}
-	free(name);
-	if (isrediorpipe(shell, cmd_index, '<') == 1)
-		return(redirection_input(shell, cmd_index));
-	while (i++ < 10000000);
-	return (0);
-}
-
-char	*ft_get_keyword(t_shell *shell, char **str, int cmd_index)
-{
-	char	*name;
-	int		g;
-	int		i;
-	int		j;
-
-	g = 0;
-	i = shell->i;
-	j = shell->j;
-	isrediorpipe(shell, cmd_index, '<');
-	if (ft_strlen(str[i]) - (j + 2) >= 1)
-		name = malloc(ft_strlen(&str[i][j += 2]) + 1);
-	else if (str[shell->i + 1])
-		name = malloc(ft_strlen(str[++i]) + 1);
-	while (str[i][j] && str[i][j] != '>' && str[i][j] != '<')
-		name[g++] = str[i][j++];
-	name[g] = '\0';
-	shell->cmd[cmd_index]->namei = i;
-	shell->cmd[cmd_index]->namej = j;
-	return (name);
-}
-
-void	heredoc(t_shell *shell, int cmd_index)
-{
-	char	*kw;
-	char	*hline;
-
-	kw = NULL;
-	if (shell->heredoc == 0)
-		shell->cmd[cmd_index]->in = open("temp_minishell", O_CREAT | O_RDWR | O_APPEND, 0666);
-	shell->heredoc = 1;
-	kw = ft_get_keyword(shell, shell->cmd[cmd_index]->args, cmd_index);
-	while (1)
-	{
-		hline = readline("> ");
-		if (ft_strcmp(kw, hline) == 0)
-		{
-			ft_free_tab(hline);
-			break ;
-		}
-		ft_putendl_fd(hline, shell->cmd[cmd_index]->in);
-		ft_free_tab(hline);
-	}
-	ft_free_tab(kw);
-	shell->cmd[cmd_index]->args = redirection_arg(shell, cmd_index,
-	                                              shell->cmd[cmd_index]->namei, shell->cmd[cmd_index]->namej);
-	if (isdoubleredi(shell->cmd[cmd_index]->args, '<') == 2)
-		return(heredoc(shell, cmd_index));
-	close(shell->cmd[cmd_index]->in);
-	shell->cmd[cmd_index]->in = open("temp_minishell", O_RDONLY);
-	dup2(shell->cmd[cmd_index]->in, STDIN_FILENO);
-	close(shell->cmd[cmd_index]->in);
+	ft_cmd_name_changer(shell, cmd_index);
 }

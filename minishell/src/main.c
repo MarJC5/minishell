@@ -35,7 +35,7 @@ int	run_cmd(t_shell *shell)
 		if (shell->redinput)
 			old_fd(shell, 2);
 		else if (shell->redi >= 1)
-			old_fd(shell, 1);
+			old_fd(shell);
 		else
 			shell->cmd[0]->func(shell, 0);
 		shell->redi = 0;

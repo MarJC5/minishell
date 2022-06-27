@@ -12,43 +12,45 @@
 
 #include "../inc/minishell.h"
 
-void	old_fd(t_shell *shell, int i)
+void	old_fd(t_shell *shell)
 {
-	if (i == 1)
+	if (ft_more_redi(shell->cmd[0]->args, '>') == 1)
 	{
-		if (ft_more_redi(shell->cmd[0]->args, '>') == 1)
-		{
-			str_err("minishell: syntax error near unexpected token `>'", NULL);
-			return ;
-		}
-		shell->fd = dup(STDOUT_FILENO);
-		redirection(shell, 0);
-		shell->cmd[0]->func(shell, 0);
-		dup2(shell->fd, STDOUT_FILENO);
-		close(shell->fd);
+		str_err("minishell: syntax error near unexpected token `>'", NULL);
+		return ;
 	}
+	shell->fd = dup(STDOUT_FILENO);
+	redirection(shell, 0);
+	init_func(shell, 0);
+	shell->cmd[0]->func(shell, 0);
+	dup2(shell->fd, STDOUT_FILENO);
+	close(shell->fd);
+}
+
+void	old_fd_two(t_shell *shell)
+{
+	if (ft_more_redi(shell->cmd[0]->args, '<') == 1)
+	{
+		str_err("minishell: syntax error near unexpected token `<'", NULL);
+		return ;
+	}
+	shell->fd = dup(STDIN_FILENO);
+	if(isdoubleredi(shell->cmd[0]->args, '<') == 2)
+		heredoc(shell, 0);
+	else if (redirection_input(shell, 0) == 1)
+		return ;
+	if (shell->redi >= 1)
+		old_fd(shell);
 	else
 	{
-		if (ft_more_redi(shell->cmd[0]->args, '<') == 1)
-		{
-			str_err("minishell: syntax error near unexpected token `<'", NULL);
-			return ;
-		}
-		shell->fd = dup(STDIN_FILENO);
-		if(isdoubleredi(shell->cmd[0]->args, '<') == 2)
-			heredoc(shell, 0);
-		else if (redirection_input(shell, 0) == 1)
-			return ;
-		if (shell->redi >= 1)
-			old_fd(shell, 1);
-		else
-			shell->cmd[0]->func(shell, 0);
-		if (shell->heredoc == 1)
-			unlink("temp_minishell");
-		shell->heredoc = 0;
-		dup2(shell->fd, STDIN_FILENO);
-		close(shell->fd);
+		init_func(shell, 0);
+		shell->cmd[0]->func(shell, 0);
 	}
+	if (shell->heredoc == 1)
+		unlink("temp_minishell");
+	shell->heredoc = 0;
+	dup2(shell->fd, STDIN_FILENO);
+	close(shell->fd);
 }
 
 static void	split_pipe_cmd(t_shell *shell, char *args)

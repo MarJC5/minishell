@@ -47,8 +47,10 @@ int	dir_exist(t_shell *shell, int cmd_index, char *tmp, char *acctmp)
 	int		i;
 
 	i = 0;
-	if (path_exist(shell->envp) == 1)
+	if (path_exist(shell->envp, shell->cmd[cmd_index]->name) == 1)
 		return (0);
+	if (path_exist(shell->envp, shell->cmd[cmd_index]->name) == 2)
+		return (1);
 	path = path_finder(shell);
 	while (path[i])
 	{

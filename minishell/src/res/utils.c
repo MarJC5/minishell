@@ -57,6 +57,7 @@ int	str_err(char *str, char *err)
 {
 	char	*msg;
 
+	g_exit_stat = 1;
 	if (str && err)
 	{
 		msg = ft_strjoin(str, err);
@@ -73,6 +74,7 @@ int	str_perr(char *name, char *arg)
 {
 	char	*msg;
 
+	g_exit_stat = 1;
 	msg = ft_strjoin(name, arg);
 	perror(msg);
 	free(msg);

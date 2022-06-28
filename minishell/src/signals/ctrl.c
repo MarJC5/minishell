@@ -29,8 +29,13 @@ void	ctrl_handler(int sig)
 	}
 	else if (sig == SIGQUIT)
 	{
+		if (g_exit_stat == -1)
+		{
+			g_exit_stat = 128 + SIGQUIT;
+			return ;
+		}
 		rl_on_new_line();
 		rl_redisplay();
-		g_exit_stat = 128 + SIGQUIT;
+		g_exit_stat = 1;
 	}
 }

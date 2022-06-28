@@ -31,7 +31,7 @@ int	handle_in(t_shell *shell, int cmd_index)
 {
 	if (isrediorpipe(shell, cmd_index, '<') == 1)
 	{
-		if(isdoubleredi(shell->cmd[0]->args, '<') == 2)
+		if (isdoubleredi(shell->cmd[0]->args, '<') == 2)
 			;
 		else
 			redirection_input(shell, cmd_index);
@@ -55,6 +55,20 @@ void	child_process(t_shell *shell, int cmd_index)
 	exit(EXIT_SUCCESS);
 }
 
+static void	ft_dup_unlink(t_shell *shell, int i)
+{
+	unlink("temp_minishell");
+	dup2(shell->fd_in, STDIN_FILENO);
+	close(shell->fd_in);
+	shell->cmd[i]->heredoc = 0;
+}
+
+static void	ft_duper(t_shell *shell)
+{
+	shell->fd_in = dup(STDIN_FILENO);
+	heredoc(shell, 0);
+}
+
 void	pipex(t_shell *shell)
 {
 	int		i;
@@ -70,21 +84,13 @@ void	pipex(t_shell *shell)
 	i = -1;
 	while (++i < shell->cmd_count)
 	{
-		if(isdoubleredi(shell->cmd[i]->args, '<') == 2)
-		{
-			shell->fd_in = dup(STDIN_FILENO);
-			heredoc(shell, 0);
-		}
+		if (isdoubleredi(shell->cmd[i]->args, '<') == 2)
+			ft_duper(shell);
 		shell->cmd[i]->pid = fork();
 		if (shell->cmd[i]->pid == 0)
 			child_process(shell, i);
 		if (shell->cmd[i]->heredoc == 1)
-		{
-			unlink("temp_minishell");
-			dup2(shell->fd_in, STDIN_FILENO);
-			close(shell->fd_in);
-			shell->cmd[i]->heredoc = 0;
-		}
+			ft_dup_unlink(shell, i);
 	}
 	close_loop(shell);
 	i = -1;

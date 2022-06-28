@@ -12,13 +12,32 @@
 
 #include "../../inc/minishell.h"
 
+int	path_exist(char **env)
+{
+	int		i;
+
+	i = 0;
+	while (env[i])
+	{
+		if (ft_strncmp("PATH", env[i], 4) == 0)
+			return (0);
+		i++;
+	}
+	g_exit_stat = 127;
+	str_err("minishell: PATH not found", NULL);
+	return (1);
+}
+
 void	check_access(t_shell *shell, int cmd_index)
 {
-	if (access(shell->cmd[cmd_index]->name, (X_OK)) == 0)
-		execve(shell->cmd[cmd_index]->name,
-			shell->cmd[cmd_index]->args, shell->envp);
-	else
-		shell->cmd[cmd_index]->func(shell, cmd_index);
+	if (path_exist(shell->envp) == 0)
+	{
+		if (access(shell->cmd[cmd_index]->name, (X_OK)) == 0)
+			execve(shell->cmd[cmd_index]->name,
+				shell->cmd[cmd_index]->args, shell->envp);
+		else
+			shell->cmd[cmd_index]->func(shell, cmd_index);
+	}
 }
 
 void	path_exec(t_shell *shell, int cmd_index)

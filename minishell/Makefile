@@ -9,7 +9,7 @@ NAME	= minishell
 
 CC		= cc
 CFLAGS	= -Wall -Wextra -Werror
-CFLAGS += -g3
+#CFLAGS += -g3
 
 #################################################################
 # READLINE														#

@@ -115,6 +115,7 @@ void	old_fd_two(t_shell *shell);
 void	ft_redo_char(t_shell *shell, int cmd_index);
 int		ft_onlyspace(char *str);
 int		ft_strchr_pos(char *s, char c);
+int		path_exist(char **env);
 
 /**
  * PWD

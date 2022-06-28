@@ -27,12 +27,6 @@ char	**path_finder(t_shell *shell)
 			return (tmp);
 		}
 		i++;
-		if (!shell->envp[i])
-		{
-			g_exit_stat = 127;
-			str_err("minishell: PATH not found", NULL);
-			return (NULL);
-		}
 	}
 	return (NULL);
 }
@@ -53,6 +47,8 @@ int	dir_exist(t_shell *shell, int cmd_index, char *tmp, char *acctmp)
 	int		i;
 
 	i = 0;
+	if (path_exist(shell->envp) == 1)
+		return (0);
 	path = path_finder(shell);
 	while (path[i])
 	{

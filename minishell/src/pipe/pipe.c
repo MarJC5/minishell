@@ -52,6 +52,7 @@ void	child_process(t_shell *shell, int cmd_index)
 	close_loop(shell);
 	check_access(shell, cmd_index);
 	g_exit_stat = -1;
+	exit(EXIT_SUCCESS);
 }
 
 void	pipex(t_shell *shell)
@@ -86,12 +87,11 @@ void	pipex(t_shell *shell)
 		}
 	}
 	close_loop(shell);
-	i = 0;
-	while (i < shell->cmd_count)
+	i = -1;
+	while (++i < shell->cmd_count)
 	{
+		g_exit_stat = -1;
 		waitpid(shell->cmd[i]->pid, &shell->exit_status, 0);
 		exit_status(shell->exit_status);
-		i++;
 	}
 }
-

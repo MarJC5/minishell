@@ -98,9 +98,6 @@ void	export(t_shell *shell, int cmd_index)
 		{
 			while (shell->cmd[cmd_index]->args[++i])
 			{
-				if (shell->cmd[cmd_index]->quotted == 1)
-					pars_first_trim(shell, shell->cmd[cmd_index]->args[i],
-						cmd_index, i - 1);
 				update_envp(shell, shell->cmd[cmd_index]->args[i],
 					args_counter(shell->envp),
 					is_env_valid(shell->cmd[cmd_index]->args[i]));

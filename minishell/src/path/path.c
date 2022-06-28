@@ -12,11 +12,28 @@
 
 #include "../../inc/minishell.h"
 
+int	path_exist(char **env, char *str)
+{
+	int		i;
+
+	i = 0;
+	if (access(str, (X_OK)) == 0)
+		return (2);
+	while (env[i])
+	{
+		if (ft_strncmp("PATH", env[i], 4) == 0)
+			return (0);
+		i++;
+	}
+	g_exit_stat = 127;
+	return (1);
+}
+
 void	check_access(t_shell *shell, int cmd_index)
 {
 	if (access(shell->cmd[cmd_index]->name, (X_OK)) == 0)
 		execve(shell->cmd[cmd_index]->name,
-		       shell->cmd[cmd_index]->args, shell->envp);
+			shell->cmd[cmd_index]->args, shell->envp);
 	else
 		shell->cmd[cmd_index]->func(shell, cmd_index);
 }
@@ -39,6 +56,9 @@ void	path_exec(t_shell *shell, int cmd_index)
 			exit(EXIT_SUCCESS);
 		}
 		else
+		{
+			g_exit_stat = -1;
 			waitpid(child_proc, NULL, 0);
+		}
 	}
 }

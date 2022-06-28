@@ -14,22 +14,27 @@
 
 void	ft_cd(t_shell *shell, int cmd_index)
 {
-	int	i;
-
-	i = 0;
-	g_exit_stat = 1;
 	env_updater(shell, "OLDPWD", getcwd(shell->current_path, 100));
-	if (shell->cmd[cmd_index]->args[++i] != NULL
+	if (shell->cmd[cmd_index]->args[1] != NULL
 		|| shell->cmd[cmd_index]->args_count == 1)
 	{
-		if (chdir(shell->cmd[cmd_index]->args[i]) == -1)
-			str_perr("cd: ", shell->cmd[cmd_index]->args[i]);
-		else
+		if (shell->cmd[cmd_index]->args_count == 1)
 		{
 			g_exit_stat = 0;
-			chdir(shell->cmd[cmd_index]->args[i]);
+			chdir("/");
 			env_updater(shell, "PWD", getcwd(shell->current_path, 100));
 			ft_printf("%s\n", shell->current_path);
+		}
+		else
+		{
+			if (chdir(shell->cmd[cmd_index]->args[1]) == -1)
+				str_perr("cd: ", shell->cmd[cmd_index]->args[1]);
+			else
+			{
+				g_exit_stat = 0;
+				env_updater(shell, "PWD", getcwd(shell->current_path, 100));
+				ft_printf("%s\n", shell->current_path);
+			}
 		}
 	}
 }

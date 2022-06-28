@@ -35,7 +35,7 @@ void	old_fd_two(t_shell *shell)
 		return ;
 	}
 	shell->fd_in = dup(STDIN_FILENO);
-	if(isdoubleredi(shell->cmd[0]->args, '<') == 2)
+	if (isdoubleredi(shell->cmd[0]->args, '<') == 2)
 		heredoc(shell, 0);
 	else if (redirection_input(shell, 0) == 1)
 		return ;
@@ -74,60 +74,11 @@ static void	split_pipe_cmd(t_shell *shell, char *args)
 	ft_free_multi_tab(tmp);
 }
 
-void    ft_replace_char(char *str, char c)
-{
-	int i;
-
-	i = 0;
-	while (&str[i] != ft_strrchr(str, c))
-	{
-
-		if (str[i] == '|')
-			str[i] = 27;
-		else if (str[i] == '<')
-			str[i] = 6;
-		else if (str[i] == '>')
-			str[i] = 11;
-		i++;
-	}
-}
-
-void    replace_spec_char(char *args)
-{
-	int count;
-	int i;
-	char save;
-
-	i = 0;
-	save = '\0';
-	count = 0;
-	while (args[i])
-	{
-		if ((args[i] == '\'' || args[i] == '\"'))
-		{
-			if (save == '\0')
-				save = args[i];
-			if (save == args[i])
-			{
-				printf("count -> %d\n", count);
-				count++;
-				ft_replace_char(&args[i], save);
-				if (count >= 2)
-				{
-					save = '\0';
-					count = 0;
-				}
-			}
-		}
-		i++;
-	}
-}
-
 void	init_cmd(t_shell *shell, char *args)
 {
 	int	j;
 
-	replace_spec_char(args);
+	replace_spec_char(args, 0, 0, '\0');
 	shell->redinput = ft_strchr(args, '<');
 	is_pipe(args, shell);
 	if (shell->ispipe >= 1)

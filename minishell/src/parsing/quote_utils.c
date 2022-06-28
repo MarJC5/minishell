@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quote_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/30 16:14:50 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/21 16:45:04 by jmartin          ###   ########.fr       */
+/*   Created: 2022/06/27 22:46:10 by jmartin           #+#    #+#             */
+/*   Updated: 2022/06/27 22:46:10 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,3 +91,25 @@ char	*rm_quote_out(char *str, char c)
 	return (dst);
 }
 
+void	ft_redo_char(t_shell *shell, int cmd_index)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (i < args_counter(shell->cmd[cmd_index]->args))
+	{
+		j = 0;
+		while (shell->cmd[cmd_index]->args[i][j])
+		{
+			if (shell->cmd[cmd_index]->args[i][j] == 27)
+				shell->cmd[cmd_index]->args[i][j] = '|';
+			else if (shell->cmd[cmd_index]->args[i][j] == 6)
+				shell->cmd[cmd_index]->args[i][j] = '<';
+			else if (shell->cmd[cmd_index]->args[i][j] == 11)
+				shell->cmd[cmd_index]->args[i][j] = '>';
+			j++;
+		}
+		i++;
+	}
+}

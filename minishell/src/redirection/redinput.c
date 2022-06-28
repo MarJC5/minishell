@@ -12,8 +12,9 @@
 
 #include "../../inc/minishell.h"
 
-int	ft_err_redinput(char *name)
+int	ft_err_redinput(char *name, t_shell *shell)
 {
+	shell->redinput_err = 1;
 	str_err("minishell: file not found: ", name);
 	free(name);
 	return (1);
@@ -60,10 +61,10 @@ int	redirection_input(t_shell *shell, int cmd_index)
 	if (ft_strchr(shell->cmd[cmd_index]->name, '<'))
 		ft_cmd_name_changer_eco_line(shell, cmd_index);
 	if (shell->cmd[cmd_index]->in == -1)
-		return (ft_err_redinput(name));
+		return (ft_err_redinput(name, shell));
 	free(name);
 	if (isrediorpipe(shell, cmd_index, '<') == 1)
-		return (redirection_input(shell, cmd_index));
+		redirection_input(shell, cmd_index);
 	while (i++ < 10000000)
 		;
 	return (0);

@@ -41,14 +41,15 @@ void	old_fd_two(t_shell *shell)
 		return ;
 	if (shell->redi >= 1)
 		old_fd(shell);
-	else
+	else if (shell->redinput_err == 0)
 	{
 		init_func(shell, 0);
 		shell->cmd[0]->func(shell, 0);
 	}
-	if (shell->heredoc == 1)
+	if (shell->cmd[0]->heredoc == 1)
 		unlink("temp_minishell");
-	shell->heredoc = 0;
+	shell->cmd[0]->heredoc = 0;
+	shell->redinput_err = 0;
 	dup2(shell->fd_in, STDIN_FILENO);
 	close(shell->fd_in);
 }

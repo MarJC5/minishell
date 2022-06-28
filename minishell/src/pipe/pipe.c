@@ -31,11 +31,8 @@ int	handle_in(t_shell *shell, int cmd_index)
 {
 	if (isrediorpipe(shell, cmd_index, '<') == 1)
 	{
-		if (isdoubleredi(shell->cmd[0]->args, '<') == 2)
-		{
-			heredoc(shell, 0);
-			unlink("temp_minishell");
-		}
+		if(isdoubleredi(shell->cmd[0]->args, '<') == 2)
+			;
 		else
 			redirection_input(shell, cmd_index);
 		return (1);
@@ -73,9 +70,21 @@ void	pipex(t_shell *shell)
 	i = -1;
 	while (++i < shell->cmd_count)
 	{
+		if(isdoubleredi(shell->cmd[i]->args, '<') == 2)
+		{
+			shell->fd_in = dup(STDIN_FILENO);
+			heredoc(shell, 0);
+		}
 		shell->cmd[i]->pid = fork();
 		if (shell->cmd[i]->pid == 0)
 			child_process(shell, i);
+		if (shell->cmd[i]->heredoc == 1)
+		{
+			unlink("temp_minishell");
+			dup2(shell->fd_in, STDIN_FILENO);
+			close(shell->fd_in);
+			shell->cmd[i]->heredoc = 0;
+		}
 	}
 	close_loop(shell);
 	i = -1;

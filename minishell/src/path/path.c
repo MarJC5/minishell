@@ -39,6 +39,9 @@ void	path_exec(t_shell *shell, int cmd_index)
 			exit(EXIT_SUCCESS);
 		}
 		else
+		{
+			g_exit_stat = -1;
 			waitpid(child_proc, NULL, 0);
+		}
 	}
 }

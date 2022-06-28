@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pars_space_2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 00:15:53 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/28 00:23:13 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/28 15:53:48 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,5 +71,5 @@ int	ft_counter_space(t_shell *shell, char **args, int cmd_index)
 		i2++;
 	}
 	ft_reset_eq_sq(shell);
-	return (++c);
+	return (c);
 }

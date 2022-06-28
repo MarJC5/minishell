@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 00:11:56 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/28 15:31:45 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/28 16:20:30 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ char	*ret_err(char *ew)
 
 	tmp = NULL;
 	err1 = NULL;
-	printf("ERROR 42\n");
 	err1 = ft_strchr_no_delimiter(ew, '\"');
 	if (err1)
 	{
@@ -97,10 +96,8 @@ char	*ft_replace_dols(char *env_value, char *str, int env_size)
 	ret = ft_strjoin(tmp, ew);
 	free(tmp);
 	free(sw);
-	printf("IN ERROR 1 - %c\n", str[i]);
 	if (str[i] == '\"' || str[i] == '/' || str[i] == ' ' || str[i] == '\0' || str[i] == '$')
 	{
-		printf("IN ERROR 2\n");
 		ft_free_tab(ew);
 		return (ret);
 	}
@@ -160,7 +157,6 @@ void	pars_dollars(t_shell *shell, int cmd_index, int i, char *tmp)
 		}
 		if (ft_strncmp(dols, env_name, env_size) == 0)
 		{
-			printf("IN ERROR\n");
 			tmp = ft_replace_dols(ft_strchr(shell->envp[j], '=') + 1,
 					shell->cmd[cmd_index]->args[i], env_size);
 			if (tmp != NULL)
@@ -207,6 +203,11 @@ char	**pars_space(t_shell *shell, int i, int i2, int cmd_index)
 	int		count;
 
 	count = 0;
+	int y = 0;
+	while (shell->cmd[cmd_index]->args[y])
+		printf("[%s]\n", shell->cmd[cmd_index]->args[y++]);
+	printf("valeur de routour cs : %d\n", ft_counter_space(shell,
+				shell->cmd[cmd_index]->args, cmd_index));
 	tmp = ft_calloc(ft_counter_space(shell,
 				shell->cmd[cmd_index]->args, cmd_index), sizeof(char *));
 	ft_reset_eq_sq(shell);

@@ -81,6 +81,7 @@ void	pipex(t_shell *shell)
 	i = 0;
 	while (i < shell->cmd_count)
 	{
+		g_exit_stat = -1;
 		waitpid(shell->cmd[i]->pid, &shell->exit_status, 0);
 		exit_status(shell->exit_status);
 		i++;

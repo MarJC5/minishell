@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 00:11:56 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/28 16:20:30 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/28 18:50:52 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,47 @@ char	*ret_err(char *ew)
 	return (NULL);
 }
 
-char	*ft_replace_dols(char *env_value, char *str, int env_size)
+int	ft_while_for_rien(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '\"' || str[i] == '/' || str[i] == ' '
+			|| str[i] == '\0' || str[i] == '\'')
+			return (i);
+		i++;
+	}
+	return (i);
+}
+
+char	*ft_replace_empty(char *str, char *dols)
+{
+	char	*tmp;
+	char	*sw;
+	char	*ew;
+	char	*start;
+	char	*ret;
+	int		i;
+	
+	start = ft_strchr(str, '$');
+	i = (int)ft_strlen(str) - (int)ft_strlen(start);
+	sw = ft_substr(str, 0, i);
+	tmp = ft_strjoin(sw, "");
+	printf("retour d : %d\n", ft_while_for_rien(dols));
+	i = (int)ft_strlen(str) - (int)ft_strlen(start) + ft_while_for_rien(dols);
+	ew = ft_substr(str, i, ft_strlen(str) - i);
+	ret = ft_strjoin(tmp, ew);
+	ft_free_tab(tmp);
+	free(sw);
+	free(ew);
+	printf("restour de ret %s\n", ret);
+	return (ret);
+}
+
+
+char	*ft_replace_dols(char *env_value, char *str, int env_size, char *dols)
 {
 	char	*tmp;
 	char	*sw;
@@ -96,12 +136,12 @@ char	*ft_replace_dols(char *env_value, char *str, int env_size)
 	ret = ft_strjoin(tmp, ew);
 	free(tmp);
 	free(sw);
-	if (str[i] == '\"' || str[i] == '/' || str[i] == ' ' || str[i] == '\0' || str[i] == '$')
+	if (str[i] == '\"' || str[i] == '/' || str[i] == ' ' || str[i] == '\0' || str[i] == '$' || str[i] == '\'')
 	{
 		ft_free_tab(ew);
 		return (ret);
 	}
-	return (ret_err(ew));
+	return (ft_replace_empty(str, dols));
 }
 
 char	*ft_replace_inter(int status, char *str, char *conv)
@@ -154,18 +194,26 @@ void	pars_dollars(t_shell *shell, int cmd_index, int i, char *tmp)
 				ft_free_tab(shell->cmd[cmd_index]->args[i]);
 				shell->cmd[cmd_index]->args[i] = tmp;
 			}
+			break ;
 		}
 		if (ft_strncmp(dols, env_name, env_size) == 0)
 		{
 			tmp = ft_replace_dols(ft_strchr(shell->envp[j], '=') + 1,
-					shell->cmd[cmd_index]->args[i], env_size);
+					shell->cmd[cmd_index]->args[i], env_size, dols - 1);
 			if (tmp != NULL)
 			{
 				ft_free_tab(shell->cmd[cmd_index]->args[i]);
 				shell->cmd[cmd_index]->args[i] = tmp;
 			}
+			break ;
 		}
 		j++;
+		if (!shell->envp[j])
+		{
+			tmp = ft_replace_empty(shell->cmd[cmd_index]->args[i], dols - 1);
+			ft_free_tab(shell->cmd[cmd_index]->args[i]);
+			shell->cmd[cmd_index]->args[i] = tmp;
+		}
 		free(env_name);
 	}
 	dols = ft_strchr_no_delimiter(shell->cmd[cmd_index]->args[i], '$');

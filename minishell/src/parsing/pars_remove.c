@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 00:18:17 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/28 15:53:41 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/28 18:03:51 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,5 +85,8 @@ char	**pars_remove_quote_out(char **str, int i, char save)
 		ft_free_tab(str[i--]);
 	free(str);
 	str = ft_split(merge, 24);
+	int y = 0;
+	while (str[y])
+		printf("{%s}\n", str[y++]);
 	return (str);
 }

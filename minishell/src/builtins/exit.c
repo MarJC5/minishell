@@ -17,5 +17,6 @@ void	ft_exit(t_shell *shell, int cmd_index)
 	(void) cmd_index;
 	ft_free_read_args(shell, NULL);
 	free(shell);
+	ft_printf("exit\n");
 	exit(g_exit_stat);
 }

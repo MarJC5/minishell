@@ -31,6 +31,12 @@ char	**path_finder(t_shell *shell)
 	return (NULL);
 }
 
+static void	ft_free_dir(char *acctmp, char **path)
+{
+	ft_free_tab(acctmp);
+	ft_free_multi_tab(path);
+}
+
 static void	swap_cmd_name(t_shell *shell, int cmd_index, char *path, char *new)
 {
 	new = ft_strdup(shell->cmd[cmd_index]->name);
@@ -46,13 +52,13 @@ int	dir_exist(t_shell *shell, int cmd_index, char *tmp, char *acctmp)
 	char	**path;
 	int		i;
 
-	i = 0;
+	i = -1;
 	if (path_exist(shell->envp, shell->cmd[cmd_index]->name) == 1)
 		return (0);
 	if (path_exist(shell->envp, shell->cmd[cmd_index]->name) == 2)
 		return (1);
 	path = path_finder(shell);
-	while (path[i])
+	while (path[++i])
 	{
 		if (ft_strchr(shell->cmd[cmd_index]->name, '/'))
 			return (1);
@@ -61,14 +67,10 @@ int	dir_exist(t_shell *shell, int cmd_index, char *tmp, char *acctmp)
 		if (access(acctmp, (X_OK)) == 0)
 		{
 			swap_cmd_name(shell, cmd_index, path[i], tmp);
-			free(acctmp);
-			acctmp = NULL;
-			ft_free_multi_tab(path);
+			ft_free_dir(acctmp, path);
 			return (1);
 		}
-		free(acctmp);
-		acctmp = NULL;
-		i++;
+		ft_free_tab(acctmp);
 	}
 	ft_free_multi_tab(path);
 	return (0);

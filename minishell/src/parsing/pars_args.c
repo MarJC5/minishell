@@ -31,7 +31,7 @@ char	*ft_join_quote(t_shell *shell, int cmd_index, int *i)
 	while (*i < args_counter(shell->cmd[cmd_index]->args) - 1 && c == 0)
 	{
 		if (shell->sq != '\'')
-			pars_dollars(shell, cmd_index, *i, shell->cmd[cmd_index]->args[*i]);
+			pars_dollars(shell, cmd_index, *i, NULL);
 		quote_finder_two(shell, shell->cmd[cmd_index]->args[*i], 1);
 		if (shell->eq != '\0')
 			c = 1;

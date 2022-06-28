@@ -74,6 +74,8 @@ typedef struct s_shell
 	char		eq;
 	int			sqi;
 	int			sqj;
+	char		*env_name;
+	size_t		ct_dols;
 	int			out_status;
 	int			in_status;
 	int			exit_status;
@@ -210,6 +212,13 @@ void	quote_finder(t_shell *shell, int cmd_index, int i);
 void	replace_spec_char(char *args, int i, int count, char save);
 int		quote_counter(char *s, char c);
 int		ft_counter_space(t_shell *shell, char **args, int cmd_index);
+
 void	pars_dollars(t_shell *shell, int cmd_index, int i, char *tmp);
+char	*ft_strchr_env(char *str, char c);
+char	*ft_replace_empty(char *str, char *dols, int i);
+char	*ft_replace_dols(char *env_value, char *str, int env_size, char *dols);
+char	*ft_replace_inter(int status, char *str, char *conv, int i);
+char	*ft_strchr_no_delimiter(const char *s, int c);
+int		ft_while_for_rien(char *str);
 
 #endif

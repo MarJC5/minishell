@@ -38,6 +38,9 @@ FILES	=	main.c \
 			res/utils_2.c \
 			res/free.c \
 			res/ascii.c \
+			parsing/dollar_replace.c \
+			parsing/dollar_utils.c \
+			parsing/pars_dollar.c \
 			parsing/pars_args.c \
 			parsing/pars_remove.c \
 			parsing/pars_single.c \

@@ -209,5 +209,6 @@ void	quote_finder(t_shell *shell, int cmd_index, int i);
 void	replace_spec_char(char *args, int i, int count, char save);
 int		quote_counter(char *s, char c);
 int		ft_counter_space(t_shell *shell, char **args, int cmd_index);
+void	pars_dollars(t_shell *shell, int cmd_index, int i, char *tmp);
 
 #endif

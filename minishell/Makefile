@@ -9,7 +9,7 @@ NAME	= minishell
 
 CC		= cc
 CFLAGS	= -Wall -Wextra -Werror
-#CFLAGS += -g3
+CFLAGS += -g3
 
 #################################################################
 # READLINE														#
@@ -53,7 +53,6 @@ FILES	=	main.c \
 			builtins/pwd.c \
 			builtins/unset.c \
 			builtins/exit.c \
-			builtins/utils/echo_utils.c \
 			builtins/utils/env_utils.c \
 			builtins/utils/env_var.c \
 			builtins/utils/init_func.c \

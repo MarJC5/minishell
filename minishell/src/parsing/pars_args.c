@@ -30,6 +30,8 @@ char	*ft_join_quote(t_shell *shell, int cmd_index, int *i)
 	tmp = ft_strdup("");
 	while (*i < args_counter(shell->cmd[cmd_index]->args) - 1 && c == 0)
 	{
+		if (shell->sq != '\'')
+			pars_dollars(shell, cmd_index, *i, shell->cmd[cmd_index]->args[*i]);
 		quote_finder_two(shell, shell->cmd[cmd_index]->args[*i], 1);
 		if (shell->eq != '\0')
 			c = 1;
@@ -44,6 +46,9 @@ char	*ft_join_quote(t_shell *shell, int cmd_index, int *i)
 
 void	pars_args_split(t_shell *shell, char *args, int cmd_index)
 {
+	int	i;
+
+	i = 0;
 	if (ft_strchr(args, '\'') || ft_strchr(args, '\"'))
 	{
 		shell->cmd[cmd_index]->args = ft_split_with_delimiter(args, ' ');
@@ -53,7 +58,11 @@ void	pars_args_split(t_shell *shell, char *args, int cmd_index)
 			str_err("minishell: Erreur missing quote\n", &shell->sq);
 	}
 	else
+	{
 		shell->cmd[cmd_index]->args = ft_split(args, ' ');
+		while (shell->cmd[cmd_index]->args[i])
+			pars_dollars(shell, cmd_index, i++, NULL);
+	}
 }
 
 void	pars_args(t_shell *shell, char *args, int cmd_index)

@@ -30,16 +30,21 @@ void	ft_echo(t_shell *shell, int cmd_index)
 
 	j = 1;
 	i = 0;
-	if (ft_strcmp(shell->cmd[cmd_index]->args[1], "-n") == 0)
-		j = 2;
+	if (!shell->cmd[cmd_index]->args[1])
+		write(1, "\n", 1);
 	else
-		i = 1;
-	if (shell->cmd[cmd_index]->args[i])
 	{
-		echo_write(shell, cmd_index, j);
-		if (i == 1)
+		if (ft_strcmp(shell->cmd[cmd_index]->args[1], "-n") == 0)
+		j = 2;
+		else
+			i = 1;
+		if (shell->cmd[cmd_index]->args[i])
+		{
+			echo_write(shell, cmd_index, j);
+			if (i == 1)
+				write(1, "\n", 1);
+		}
+		else
 			write(1, "\n", 1);
 	}
-	else
-		write(1, "\n", 1);
 }

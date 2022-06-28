@@ -20,9 +20,9 @@ char	*ft_get_keyword(t_shell *shell, char **str, int cmd_index)
 	int		j;
 
 	g = 0;
+	isrediorpipe(shell, cmd_index, '<');
 	i = shell->i;
 	j = shell->j;
-	isrediorpipe(shell, cmd_index, '<');
 	if (ft_strlen(str[i]) - (j + 2) >= 1)
 		name = malloc(ft_strlen(&str[i][j += 2]) + 1);
 	else if (str[shell->i + 1])
@@ -66,7 +66,7 @@ void	heredoc(t_shell *shell, int cmd_index)
 	kw = NULL;
 	shell->cmd[cmd_index]->in = open("temp_minishell",
 			O_CREAT | O_RDWR | O_APPEND, 0666);
-	shell->heredoc = 1;
+	shell->cmd[cmd_index]->heredoc = 1;
 	kw = ft_get_keyword(shell, shell->cmd[cmd_index]->args, cmd_index);
 	while_heredoc(shell, kw, cmd_index);
 	ft_free_tab(kw);

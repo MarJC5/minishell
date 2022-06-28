@@ -42,6 +42,7 @@ typedef struct s_cmd
 	char			*name;
 	char			*pars_args;
 	int				start;
+	int				heredoc;
 	int				namei;
 	int				namej;
 	int				out;
@@ -65,7 +66,7 @@ typedef struct s_shell
 	int			redi;
 	int			i;
 	int			j;
-	int			heredoc;
+	int			redinput_err;
 	int			env_size;
 	int			fd;
 	int			fd_in;

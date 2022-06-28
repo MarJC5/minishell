@@ -349,6 +349,7 @@ void	pars_args(t_shell *shell, char *args, int cmd_index)
 	shell->cmd[cmd_index]->shell = shell;
 	shell->cmd[cmd_index]->in = -1;
 	shell->cmd[cmd_index]->out = -1;
+	shell->cmd[cmd_index]->heredoc = 0;
 	shell->cmd[cmd_index]->pid = -1;
 	shell->cmd[cmd_index]->cmd_pos = cmd_index;
 	shell->cmd[cmd_index]->quotted = 0;

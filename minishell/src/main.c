@@ -23,6 +23,7 @@ void	ft_struct(t_shell *shell)
 	shell->env_size = 0;
 	shell->fd = -1;
 	shell->env_name = NULL;
+	shell->err_quote = 0;
 	shell->ct_dols = 0;
 	shell->fd_in = -1;
 	shell->cmd_count = 0;
@@ -52,13 +53,18 @@ int	run_cmd(t_shell *shell)
 	return (EXIT_FAILURE);
 }
 
+static void	ft_void_arg(int argc, char **argv)
+{
+	(void) argc;
+	(void) argv;
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	struct termios	saved;
 	t_shell			*shell;
 
-	(void) argc;
-	(void) argv;
+	ft_void_arg(argc, argv);
 	ascii_prompt();
 	shell = malloc(sizeof(t_shell));
 	set_envp(shell, envp);
@@ -70,13 +76,16 @@ int	main(int argc, char **argv, char **envp)
 		if (ft_isspace(shell->line))
 		{
 			init_cmd(shell, ft_strdup(shell->line));
-			run_cmd(shell);
+			if (shell->err_quote == 0)
+				run_cmd(shell);
 			add_history(shell->line);
 			ft_free_read_args(shell, shell->line);
 		}
 		shell->line = init_read(shell);
 	}
 	tcsetattr(STDIN_FILENO, TCSANOW, &saved);
+	ft_free_multi_tab(shell->envp);
+	ft_free_tab(shell->current_path);
 	free(shell);
 	return (0);
 }

@@ -49,13 +49,17 @@ void	pars_args_split(t_shell *shell, char *args, int cmd_index)
 	int	i;
 
 	i = 0;
+	shell->err_quote = 0;
 	if (ft_strchr(args, '\'') || ft_strchr(args, '\"'))
 	{
 		shell->cmd[cmd_index]->args = ft_split_with_delimiter(args, ' ');
 		if (quote_counter_sign(shell->cmd[cmd_index]->args, 0, 0, 0) == '\0')
 			shell->cmd[cmd_index]->args = pars_space(shell, 0, 0, cmd_index);
 		else
-			str_err("minishell: Erreur missing quote\n", &shell->sq);
+		{
+			shell->err_quote = 1;
+			str_err("minishell: Erreur missing quote", &shell->sq);
+		}
 	}
 	else
 	{

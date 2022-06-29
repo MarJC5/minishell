@@ -66,6 +66,7 @@ typedef struct s_shell
 	int			redi;
 	int			i;
 	int			j;
+	int			err_quote;
 	int			redinput_err;
 	int			env_size;
 	int			fd;

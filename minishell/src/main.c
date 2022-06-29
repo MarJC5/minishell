@@ -19,6 +19,7 @@ void	ft_struct(t_shell *shell)
 	shell->redi = 0;
 	shell->i = 0;
 	shell->j = 0;
+	shell->sqj = 0;
 	shell->redinput = 0;
 	shell->env_size = 0;
 	shell->fd = -1;

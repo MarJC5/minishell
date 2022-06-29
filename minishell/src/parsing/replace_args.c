@@ -35,7 +35,7 @@ void	replace_dolls_quote(char *args, int i)
 
 	save = args[i];
 	i++;
-	while (args[i] != save)
+	while (args[i] && args[i] != save)
 	{
 		if (args[i] == '$')
 			args[i] = 8;
@@ -51,8 +51,6 @@ void	replace_spec_char(char *args, int i, int count, char save)
 		{
 			if (save == '\0')
 				save = args[i];
-			if (args[i] == '\'')
-				replace_dolls_quote(args, i);
 			if (save == args[i])
 			{
 				count++;
@@ -62,6 +60,8 @@ void	replace_spec_char(char *args, int i, int count, char save)
 					save = '\0';
 					count = 0;
 				}
+				else if (args[i] == '\'' && save != '\"')
+					replace_dolls_quote(args, i);
 			}
 		}
 		i++;

@@ -93,7 +93,7 @@ void	set_var_struct(t_shell *shell, int i, int j, int cmd_index)
 	shell->cmd[cmd_index]->namei = i;
 	shell->cmd[cmd_index]->namej = j;
 }
-/*
+
 void	ft_redo_char2(char **name)
 {
 	int	i;
@@ -117,7 +117,7 @@ void	ft_redo_char2(char **name)
 		}
 		i++;
 	}
-}*/
+}
 
 void	ft_redo_char3(char *name)
 {
@@ -137,7 +137,7 @@ void	ft_redo_char3(char *name)
 		i++;
 	}
 }
-/*
+
 char	**ft_copy_multi(char **str)
 {
 	char	**ret;
@@ -152,7 +152,7 @@ char	**ft_copy_multi(char **str)
 	}
 	ft_redo_char2(ret);
 	return (ret);
-}*/
+}
 
 char	*getname(t_shell *shell, int i, int j, int cmd_index)
 {
@@ -161,7 +161,7 @@ char	*getname(t_shell *shell, int i, int j, int cmd_index)
 	int		g;
 
 	g = 0;
-	args = shell->cmd[cmd_index]->args;
+	args = ft_copy_multi(shell->cmd[cmd_index]->args);
 	if (args[i][j + 1] && args[i][j + 1] != '>' && args[i][j + 1] != '<')
 		name = malloc(ft_strlen(&args[i][++j]) + 2);
 	else if ((ft_strlen(args[i]) - j) >= 3 && (args[i][j + 1] == '>'
@@ -176,10 +176,11 @@ char	*getname(t_shell *shell, int i, int j, int cmd_index)
 		j = 0;
 	}
 	name[g++] = '/';
-	while (args[i][j] && args[i][j] != '>' && args[i][j] != '<')
+	while (args[i][j] && args[i][j] != '>' && args[i][j] != '<') //dire si args[i][j] dans le tab originelle est egal au meme cara
 		name[g++] = args[i][j++];
 	name[g] = '\0';
 	//ft_redo_char3(name);
 	set_var_struct(shell, i, j, cmd_index);
+	ft_free_multi_tab(args);
 	return (name);
 }

@@ -93,6 +93,31 @@ void	set_var_struct(t_shell *shell, int i, int j, int cmd_index)
 	shell->cmd[cmd_index]->namei = i;
 	shell->cmd[cmd_index]->namej = j;
 }
+/*
+void	ft_redo_char2(char **name)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (i < args_counter(name))
+	{
+		j = 0;
+		while (name[i][j])
+		{
+			if (name[i][j] == 27)
+				name[i][j] = '|';
+			else if (name[i][j] == 6)
+				name[i][j] = '<';
+			else if (name[i][j] == 11)
+				name[i][j] = '>';
+			else if (name[i][j] == 8)
+				name[i][j] = '$';
+			j++;
+		}
+		i++;
+	}
+}*/
 
 void	ft_redo_char3(char *name)
 {
@@ -112,6 +137,22 @@ void	ft_redo_char3(char *name)
 		i++;
 	}
 }
+/*
+char	**ft_copy_multi(char **str)
+{
+	char	**ret;
+	int		i;
+
+	i = 0;
+	ret = ft_calloc(args_counter(str) + 1, sizeof(char *));
+	while (i < args_counter(str))
+	{
+		ret[i] = ft_strdup(str[i]);
+		i++;
+	}
+	ft_redo_char2(ret);
+	return (ret);
+}*/
 
 char	*getname(t_shell *shell, int i, int j, int cmd_index)
 {

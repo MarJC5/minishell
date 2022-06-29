@@ -9,7 +9,7 @@ NAME	= minishell
 
 CC		= cc
 CFLAGS	= -Wall -Wextra -Werror
-#CFLAGS += -g3
+CFLAGS += -g3
 
 #################################################################
 # READLINE														#
@@ -17,8 +17,8 @@ CFLAGS	= -Wall -Wextra -Werror
 # Find where the package is installed: brew info readline		#
 #################################################################
 
-RL_V	:= $(shell brew list --versions  readline | sed 's/.*[[:blank:]]//')
-RL_P	:= $(shell brew --cellar readline)
+#RL_V	:= $(shell brew list --versions  readline | sed 's/.*[[:blank:]]//')
+#RL_P	:= $(shell brew --cellar readline)
 RL		= $(RL_P)/$(RL_V)
 LIBS	= -L $(RL)/lib/ -lreadline -lhistory
 
@@ -41,6 +41,7 @@ FILES	=	main.c \
 			parsing/dollar_replace.c \
 			parsing/dollar_utils.c \
 			parsing/pars_dollar.c \
+			parsing/pars_dollars_utils.c \
 			parsing/pars_args.c \
 			parsing/pars_remove.c \
 			parsing/pars_single.c \

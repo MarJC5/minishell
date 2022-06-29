@@ -31,7 +31,7 @@ int	handle_in(t_shell *shell, int cmd_index)
 {
 	if (isrediorpipe(shell, cmd_index, '<') == 1)
 	{
-		if (isdoubleredi(shell->cmd[0]->args, '<') == 2)
+		if (shell->cmd[cmd_index]->heredoc == 1)
 			;
 		else
 			redirection_input(shell, cmd_index);
@@ -63,10 +63,11 @@ static void	ft_dup_unlink(t_shell *shell, int i)
 	shell->cmd[i]->heredoc = 0;
 }
 
-static void	ft_duper(t_shell *shell)
+static void	ft_norme(t_shell *shell, int *fd, int i)
 {
-	shell->fd_in = dup(STDIN_FILENO);
-	heredoc(shell, 0);
+	pipe(fd);
+	shell->cmd[i]->out = fd[1];
+	shell->cmd[i + 1]->in = fd[0];
 }
 
 void	pipex(t_shell *shell)
@@ -76,16 +77,11 @@ void	pipex(t_shell *shell)
 
 	i = -1;
 	while (++i < shell->cmd_count - 1)
-	{
-		pipe(fd);
-		shell->cmd[i]->out = fd[1];
-		shell->cmd[i + 1]->in = fd[0];
-	}
+		ft_norme(shell, fd, i);
 	i = -1;
 	while (++i < shell->cmd_count)
 	{
-		if (isdoubleredi(shell->cmd[i]->args, '<') == 2)
-			ft_duper(shell);
+		is_heredoc(shell, i);
 		shell->cmd[i]->pid = fork();
 		if (shell->cmd[i]->pid == 0)
 			child_process(shell, i);

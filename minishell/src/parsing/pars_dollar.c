@@ -12,65 +12,62 @@
 
 #include "../../inc/minishell.h"
 
-
-static void	empty_dollar(t_shell *shell, int cmd_index, int i, char *dols)
-{
-	char	*tmp;
-
-	tmp = ft_replace_empty(shell->cmd[cmd_index]->args[i], dols - 1, 0);
-	ft_free_tab(shell->cmd[cmd_index]->args[i]);
-	shell->cmd[cmd_index]->args[i] = tmp;
-}
-/*
-static void	swap_doll(t_shell *shell, int cmd_index, int i, char *tmp)
+static void	replace_dolss(t_shell *shell, int cmd_index, int i, char *tmp)
 {
 	ft_free_tab(shell->cmd[cmd_index]->args[i]);
 	shell->cmd[cmd_index]->args[i] = tmp;
 }
-*/
+
+static int	ft_set_value_dolls(t_shell *shell, int cmd_index, int i)
+{
+	shell->ct_dols = 0;
+	shell->dols = NULL;
+	shell->dols = ft_strchr_no_delimiter(shell->cmd[cmd_index]->args[i], '$');
+	if (shell->dols == NULL)
+		return (1);
+	return (0);
+}
+
+static char	*ret_norm(t_shell *shell, int cmd_index, int i)
+{
+	return (ft_replace_dols(ft_strchr(shell->envp[shell->ct_dols], '=') + 1,
+				shell->cmd[cmd_index]->args[i], shell->env_size,
+			shell->dols - 1));
+}
+
+static void	recursif(t_shell *shell, int cmd_index, int i)
+{
+	shell->ct_dols++;
+	if (!shell->envp[shell->ct_dols])
+		empty_dollar(shell, cmd_index, i, shell->dols);
+	free(shell->env_name);
+}
+
 void	pars_dollars(t_shell *shell, int cmd_index, int i, char *tmp)
 {
-	int		j;
-	char	*dols;
-	char	*env_name;
-	size_t	env_size;
-
-	j = 0;
-	dols = ft_strchr_no_delimiter(shell->cmd[cmd_index]->args[i], '$');
-	if (dols == NULL)
+	if (ft_set_value_dolls(shell, cmd_index, i) == 1)
 		return ;
-	while (shell->envp[j])
+	while (shell->envp[shell->ct_dols])
 	{
-		env_name = ft_strchr_env(shell->envp[j], '=');
-		env_size = ft_strlen(env_name);
-		if (dols[0] == '?')
+		env_name(shell, shell->ct_dols);
+		if (shell->dols[0] == '?')
 		{
 			tmp = ft_replace_inter(g_exit_stat,
 					shell->cmd[cmd_index]->args[i], NULL, 0);
 			if (tmp != NULL)
-			{
-				ft_free_tab(shell->cmd[cmd_index]->args[i]);
-				shell->cmd[cmd_index]->args[i] = tmp;
-			}
+				replace_dolss(shell, cmd_index, i, tmp);
 			break ;
 		}
-		if (ft_strncmp(dols, env_name, env_size) == 0)
+		if (ft_strncmp(shell->dols, shell->env_name, shell->env_size) == 0)
 		{
-			tmp = ft_replace_dols(ft_strchr(shell->envp[j], '=') + 1,
-					shell->cmd[cmd_index]->args[i], env_size, dols - 1);
+			tmp = ret_norm(shell, cmd_index, i);
 			if (tmp != NULL)
-			{
-				ft_free_tab(shell->cmd[cmd_index]->args[i]);
-				shell->cmd[cmd_index]->args[i] = tmp;
-			}
+				replace_dolss(shell, cmd_index, i, tmp);
 			break ;
 		}
-		j++;
-		if (!shell->envp[j])
-			empty_dollar(shell, cmd_index, i, dols);
-		free(env_name);
+		recursif(shell, cmd_index, i);
 	}
-	dols = ft_strchr_no_delimiter(shell->cmd[cmd_index]->args[i], '$');
-	if (dols && tmp != NULL)
+	shell->dols = ft_strchr_no_delimiter(shell->cmd[cmd_index]->args[i], '$');
+	if (shell->dols && tmp != NULL)
 		pars_dollars(shell, cmd_index, i, NULL);
 }

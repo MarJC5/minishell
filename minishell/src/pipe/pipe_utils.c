@@ -46,3 +46,16 @@ void	is_pipe(char *line, t_shell *shell)
 	shell->ispipe = pipe;
 	shell->redi = redi;
 }
+
+static void	ft_duper(t_shell *shell, int cmd_index)
+{
+	shell->fd_in = dup(STDIN_FILENO);
+	heredoc(shell, cmd_index);
+}
+
+void	is_heredoc(t_shell *shell, int i)
+{
+	shell->cmd[i]->heredoc = 0;
+	if (isdoubleredi(shell->cmd[i]->args, '<') == 2)
+		ft_duper(shell, i);
+}

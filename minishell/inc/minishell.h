@@ -76,7 +76,8 @@ typedef struct s_shell
 	int			sqi;
 	int			sqj;
 	char		*env_name;
-	size_t		ct_dols;
+	char		*dols;
+	int			ct_dols;
 	int			out_status;
 	int			in_status;
 	int			exit_status;
@@ -193,6 +194,7 @@ int		isrediorpipe(t_shell *shell, int cmd_index, char sign);
 int		isdoubleredi(char **args, char sign);
 int		redirection_input(t_shell *shell, int cmd_index);
 int		ft_more_redi(char **args, char sign);
+void	is_heredoc(t_shell *shell, int i);
 
 /**
  * QUOTE
@@ -221,5 +223,7 @@ char	*ft_replace_dols(char *env_value, char *str, int env_size, char *dols);
 char	*ft_replace_inter(int status, char *str, char *conv, int i);
 char	*ft_strchr_no_delimiter(const char *s, int c);
 int		ft_while_for_rien(char *str);
+void	empty_dollar(t_shell *shell, int cmd_index, int i, char *dols);
+void	env_name(t_shell *shell, int j);
 
 #endif

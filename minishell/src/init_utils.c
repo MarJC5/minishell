@@ -29,6 +29,7 @@ void	old_fd(t_shell *shell)
 
 void	old_fd_two(t_shell *shell)
 {
+	shell->redinput_err = 0;
 	if (ft_more_redi(shell->cmd[0]->args, '<') == 1)
 	{
 		str_err("minishell: syntax error near unexpected token `<'", NULL);

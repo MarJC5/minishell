@@ -57,6 +57,14 @@ static void	ft_void_arg(int argc, char **argv)
 {
 	(void) argc;
 	(void) argv;
+	ascii_prompt();
+}
+
+static void	ft_free_main(t_shell *shell)
+{
+	ft_free_multi_tab(shell->envp);
+	ft_free_tab(shell->current_path);
+	free(shell);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -65,7 +73,6 @@ int	main(int argc, char **argv, char **envp)
 	t_shell			*shell;
 
 	ft_void_arg(argc, argv);
-	ascii_prompt();
 	shell = malloc(sizeof(t_shell));
 	set_envp(shell, envp);
 	init_signals(&saved);
@@ -84,8 +91,6 @@ int	main(int argc, char **argv, char **envp)
 		shell->line = init_read(shell);
 	}
 	tcsetattr(STDIN_FILENO, TCSANOW, &saved);
-	ft_free_multi_tab(shell->envp);
-	ft_free_tab(shell->current_path);
-	free(shell);
+	ft_free_main(shell);
 	return (0);
 }

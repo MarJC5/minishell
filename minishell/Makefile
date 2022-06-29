@@ -17,8 +17,8 @@ CFLAGS += -g3
 # Find where the package is installed: brew info readline		#
 #################################################################
 
-#RL_V	:= $(shell brew list --versions  readline | sed 's/.*[[:blank:]]//')
-#RL_P	:= $(shell brew --cellar readline)
+RL_V	:= $(shell brew list --versions  readline | sed 's/.*[[:blank:]]//')
+RL_P	:= $(shell brew --cellar readline)
 RL		= $(RL_P)/$(RL_V)
 LIBS	= -L $(RL)/lib/ -lreadline -lhistory
 

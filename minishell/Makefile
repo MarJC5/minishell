@@ -106,7 +106,10 @@ fclean: clean
 
 re: fclean all
 
+leaks:
+	leaks -atExit -- ./$(NAME)
+
 valgrind:
 	valgrind --leak-check=full ./$(NAME)
 
-.PHONY: all clean fclean re valgrind
+.PHONY: all debug clean fclean re valgrind leaks

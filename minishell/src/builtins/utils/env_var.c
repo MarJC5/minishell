@@ -31,7 +31,7 @@ char	*get_env_var(t_shell *shell, char *arg)
 			if (ft_strcmp(var, ft_strrchr(arg, '$') + 1) == 0)
 			{
 				str = ft_strtrim(shell->envp[i] + var_len, "=");
-				free(var);
+				ft_free_tab(var);
 				break ;
 			}
 			free(var);
@@ -54,12 +54,12 @@ char	*env_updater(t_shell *shell, char *name, char *value)
 			old = ft_substr(shell->envp[i], 0, shell->env_size + 1);
 			if (ft_strncmp(name, old, shell->env_size - 1) == 0)
 			{
-				free(shell->envp[i]);
+				ft_free_tab(shell->envp[i]);
 				shell->envp[i] = ft_strjoin(old, value);
-				free(old);
+				ft_free_tab(old);
 				return (shell->envp[i]);
 			}
-			free(old);
+			ft_free_tab(old);
 		}
 	}
 	return (NULL);

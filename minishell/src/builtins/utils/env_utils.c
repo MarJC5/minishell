@@ -44,8 +44,8 @@ char	*format_envp(char *value, int size, int is_new)
 		arg = ft_substr(value, size + 1, ft_strlen(value));
 		var = ft_substr(value, 0, size + 1);
 		ret = ft_strjoin(var, append('\0', arg, '\0'));
-		free(arg);
-		free(var);
+		ft_free_tab(arg);
+		ft_free_tab(var);
 	}
 	else if (is_new && ft_strchr(value, '=') == NULL)
 		ret = ft_strjoin(value, "=\'\'");

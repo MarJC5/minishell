@@ -30,9 +30,9 @@ char	*pars_cr_realloc(char *args, char *newval, int i, int j)
 		tmp = ft_strjoin(begin, newval);
 		args = ft_strjoin(tmp, end);
 		ft_printf("|--> %s\n", args);
-		free(begin);
-		free(end);
-		free(tmp);
+		ft_free_tab(begin);
+		ft_free_tab(end);
+		ft_free_tab(tmp);
 	}
 	return (args);
 }

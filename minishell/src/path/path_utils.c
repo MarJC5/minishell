@@ -40,10 +40,10 @@ static void	ft_free_dir(char *acctmp, char **path)
 static void	swap_cmd_name(t_shell *shell, int cmd_index, char *path, char *new)
 {
 	new = ft_strdup(shell->cmd[cmd_index]->name);
-	free(shell->cmd[cmd_index]->name);
+	ft_free_tab(shell->cmd[cmd_index]->name);
 	shell->cmd[cmd_index]->name = NULL;
 	shell->cmd[cmd_index]->name = ft_strjoin(path, new);
-	free(new);
+	ft_free_tab(new);
 	new = NULL;
 }
 

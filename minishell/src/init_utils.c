@@ -97,7 +97,7 @@ void	init_cmd(t_shell *shell, char *args)
 	}
 	else if (j > 1)
 		split_pipe_cmd(shell, args);
-	free(args);
+	ft_free_tab(args);
 }
 
 char	*init_read(t_shell *shell)
@@ -115,10 +115,10 @@ char	*init_read(t_shell *shell)
 		details = ft_strjoin(getenv("USER"), join_d);
 	join_p = ft_strjoin(details, " $ ");
 	prompt = ft_strjoin("\033[1;36mminishell\033[1;37m@\033[1;32m", join_p);
-	free(details);
-	free(join_d);
-	free(join_p);
-	free(prompt);
+	ft_free_tab(details);
+	ft_free_tab(join_d);
+	ft_free_tab(join_p);
+	ft_free_tab(prompt);
 	return (readline(
 			"\033[1;36mminishell\033[1;37m@\033[1;32m42lausanne\033[0m: $ "));
 }

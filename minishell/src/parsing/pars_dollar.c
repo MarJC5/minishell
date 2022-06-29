@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pars_dollar.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 18:52:51 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/28 20:19:00 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/29 19:31:32 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static void	recursif(t_shell *shell, int cmd_index, int i)
 	shell->ct_dols++;
 	if (!shell->envp[shell->ct_dols])
 		empty_dollar(shell, cmd_index, i, shell->dols);
-	free(shell->env_name);
+	ft_free_tab(shell->env_name);
 }
 
 void	pars_dollars(t_shell *shell, int cmd_index, int i, char *tmp)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_replace.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 18:57:58 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/28 19:06:57 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/29 19:31:00 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ char	*ft_replace_empty(char *str, char *dols, int i)
 	ew = ft_substr(str, i, ft_strlen(str) - i);
 	ret = ft_strjoin(tmp, ew);
 	ft_free_tab(tmp);
-	free(sw);
-	free(ew);
+	ft_free_tab(sw);
+	ft_free_tab(ew);
 	return (ret);
 }
 
@@ -53,8 +53,8 @@ char	*ft_replace_dols(char *env_value, char *str, int env_size, char *dols)
 		+ env_size + 1;
 	ew = ft_substr(str, i, ft_strlen(str) - i);
 	ret = ft_strjoin(tmp, ew);
-	free(tmp);
-	free(sw);
+	ft_free_tab(tmp);
+	ft_free_tab(sw);
 	if (str[i] == '\"' || str[i] == '/' || str[i] == ' '
 		|| str[i] == '\0' || str[i] == '$' || str[i] == '\'')
 	{
@@ -83,8 +83,8 @@ char	*ft_replace_inter(int status, char *str, char *conv, int i)
 		ew = ft_substr(str, i, ft_strlen(str) - i);
 		ret = ft_strjoin(tmp, ew);
 		ft_free_tab(tmp);
-		free(sw);
-		free(ew);
+		ft_free_tab(sw);
+		ft_free_tab(ew);
 		return (ret);
 	}
 	return (NULL);

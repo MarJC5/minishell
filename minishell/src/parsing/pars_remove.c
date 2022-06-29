@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pars_remove.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 00:18:17 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/28 19:06:33 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/29 19:36:02 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,9 @@ char	**pars_remove_quote_out(char **str, int i, char save)
 	while (i < args_counter(str))
 	{
 		tmp = ft_strjoin(merge, str[i++]);
-		free(merge);
+		ft_free_tab(merge);
 		merge = ft_strdup(tmp);
-		free(tmp);
+		ft_free_tab(tmp);
 	}
 	pars_remove_merge(merge, 0, save);
 	i = (args_counter(str));

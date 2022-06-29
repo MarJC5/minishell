@@ -36,7 +36,7 @@ char	*ft_join_quote(t_shell *shell, int cmd_index, int *i)
 		if (shell->eq != '\0')
 			c = 1;
 		merge = ft_strjoin(tmp, shell->cmd[cmd_index]->args[*i]);
-		free(tmp);
+		ft_free_tab(tmp);
 		tmp = ft_strdup(merge);
 		free(merge);
 		*i += 1;

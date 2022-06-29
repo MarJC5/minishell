@@ -108,6 +108,8 @@ void	ft_redo_char(t_shell *shell, int cmd_index)
 				shell->cmd[cmd_index]->args[i][j] = '<';
 			else if (shell->cmd[cmd_index]->args[i][j] == 11)
 				shell->cmd[cmd_index]->args[i][j] = '>';
+			else if (shell->cmd[cmd_index]->args[i][j] == 8)
+				shell->cmd[cmd_index]->args[i][j] = '$';
 			j++;
 		}
 		i++;

@@ -94,6 +94,25 @@ void	set_var_struct(t_shell *shell, int i, int j, int cmd_index)
 	shell->cmd[cmd_index]->namej = j;
 }
 
+void	ft_redo_char3(char *name)
+{
+	int	i;
+
+	i = 0;
+	while (name[i])
+	{
+		if (name[i] == 27)
+			name[i] = '|';
+		else if (name[i] == 6)
+			name[i] = '<';
+		else if (name[i] == 11)
+			name[i] = '>';
+		else if (name[i] == 8)
+			name[i] = '$';
+		i++;
+	}
+}
+
 char	*getname(t_shell *shell, int i, int j, int cmd_index)
 {
 	char	**args;
@@ -119,6 +138,7 @@ char	*getname(t_shell *shell, int i, int j, int cmd_index)
 	while (args[i][j] && args[i][j] != '>' && args[i][j] != '<')
 		name[g++] = args[i][j++];
 	name[g] = '\0';
+	//ft_redo_char3(name);
 	set_var_struct(shell, i, j, cmd_index);
 	return (name);
 }

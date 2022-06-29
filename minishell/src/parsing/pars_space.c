@@ -49,8 +49,7 @@ char	**pars_space(t_shell *shell, int i, int i2, int cmd_index)
 	while (i < args_counter(shell->cmd[cmd_index]->args) - 1)
 	{
 		pars_sp_loop_sq(shell, cmd_index, &i, &count);
-		if (shell->sq != '\'')
-			pars_dollars(shell, cmd_index, i, NULL);
+		pars_dollars(shell, cmd_index, i, NULL);
 		if (ft_onlyspace(shell->cmd[cmd_index]->args[i]) && count == 0)
 			i++;
 		else

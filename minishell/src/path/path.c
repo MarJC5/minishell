@@ -31,6 +31,7 @@ int	path_exist(char **env, char *str)
 
 void	check_access(t_shell *shell, int cmd_index)
 {
+	g_exit_stat = shell->exit_status;
 	if (access(shell->cmd[cmd_index]->name, (X_OK)) == 0)
 		execve(shell->cmd[cmd_index]->name,
 			shell->cmd[cmd_index]->args, shell->envp);
@@ -58,7 +59,8 @@ void	path_exec(t_shell *shell, int cmd_index)
 		else
 		{
 			g_exit_stat = -1;
-			waitpid(child_proc, NULL, 0);
+			waitpid(shell->cmd[cmd_index]->pid, &shell->exit_status, 0);
+			exit_status(shell->exit_status);
 		}
 	}
 }

@@ -31,8 +31,7 @@ void	env(t_shell *shell, int cmd_index)
 			if (ft_strcmp(ft_strchr(shell->envp[i], '='), "=''") != 0)
 			{
 				ft_printf("%s", shell->envp[i]);
-				if (shell->envp[i + 1] != NULL)
-					ft_printf("\n");
+				ft_printf("\n");
 			}
 		}
 	}

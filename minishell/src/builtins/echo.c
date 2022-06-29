@@ -47,4 +47,5 @@ void	ft_echo(t_shell *shell, int cmd_index)
 		else
 			write(1, "\n", 1);
 	}
+	g_exit_stat = 0;
 }

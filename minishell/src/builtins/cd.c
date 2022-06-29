@@ -27,12 +27,13 @@ void	ft_cd(t_shell *shell, int cmd_index)
 		}
 		else
 		{
-			if (chdir(shell->cmd[cmd_index]->args[1]) == -1)
+			g_exit_stat = chdir(shell->cmd[cmd_index]->args[1]);
+			env_updater(shell, "PWD", getcwd(shell->current_path, 100));
+			if (g_exit_stat == -1)
 				str_perr("cd: ", shell->cmd[cmd_index]->args[1]);
 			else
 			{
 				g_exit_stat = 0;
-				env_updater(shell, "PWD", getcwd(shell->current_path, 100));
 				ft_printf("%s\n", shell->current_path);
 			}
 		}

@@ -51,7 +51,7 @@ void	child_process(t_shell *shell, int cmd_index)
 	shell->in_status = handle_in(shell, cmd_index);
 	close_loop(shell);
 	check_access(shell, cmd_index);
-	g_exit_stat = -1;
+	g_exit_stat = shell->exit_status;
 	exit(EXIT_SUCCESS);
 }
 

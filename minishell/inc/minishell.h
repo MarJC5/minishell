@@ -148,7 +148,7 @@ int		env_name_size(char *str);
  * UNSET
  */
 void	unset(t_shell *shell, int cmd_index);
-void	*remove_envp(t_shell *shell, char *value, int size);
+void	remove_envp(t_shell *shell, char *value, int size);
 
 /**
  * ECHO

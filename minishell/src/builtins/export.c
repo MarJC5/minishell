@@ -73,10 +73,9 @@ void	*add_envp(t_shell *shell, int size, char *value)
 	while (++i < (size - 1))
 	{
 		ret[i] = ft_strdup(shell->envp[i]);
-		ft_free_tab(shell->envp[i]);
 	}
 	ret[i++] = value;
-	ret[i] = NULL;
+	ft_free_multi_tab(shell->envp);
 	shell->envp = ret;
 	return (ret);
 }

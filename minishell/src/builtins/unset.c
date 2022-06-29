@@ -40,7 +40,7 @@ static int	found_env(t_shell *shell, int env_size, char *value)
 	return (pos);
 }
 
-void	*remove_envp(t_shell *shell, char *value, int size)
+void	remove_envp(t_shell *shell, char *value, int size)
 {
 	int		i;
 	char	**ret;
@@ -48,19 +48,16 @@ void	*remove_envp(t_shell *shell, char *value, int size)
 	i = -1;
 	ret = malloc((size) * sizeof(char *));
 	if (!ret)
-		return (NULL);
+		return ;
 	while (++i < (size - 1))
 	{
 		if (i < found_env(shell, env_name_size(value), value))
 			ret[i] = ft_strdup(shell->envp[i]);
 		else if (shell->envp[i + 1] != NULL)
 			ret[i] = ft_strdup(shell->envp[i + 1]);
-		ft_free_tab(shell->envp[i]);
 	}
-	ft_free_tab(shell->envp[i]);
-	ret[i] = NULL;
+	ft_free_multi_tab(shell->envp);
 	shell->envp = ret;
-	return (ret);
 }
 
 void	unset(t_shell *shell, int cmd_index)

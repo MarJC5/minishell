@@ -12,6 +12,35 @@
 
 #include "../../inc/minishell.h"
 
+int	pipe_tester(t_shell *shell, char *str)
+{
+	int	i;
+	int	count;
+
+	i = 0;
+	count = 0;
+	while (str[i])
+	{
+		if (count == 1 && str[i] != 32 && str[i] != '|')
+			count = 0;
+		if (str[i] == '|')
+		{
+			if (count == 1)
+			{
+				str_err("minishell: syntax error near unexpected token `|'",
+					NULL);
+				shell->err_quote = 1;
+				shell->err_pipe = 1;
+				free(str);
+				return (1);
+			}
+			count = 1;
+		}
+		i++;
+	}
+	return (0);
+}
+
 void	ft_free_tab(char *ptr)
 {
 	if (ptr)
@@ -40,16 +69,21 @@ void	ft_free_read_args(t_shell *shell, char *line)
 	int	i;
 
 	i = 0;
-	while (i < shell->cmd_count)
-		ft_free_multi_tab(shell->cmd[i++]->args);
-	i = 0;
-	while (i < shell->cmd_count)
-	{
-		free(shell->cmd[i]->name);
-		free(shell->cmd[i++]);
-	}
-	if (line)
+	if (shell->err_pipe == 1)
 		free(line);
-	if (shell->cmd)
-		free(shell->cmd);
+	else
+	{
+		while (i < shell->cmd_count)
+			ft_free_multi_tab(shell->cmd[i++]->args);
+		i = 0;
+		while (i < shell->cmd_count)
+		{
+			free(shell->cmd[i]->name);
+			free(shell->cmd[i++]);
+		}
+		if (line)
+			free(line);
+		if (shell->cmd)
+			free(shell->cmd);
+	}
 }

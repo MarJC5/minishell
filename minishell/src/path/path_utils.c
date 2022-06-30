@@ -61,7 +61,7 @@ int	dir_exist(t_shell *shell, int cmd_index, char *tmp, char *acctmp)
 	while (path[++i])
 	{
 		if (ft_strchr(shell->cmd[cmd_index]->name, '/'))
-			return (1);
+			return (0);
 		acctmp = ft_strjoin(append('\0', path[i], '/'),
 				shell->cmd[cmd_index]->name);
 		if (access(acctmp, (X_OK)) == 0)

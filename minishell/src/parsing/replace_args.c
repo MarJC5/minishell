@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   replace_args.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 00:32:37 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/28 00:54:25 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/30 11:54:30 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	ft_replace_char(char *str, char c)
 	int	i;
 
 	i = 0;
-	while (&str[i] != ft_strrchr(str, c))
+	while (str[i] != c)
 	{
 		if (str[i] == '|')
 			str[i] = 27;
@@ -54,7 +54,6 @@ void	replace_spec_char(char *args, int i, int count, char save)
 			if (save == args[i])
 			{
 				count++;
-				ft_replace_char(&args[i], save);
 				if (count >= 2)
 				{
 					save = '\0';
@@ -64,6 +63,8 @@ void	replace_spec_char(char *args, int i, int count, char save)
 					replace_dolls_quote(args, i);
 			}
 		}
+		if (save != '\0')
+			ft_replace_char(&args[i], save);
 		i++;
 	}
 }

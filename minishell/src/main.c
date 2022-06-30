@@ -21,7 +21,7 @@ void	ft_struct(t_shell *shell)
 	shell->j = 0;
 	shell->sqj = 0;
 	shell->eqj = 0;
-	shell->redinput = 0;
+	shell->redinput = NULL;
 	shell->env_size = 0;
 	shell->fd = -1;
 	shell->env_name = NULL;

@@ -21,6 +21,7 @@ void	old_fd(t_shell *shell)
 	}
 	shell->fd = dup(STDOUT_FILENO);
 	redirection(shell, 0);
+	ft_redo_char(shell, 0);
 	init_func(shell, 0);
 	shell->cmd[0]->func(shell, 0);
 	dup2(shell->fd, STDOUT_FILENO);
@@ -44,6 +45,7 @@ void	old_fd_two(t_shell *shell)
 		old_fd(shell);
 	else if (shell->redinput_err == 0)
 	{
+		ft_redo_char(shell, 0);
 		init_func(shell, 0);
 		shell->cmd[0]->func(shell, 0);
 	}
@@ -80,6 +82,7 @@ void	init_cmd(t_shell *shell, char *args)
 	int	j;
 
 	replace_spec_char(args, 0, 0, '\0');
+	printf("%s\n", args);
 	shell->redinput = ft_strchr(args, '<');
 	is_pipe(args, shell);
 	if (shell->ispipe >= 1)

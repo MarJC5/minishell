@@ -17,6 +17,7 @@ int	handle_out(t_shell *shell, int cmd_index)
 	if (isrediorpipe(shell, cmd_index, '>') == 1)
 	{
 		redirection(shell, cmd_index);
+		ft_redo_char(shell, cmd_index);
 		return (1);
 	}
 	if (shell->cmd[cmd_index]->out != -1)
@@ -35,6 +36,7 @@ int	handle_in(t_shell *shell, int cmd_index)
 			;
 		else
 			redirection_input(shell, cmd_index);
+		ft_redo_char(shell, cmd_index);
 		return (1);
 	}
 	if (shell->cmd[cmd_index]->in != -1)

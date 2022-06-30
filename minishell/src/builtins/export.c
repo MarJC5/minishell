@@ -61,7 +61,7 @@ static void	sort_export(t_shell *shell)
 	ft_free_multi_tab(env_dup);
 }
 
-void	*add_envp(t_shell *shell, int size, char *value)
+void	add_envp(t_shell *shell, int size, char *value)
 {
 	int		i;
 	char	**ret;
@@ -69,15 +69,16 @@ void	*add_envp(t_shell *shell, int size, char *value)
 	i = -1;
 	ret = malloc((size + 2) * sizeof(char *));
 	if (!ret)
-		return (NULL);
+		return ;
 	while (++i < (size - 1))
 	{
 		ret[i] = ft_strdup(shell->envp[i]);
+		ft_free_tab(shell->envp[i]);
 	}
+	free(shell->envp);
 	ret[i++] = value;
-	ft_free_multi_tab(shell->envp);
+	ret[i] = NULL;
 	shell->envp = ret;
-	return (ret);
 }
 
 void	export(t_shell *shell, int cmd_index)

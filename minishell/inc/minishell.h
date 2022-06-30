@@ -140,7 +140,7 @@ void	env(t_shell *shell, int cmd_index);
  */
 void	export(t_shell *shell, int cmd_index);
 void	update_envp(t_shell *shell, char *value, int size, int is_valid);
-void	*add_envp(t_shell *shell, int size, char *value);
+void	add_envp(t_shell *shell, int size, char *value);
 char	*format_envp(char *value, int size, int is_new);
 int		is_env_valid(char *str);
 int		env_name_size(char *str);

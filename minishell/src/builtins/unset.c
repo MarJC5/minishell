@@ -56,6 +56,7 @@ void	remove_envp(t_shell *shell, char *value, int size)
 		else if (shell->envp[i + 1] != NULL)
 			ret[i] = ft_strdup(shell->envp[i + 1]);
 	}
+	ret[i] = NULL;
 	ft_free_multi_tab(shell->envp);
 	shell->envp = ret;
 }

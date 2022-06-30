@@ -29,6 +29,20 @@ static void	ft_replace_char(char *str, char c)
 	}
 }
 
+void	replace_dolls_quote(char *args, int i)
+{
+	char	save;
+
+	save = args[i];
+	i++;
+	while (args[i] && args[i] != save)
+	{
+		if (args[i] == '$')
+			args[i] = 8;
+		i++;
+	}
+}
+
 void	replace_spec_char(char *args, int i, int count, char save)
 {
 	while (args[i])
@@ -46,6 +60,8 @@ void	replace_spec_char(char *args, int i, int count, char save)
 					save = '\0';
 					count = 0;
 				}
+				else if (args[i] == '\'' && save != '\"')
+					replace_dolls_quote(args, i);
 			}
 		}
 		i++;

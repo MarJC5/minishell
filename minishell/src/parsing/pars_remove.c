@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 00:18:17 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/30 12:48:32 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/30 13:44:57 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,10 +81,8 @@ char	**pars_remove_quote_out(char **str, int i, char save)
 		i++;
 	}
 	pars_remove_merge(merge, 0, save);
-	i = (args_counter(str));
-	while (i >= 0)
-		ft_free_tab(str[i--]);
-	free(str);
+	ft_free_multi_tab(str);
 	str = ft_split(merge, 24);
+	ft_free_tab(merge);
 	return (str);
 }

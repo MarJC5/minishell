@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirection.c                                      :+:      :+:    :+:   */
+/*   redi_args.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 14:45:11 by jmartin           #+#    #+#             */
-/*   Updated: 2022/05/31 10:05:32 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/30 13:44:55 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,14 +51,6 @@ void	ft_free_tmp(char **tmp)
 	tmp = NULL;
 }
 
-void	ft_free_args(t_shell *shell, int cmd_index, int count)
-{
-	while (count >= 0)
-		ft_free_tab(shell->cmd[cmd_index]->args[count--]);
-	free(shell->cmd[cmd_index]->args);
-	shell->cmd[cmd_index]->args = NULL;
-}
-
 void	ft_seteur_var(int *count, int *i2)
 {
 	*count = 0;
@@ -90,6 +82,6 @@ char	**redirection_arg(t_shell *shell, int cmd_index, int i, int j)
 			ft_free_tmp(tmp);
 		}
 	}
-	ft_free_args(shell, cmd_index, count);
+	ft_free_multi_tab(shell->cmd[cmd_index]->args);
 	return (str);
 }

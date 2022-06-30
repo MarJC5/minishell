@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 00:11:56 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/30 12:52:15 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/30 14:01:19 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,16 +29,24 @@ static void	pars_sp_loop_sq(t_shell *shell, int cmd_index, int *i, int *count)
 	}
 }
 
-static char	**pars_space_free(t_shell *shell, int cmd_index, int i, char **tmp)
+static char	**pars_space_free(t_shell *shell, int cmd_index, char **tmp)
 {
-	while (i >= 0)
-		ft_free_tab(shell->cmd[cmd_index]->args[i--]);
-	free(shell->cmd[cmd_index]->args);
-	return (pars_remove_quote_out(tmp, 0, '\0'));
+	char	**ret;
+
+	ft_free_multi_tab(shell->cmd[cmd_index]->args);
+	ret = pars_remove_quote_out(tmp, 0, '\0');
+	return (ret);
+}
+
+static void	run_space(t_shell *shell, int cmd_index, int *i, int *count)
+{
+	pars_sp_loop_sq(shell, cmd_index, &*i, &*count);
+	pars_dollars(shell, cmd_index, *i, NULL);
 }
 
 char	**pars_space(t_shell *shell, int i, int i2, int cmd_index)
 {
+	char	**ret;
 	char	**tmp;
 	int		count;
 
@@ -48,8 +56,7 @@ char	**pars_space(t_shell *shell, int i, int i2, int cmd_index)
 	ft_reset_eq_sq(shell);
 	while (i < args_counter(shell->cmd[cmd_index]->args) - 1)
 	{
-		pars_sp_loop_sq(shell, cmd_index, &i, &count);
-		pars_dollars(shell, cmd_index, i, NULL);
+		run_space(shell, cmd_index, &i, &count);
 		if (ft_onlyspace(shell->cmd[cmd_index]->args[i]) && count == 0)
 			i++;
 		else
@@ -62,5 +69,6 @@ char	**pars_space(t_shell *shell, int i, int i2, int cmd_index)
 				quote_finder_two(shell, shell->cmd[cmd_index]->args[i], 0);
 		}
 	}
-	return (pars_space_free(shell, cmd_index, 0, tmp));
+	ret = pars_space_free(shell, cmd_index, tmp);
+	return (ret);
 }

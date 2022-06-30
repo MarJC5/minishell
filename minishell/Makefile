@@ -102,6 +102,7 @@ clean:
 fclean: clean
 	@$(MAKE) -C ./newlibft fclean
 	@$(RM) $(NAME)
+	@${RM} -r ${NAME}.dSYM
 	@echo "[$(ORANGE)$(NAME)$(RESET)] fclean: $(GREEN)OK$(RESET)"
 
 re: fclean all

@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 00:18:17 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/30 11:25:46 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/30 12:48:32 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,18 +67,18 @@ char	**pars_remove_quote_out(char **str, int i, char save)
 	while (i < args_counter(str))
 	{
 		if (ft_onlyspace(str[i]) == 0)
-			append_last(str[i], 24);
+			str[i] = append_last(str[i], 24);
 		i++;
 	}
 	i = 0;
 	merge = ft_strdup("");
 	while (i < args_counter(str))
 	{
-		//printf("merge:%s\nstr:%s\n", merge, str[i]);
-		tmp = ft_strjoin(merge, str[i++]);
+		tmp = ft_strjoin(merge, str[i]);
 		ft_free_tab(merge);
 		merge = ft_strdup(tmp);
 		ft_free_tab(tmp);
+		i++;
 	}
 	pars_remove_merge(merge, 0, save);
 	i = (args_counter(str));

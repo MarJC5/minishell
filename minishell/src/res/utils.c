@@ -42,15 +42,20 @@ char	*append(char before, char *str, char after)
 
 char	*append_last(char *str, char after)
 {
+	char	*ret;
 	size_t	len;
 
+	ret = NULL;
 	len = ft_strlen(str);
 	if (after)
 	{
-		str[len] = after;
-		str[len + 1] = 0;
+		ret = malloc(sizeof(char) * (len + 2));
+		ft_memcpy(ret, str, len);
+		ret[len] = after;
+		ret[len + 1] = '\0';
+		ft_free_tab(str);
 	}
-	return (str);
+	return (ret);
 }
 
 int	str_err(char *str, char *err)

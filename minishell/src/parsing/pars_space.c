@@ -6,13 +6,13 @@
 /*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 00:11:56 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/30 14:01:19 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/30 15:21:33 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-static void	pars_sp_loop_sq(t_shell *shell, int cmd_index, int *i, int *count)
+void	pars_sp_loop_sq(t_shell *shell, int cmd_index, int *i, int *count)
 {
 	if (shell->sq == '\0')
 		quote_finder(shell, cmd_index, *i);

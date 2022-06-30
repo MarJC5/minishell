@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 00:15:53 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/30 10:32:46 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/30 15:21:12 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,56 +21,78 @@ void	ft_reset_eq_sq(t_shell *shell)
 	shell->eqj = 0;
 }
 
-static void	ft_counter_space_sq(t_shell *shell, char **args, int *i, int *count)
+int	quote_finder_char_count(t_shell *shell, char **args, int i)
 {
-	if (shell->sq != '\0')
+	while (args[i][shell->eqj])
 	{
-		if (shell->sqi == *i)
-			quote_finder_two(shell, args[*i], 1);
-		else
-			quote_finder_two(shell, args[*i], 0);
-		if (shell->eq == shell->sq)
+		if (args[i][shell->eqj] == '\"'
+			|| args[i][shell->eqj] == '\'')
 		{
-			*count = 0;
-			shell->sq = '\0';
+			shell->sq = args[i][shell->eqj];
+			shell->sqj = shell->eqj;
+			shell->eqj = 0;
+			shell->eq = '\0';
+			return (1);
 		}
+		shell->eqj++;
 	}
+	return (0);
 }
 
-static void	ft_counter_space_find_sq(t_shell *shell, int cmd_index, int *i)
+int	ft_join_quote_count(t_shell *shell, char **args, int *i)
 {
-	if (shell->sq == '\0')
+	int		c;
+	int		counter;
+
+	c = 0;
+	counter = 0;
+	while (*i < args_counter(args) - 1 && c == 0)
 	{
-		quote_finder(shell, cmd_index, *i);
-		shell->sqi = *i;
+		quote_finder_two(shell, args[*i], 1);
+		if (shell->eq != '\0')
+		{
+			if (quote_finder_char_count(shell, args, *i) == 0)
+			{
+				c = 1;
+			}
+		}
+		counter++;
+		*i += 1;
 	}
+	return (counter);
+}
+
+static void	ft_counter_space_check(int *i, int *c)
+{
+	*c += 1;
+	*i += 1;
 }
 
 int	ft_counter_space(t_shell *shell, char **args, int cmd_index)
 {
 	int	i;
 	int	c;
-	int	i2;
 	int	count;
 
 	i = 0;
 	c = 0;
 	count = 0;
-	i2 = 0;
 	ft_reset_eq_sq(shell);
 	while (args[i])
 	{
-		ft_counter_space_find_sq(shell, cmd_index, &i);
-		if (shell->sq != '\0')
-			count++;
-		if (args[i][0] == ' ' && count == 0)
-			;
+		pars_sp_loop_sq(shell, cmd_index, &i, &count);
+		if (ft_onlyspace(args[i]) && count == 0)
+			i++;
 		else
-			c++;
-		ft_counter_space_sq(shell, args, &i, &count);
-		i++;
-		i2++;
+		{
+			if (shell->sq == '\0')
+				ft_counter_space_check(&i, &c);
+			else
+				c += ft_join_quote_count(shell, args, &i);
+			if (i != args_counter(args) - 1)
+				quote_finder_two(shell, args[i], 0);
+		}
 	}
 	ft_reset_eq_sq(shell);
-	return (c);
+	return (++c);
 }

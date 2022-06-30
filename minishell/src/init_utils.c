@@ -84,7 +84,6 @@ void	init_cmd(t_shell *shell, char *args)
 	replace_spec_char(args, 0, 0, '\0');
 	shell->redinput = ft_strchr(args, '<');
 	is_pipe(args, shell);
-	//ft_printf("line: %s\n", args);
 	if (shell->ispipe >= 1)
 		j = ++shell->ispipe;
 	else

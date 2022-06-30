@@ -198,6 +198,8 @@ int		redirection_input(t_shell *shell, int cmd_index);
 int		ft_more_redi(char **args, char sign);
 void	is_heredoc(t_shell *shell, int i);
 void	ft_dup_unlink(t_shell *shell, int i);
+void	ft_redo_char3(char *name);
+int		ft_check_getname(char **args, int i, int j);
 
 /**
  * QUOTE
@@ -226,6 +228,7 @@ char	*ft_replace_dols(char *env_value, char *str, int env_size, char *dols);
 char	*ft_replace_inter(int status, char *str, char *conv, int i);
 char	*ft_strchr_no_delimiter(const char *s, int c);
 int		ft_while_for_rien(char *str);
+void	pars_sp_loop_sq(t_shell *shell, int cmd_index, int *i, int *count);
 void	empty_dollar(t_shell *shell, int cmd_index, int i, char *dols);
 void	env_name(t_shell *shell, int j);
 

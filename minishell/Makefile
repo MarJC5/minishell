@@ -44,7 +44,6 @@ FILES	=	main.c \
 			parsing/pars_dollars_utils.c \
 			parsing/pars_args.c \
 			parsing/pars_remove.c \
-			parsing/pars_single.c \
 			parsing/pars_space_2.c \
 			parsing/pars_space.c \
 			parsing/quote_utils_2.c \
@@ -62,6 +61,7 @@ FILES	=	main.c \
 			builtins/utils/init_func.c \
 			redirection/redirection.c \
 			redirection/heredoc.c \
+			redirection/utils_2.c \
 			redirection/utils.c \
 			redirection/redi_args.c \
 			redirection/redinput.c \

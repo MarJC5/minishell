@@ -26,7 +26,7 @@ void	ft_struct(t_shell *shell)
 	shell->fd = -1;
 	shell->env_name = NULL;
 	shell->err_quote = 0;
-	shell->err_pipe = 1;
+	shell->err_pipe = 0;
 	shell->ct_dols = 0;
 	shell->fd_in = -1;
 	shell->cmd_count = 0;

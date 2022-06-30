@@ -70,7 +70,10 @@ void	ft_free_read_args(t_shell *shell, char *line)
 
 	i = 0;
 	if (shell->err_pipe == 1)
+	{
+		shell->err_pipe = 0;
 		free(line);
+	}
 	else
 	{
 		while (i < shell->cmd_count)

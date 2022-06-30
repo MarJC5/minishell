@@ -188,7 +188,7 @@ int		dir_exist(t_shell *shell, int cmd_index, char *tmp, char *acctmp);
 char	*getname(t_shell *shell, int i, int j, int cmd_index);
 char	**redirection_arg(t_shell *shell, int cmd_index, int i, int j);
 void	pipex(t_shell *shell);
-void	redirection(t_shell *shell, int cmd_index);
+int		redirection(t_shell *shell, int cmd_index);
 void	is_pipe(char *line, t_shell *shell);
 void	close_loop(t_shell *shell);
 void	heredoc(t_shell *shell, int cmd_index);

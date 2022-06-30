@@ -34,7 +34,7 @@ char	*redinput_name_two(t_shell *shell, int cmd_index)
 	return (name);
 }
 
-void	redirection(t_shell *shell, int cmd_index)
+int	redirection(t_shell *shell, int cmd_index)
 {
 	char	*name;
 
@@ -43,6 +43,12 @@ void	redirection(t_shell *shell, int cmd_index)
 	shell->cmd[cmd_index]->namej = 0;
 	isrediorpipe(shell, cmd_index, '>');
 	name = redinput_name_two(shell, cmd_index);
+	if (name == NULL)
+	{
+		str_err("minishell: syntax error near unexpected token `newline'", NULL);
+		free(name);
+		return (1);
+	}
 	if (isdoubleredi(shell->cmd[cmd_index]->args, '>') == 2)
 		shell->cmd[cmd_index]->out = open(name, O_CREAT | O_RDWR | O_APPEND,
 				0666);
@@ -54,11 +60,12 @@ void	redirection(t_shell *shell, int cmd_index)
 	shell->cmd[cmd_index]->args = redirection_arg(shell, cmd_index,
 			shell->cmd[cmd_index]->namei, shell->cmd[cmd_index]->namej);
 	free(name);
-	if (isrediorpipe(shell, cmd_index, '>') == 1)
-		redirection(shell, cmd_index);
 	if (ft_strchr(shell->cmd[cmd_index]->name, '>'))
 	{
 		ft_cmd_name_changer(shell, cmd_index);
 		dir_exist(shell, cmd_index, NULL, NULL);
 	}
+	if (isrediorpipe(shell, cmd_index, '>') == 1)
+		return(redirection(shell, cmd_index));
+	return (0);
 }

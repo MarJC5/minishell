@@ -50,7 +50,7 @@ void	quote_finder(t_shell *shell, int cmd_index, int i)
 			|| shell->cmd[cmd_index]->args[i][j] == '\'')
 		{
 			shell->sq = shell->cmd[cmd_index]->args[i][j];
-			shell->sqj = i; // envoyer j pas i
+			shell->sqj = j;
 			return ;
 		}
 		j++;
@@ -90,7 +90,8 @@ void	quote_finder_two(t_shell *shell, char *args, int task)
 	}
 	else
 	{
-		i = shell->sqj + 1; // reset sqj a 0 après
+		i = shell->sqj + 1;
 		quote_finder_two_eq(shell, args, i);
+		shell->sqj = 0;
 	}
 }

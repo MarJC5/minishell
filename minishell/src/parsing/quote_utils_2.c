@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quote_utils_2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 00:14:56 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/28 00:24:20 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/30 10:52:59 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	quote_finder(t_shell *shell, int cmd_index, int i)
 			|| shell->cmd[cmd_index]->args[i][j] == '\'')
 		{
 			shell->sq = shell->cmd[cmd_index]->args[i][j];
-			shell->sqj = j;
+			shell->sqj = j + 1;
 			return ;
 		}
 		j++;
@@ -65,6 +65,7 @@ static void	quote_finder_two_eq(t_shell *shell, char *args, int i)
 		if (args[i] == shell->sq)
 		{
 			shell->eq = args[i];
+			shell->eqj = i + 1;
 			return ;
 		}
 		i++;
@@ -90,7 +91,7 @@ void	quote_finder_two(t_shell *shell, char *args, int task)
 	}
 	else
 	{
-		i = shell->sqj + 1;
+		i = shell->sqj;
 		quote_finder_two_eq(shell, args, i);
 		shell->sqj = 0;
 	}

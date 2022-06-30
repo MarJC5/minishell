@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pars_dollar.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 18:52:51 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/29 19:31:32 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/30 10:15:41 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static int	ft_set_value_dolls(t_shell *shell, int cmd_index, int i)
 static char	*ret_norm(t_shell *shell, int cmd_index, int i)
 {
 	return (ft_replace_dols(ft_strchr(shell->envp[shell->ct_dols], '=') + 1,
-				shell->cmd[cmd_index]->args[i], shell->env_size,
+			shell->cmd[cmd_index]->args[i], shell->env_size,
 			shell->dols - 1));
 }
 

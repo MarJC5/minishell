@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 00:15:53 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/28 15:53:48 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/30 10:32:46 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	ft_reset_eq_sq(t_shell *shell)
 	shell->eq = '\0';
 	shell->sqi = 0;
 	shell->sqj = 0;
+	shell->eqj = 0;
 }
 
 static void	ft_counter_space_sq(t_shell *shell, char **args, int *i, int *count)

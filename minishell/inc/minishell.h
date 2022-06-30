@@ -76,6 +76,7 @@ typedef struct s_shell
 	char		eq;
 	int			sqi;
 	int			sqj;
+	int			eqj;
 	char		*env_name;
 	char		*dols;
 	int			ct_dols;
@@ -196,6 +197,7 @@ int		isdoubleredi(char **args, char sign);
 int		redirection_input(t_shell *shell, int cmd_index);
 int		ft_more_redi(char **args, char sign);
 void	is_heredoc(t_shell *shell, int i);
+void	ft_dup_unlink(t_shell *shell, int i);
 
 /**
  * QUOTE

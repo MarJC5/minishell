@@ -55,14 +55,6 @@ void	child_process(t_shell *shell, int cmd_index)
 	exit(EXIT_SUCCESS);
 }
 
-static void	ft_dup_unlink(t_shell *shell, int i)
-{
-	unlink("temp_minishell");
-	dup2(shell->fd_in, STDIN_FILENO);
-	close(shell->fd_in);
-	shell->cmd[i]->heredoc = 0;
-}
-
 static void	ft_norme(t_shell *shell, int *fd, int i)
 {
 	pipe(fd);

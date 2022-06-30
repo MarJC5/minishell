@@ -20,6 +20,24 @@ void	pars_cmd_name_quote(char *str)
 		remove_char(str, '\'');
 }
 
+int	quote_finder_char(t_shell *shell, int cmd_index, int i)
+{
+	while (shell->cmd[cmd_index]->args[i][shell->eqj])
+	{
+		if (shell->cmd[cmd_index]->args[i][shell->eqj] == '\"'
+			|| shell->cmd[cmd_index]->args[i][shell->eqj] == '\'')
+		{
+			shell->sq = shell->cmd[cmd_index]->args[i][shell->eqj];
+			shell->sqj = shell->eqj;
+			shell->eqj = 0;
+			shell->eq = '\0';
+			return (1);
+		}
+		shell->eqj++;
+	}
+	return (0);
+}
+
 char	*ft_join_quote(t_shell *shell, int cmd_index, int *i)
 {
 	char	*tmp;
@@ -33,7 +51,12 @@ char	*ft_join_quote(t_shell *shell, int cmd_index, int *i)
 		pars_dollars(shell, cmd_index, *i, NULL);
 		quote_finder_two(shell, shell->cmd[cmd_index]->args[*i], 1);
 		if (shell->eq != '\0')
-			c = 1;
+		{
+			if (quote_finder_char(shell, cmd_index, *i) == 0)
+			{
+				c = 1;
+			}
+		}
 		merge = ft_strjoin(tmp, shell->cmd[cmd_index]->args[*i]);
 		ft_free_tab(tmp);
 		tmp = ft_strdup(merge);

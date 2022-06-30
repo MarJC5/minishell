@@ -59,3 +59,11 @@ void	is_heredoc(t_shell *shell, int i)
 	if (isdoubleredi(shell->cmd[i]->args, '<') == 2)
 		ft_duper(shell, i);
 }
+
+void	ft_dup_unlink(t_shell *shell, int i)
+{
+	unlink("temp_minishell");
+	dup2(shell->fd_in, STDIN_FILENO);
+	close(shell->fd_in);
+	shell->cmd[i]->heredoc = 0;
+}

@@ -1,17 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pars_dollar.c                                      :+:      :+:    :+:   */
+/*   pars_dollars_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 18:52:51 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/28 20:19:00 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/30 10:15:48 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-
 
 void	empty_dollar(t_shell *shell, int cmd_index, int i, char *dols)
 {

@@ -20,7 +20,7 @@ CFLAGS += -g3
 RL_V	:= $(shell brew list --versions  readline | sed 's/.*[[:blank:]]//')
 RL_P	:= $(shell brew --cellar readline)
 RL		= $(RL_P)/$(RL_V)
-LIBS	= -L $(RL)/lib/ -lreadline #-lhistory
+LIBS	= -L $(RL)/lib/ -lreadline -lhistory
 
 # READLINE BACKUP
 #RL		= ../doc/readline/8.1.2

@@ -26,7 +26,10 @@ char	*ft_get_keyword(t_shell *shell, char **str, int cmd_index)
 	if (ft_strlen(str[i]) - (j + 2) >= 1)
 		name = malloc(ft_strlen(&str[i][j += 2]) + 1);
 	else if (str[shell->i + 1])
+	{
 		name = malloc(ft_strlen(str[++i]) + 1);
+		j = 0;
+	}
 	while (str[i][j] && str[i][j] != '>' && str[i][j] != '<')
 		name[g++] = str[i][j++];
 	name[g] = '\0';

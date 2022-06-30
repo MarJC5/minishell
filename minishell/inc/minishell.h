@@ -67,6 +67,7 @@ typedef struct s_shell
 	int			i;
 	int			j;
 	int			err_quote;
+	int			err_pipe;
 	int			redinput_err;
 	int			env_size;
 	int			fd;
@@ -200,6 +201,7 @@ void	is_heredoc(t_shell *shell, int i);
 void	ft_dup_unlink(t_shell *shell, int i);
 void	ft_redo_char3(char *name);
 int		ft_check_getname(char **args, int i, int j);
+int		pipe_tester(t_shell *shell, char *str);
 
 /**
  * QUOTE

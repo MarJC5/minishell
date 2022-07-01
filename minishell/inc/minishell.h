@@ -202,6 +202,9 @@ void	ft_dup_unlink(t_shell *shell, int i);
 void	ft_redo_char3(char *name);
 int		ft_check_getname(char **args, int i, int j);
 int		pipe_tester(t_shell *shell, char *str);
+int		heredoc_while(char *str, int i);
+int		heredoc_tester(t_shell *shell, char *str);
+char	*reset_redinput(t_shell *shell, int cmd_index);
 
 /**
  * QUOTE

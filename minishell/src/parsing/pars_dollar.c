@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 18:52:51 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/30 10:15:41 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/07/01 11:00:33 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,14 @@ static int	ft_set_value_dolls(t_shell *shell, int cmd_index, int i)
 
 static char	*ret_norm(t_shell *shell, int cmd_index, int i)
 {
-	return (ft_replace_dols(ft_strchr(shell->envp[shell->ct_dols], '=') + 1,
+	char	*ret;
+
+	ret = ft_replace_dols(ft_strchr(shell->envp[shell->ct_dols], '=') + 1,
 			shell->cmd[cmd_index]->args[i], shell->env_size,
-			shell->dols - 1));
+			shell->dols - 1);
+	if (shell->env_name)
+		free(shell->env_name);
+	return (ret);
 }
 
 static void	recursif(t_shell *shell, int cmd_index, int i)
@@ -40,7 +45,8 @@ static void	recursif(t_shell *shell, int cmd_index, int i)
 	shell->ct_dols++;
 	if (!shell->envp[shell->ct_dols])
 		empty_dollar(shell, cmd_index, i, shell->dols);
-	ft_free_tab(shell->env_name);
+	if (shell->env_name)
+		free(shell->env_name);
 }
 
 void	pars_dollars(t_shell *shell, int cmd_index, int i, char *tmp)

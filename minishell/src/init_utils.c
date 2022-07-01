@@ -14,7 +14,7 @@
 
 void	old_fd(t_shell *shell)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (ft_more_redi(shell->cmd[0]->args, '>') == 1)

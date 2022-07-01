@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 00:15:53 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/30 15:21:12 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/07/01 11:29:11 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ int	ft_join_quote_count(t_shell *shell, char **args, int *i)
 		counter++;
 		*i += 1;
 	}
+	shell->sq = '\0';
 	return (counter);
 }
 

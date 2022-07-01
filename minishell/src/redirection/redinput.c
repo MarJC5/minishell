@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redinput.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 14:45:11 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/28 00:36:04 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/07/01 09:40:07 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,23 +41,24 @@ void	ft_cmd_name_changer_eco_line(t_shell *shell, int cmd_index)
 	dir_exist(shell, cmd_index, NULL, NULL);
 }
 
+int	ret_err_redinput(char *name)
+{
+	str_err("minishell: syntax error near unexpected token `newline'", NULL);
+	free(name);
+	return (1);
+}
+
 int	redirection_input(t_shell *shell, int cmd_index)
 {
 	char	*name;
 	int		i;
 
-	name = NULL;
 	i = 0;
-	shell->cmd[cmd_index]->namei = 0;
-	shell->cmd[cmd_index]->namej = 0;
+	name = reset_redinput(shell, cmd_index);
 	isrediorpipe(shell, cmd_index, '<');
 	name = redinput_name(shell, cmd_index);
 	if (name == NULL)
-	{
-		str_err("minishell: syntax error near unexpected token `newline'", NULL);
-		free(name);
-		return (1);
-	}
+		return (ret_err_redinput(name));
 	shell->cmd[cmd_index]->in = open(name, O_RDONLY);
 	dup2(shell->cmd[cmd_index]->in, STDIN_FILENO);
 	if (shell->cmd[cmd_index]->in != -1)

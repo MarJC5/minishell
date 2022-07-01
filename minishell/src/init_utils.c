@@ -14,7 +14,7 @@
 
 void	old_fd(t_shell *shell)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (ft_more_redi(shell->cmd[0]->args, '>') == 1)
@@ -81,47 +81,6 @@ static void	split_pipe_cmd(t_shell *shell, char *args)
 		i++;
 	}
 	ft_free_multi_tab(tmp);
-}
-
-int	heredoc_while(char *str, int i)
-{
-	while (str[i])
-	{
-		if (str[i] == ' ')
-			i++;
-		else if (str[i] == '>')
-			return (1);
-		else
-			return (0);
-	}
-	return (1);
-}
-
-int	heredoc_tester(t_shell *shell, char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == '<')
-		{
-			if (str[i + 1] && str[i + 1] == '<')
-			{
-				if (heredoc_while(str, i + 2) == 1)
-				{
-					str_err("minishell: syntax error near unexpected token `>'",
-						NULL);
-					shell->err_quote = 1;
-					shell->err_pipe = 1;
-					free(str);
-					return (1);
-				}
-			}
-		}
-		i++;
-	}
-	return (0);
 }
 
 void	init_cmd(t_shell *shell, char *args)

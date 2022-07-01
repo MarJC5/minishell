@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 14:45:11 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/28 00:35:48 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/07/01 09:29:10 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,13 @@ void	while_heredoc(t_shell *shell, char *kw, int cmd_index)
 	}
 }
 
+void	ft_ret_heredoc(t_shell *shell)
+{
+	shell->redinput_err = 1;
+	str_err("minishell: syntax error near unexpected token `newline'",
+		NULL);
+}
+
 void	ft_cmd_name_changer_eco_line_heredoc(t_shell *shell, int cmd_index)
 {
 	ft_cmd_name_changer(shell, cmd_index);
@@ -75,11 +82,7 @@ void	heredoc(t_shell *shell, int cmd_index)
 	shell->cmd[cmd_index]->heredoc = 1;
 	kw = ft_get_keyword(shell, shell->cmd[cmd_index]->args, cmd_index);
 	if (kw == NULL)
-	{
-		shell->redinput_err = 1;
-		str_err("minishell: syntax error near unexpected token `newline'", NULL);
-		return ;
-	}
+		return (ft_ret_heredoc(shell));
 	while_heredoc(shell, kw, cmd_index);
 	ft_free_tab(kw);
 	shell->cmd[cmd_index]->args = redirection_arg(shell, cmd_index,

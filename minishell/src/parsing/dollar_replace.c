@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 18:57:58 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/29 19:31:00 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/07/01 07:06:37 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,9 @@ char	*ft_replace_dols(char *env_value, char *str, int env_size, char *dols)
 		ft_free_tab(ew);
 		return (ret);
 	}
-	return (ft_replace_empty(str, dols, 0));
+	ft_free_tab(ew);
+	tmp = ft_replace_empty(str, dols, 0);
+	return (tmp);
 }
 
 char	*ft_replace_inter(int status, char *str, char *conv, int i)
@@ -85,7 +87,9 @@ char	*ft_replace_inter(int status, char *str, char *conv, int i)
 		ft_free_tab(tmp);
 		ft_free_tab(sw);
 		ft_free_tab(ew);
+		ft_free_tab(conv);
 		return (ret);
 	}
+	ft_free_tab(conv);
 	return (NULL);
 }

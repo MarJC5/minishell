@@ -76,6 +76,8 @@ void	ft_free_read_args(t_shell *shell, char *line)
 	}
 	else
 	{
+		if (shell->env_name)
+			free(shell->env_name);
 		while (i < shell->cmd_count)
 			ft_free_multi_tab(shell->cmd[i++]->args);
 		i = 0;

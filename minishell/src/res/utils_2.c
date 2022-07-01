@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 09:22:06 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/12 17:25:01 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/20 16:41:47 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,21 @@ int	ft_isspace(char *str)
 	return (0);
 }
 
+int	ft_onlyspace(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == ' ')
+			i++;
+		else
+			return (0);
+	}
+	return (1);
+}
+
 char	*arg_to_lower(char *str)
 {
 	int		i;
@@ -51,4 +66,18 @@ void	exit_status(int wstatus)
 {
 	if (WIFEXITED(wstatus))
 		g_exit_stat = WEXITSTATUS(wstatus);
+}
+
+int	ft_strchr_pos(char *s, char c)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+	{
+		if (s[i] == c)
+			return (i);
+		i++;
+	}
+	return (-1);
 }

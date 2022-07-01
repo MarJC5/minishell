@@ -12,84 +12,62 @@
 
 #include "../../inc/minishell.h"
 
-void	redirection_arg(t_shell *shell, int cmd_index, int i, int j)
+void	ft_cmd_name_changer(t_shell *shell, int cmd_index)
 {
-	char	**str;
-	char	**tmp;
-	int		count;
-	int		i2;
-	int		g;
-	char	c;
-
-	str = NULL;
-	count = 0;
-	i2 = 0;
-	g = 0;
-	c = shell->cmd[cmd_index]->args[shell->i][shell->j];
-	while (shell->cmd[cmd_index]->args[count])
-		count++;
-	str = ft_calloc((count + 1), sizeof(char *));
-	str[count + 1] = NULL;
-	count = 0;
-	while (shell->cmd[cmd_index]->args[count])
-	{
-		if (count == shell->i)
-		{
-			tmp = ft_split_with_delimiter(shell->cmd[cmd_index]->args[count], c);
-			if (shell->j != 0)
-				str[i2++] = ft_strdup(tmp[0]);
-			if (shell->cmd[cmd_index]->args[i][j])
-				str[i2++] = ft_strdup(&shell->cmd[cmd_index]->args[i][j]);
-			count = i + 1;
-			while (tmp[g])
-				ft_free_tab(tmp[g++]);
-		}
-		else
-			str[i2++] = ft_strdup(shell->cmd[cmd_index]->args[count++]);
-	}
-	while (count != 0)
-		ft_free_tab(shell->cmd[cmd_index]->args[count--]);
-	shell->cmd[cmd_index]->args = str;
+	if (!shell->cmd[cmd_index]->args[0])
+		return ;
+	ft_free_tab(shell->cmd[cmd_index]->name);
+	shell->cmd[cmd_index]->name = ft_strdup(shell->cmd[cmd_index]->args[0]);
 }
 
-void	redirection(t_shell *shell, char **args, int cmd_index)
+char	*redinput_name_two(t_shell *shell, int cmd_index)
 {
+	char	cwd[PATH_MAX];
 	char	*name;
 	char	*temp;
-	char	cwd[PATH_MAX];
 
+	temp = NULL;
 	name = NULL;
-	isrediorpipe(shell, args, '>');
-	name = getname(shell, args, shell->i, shell->j, cmd_index);
+	isrediorpipe(shell, cmd_index, '>');
+	name = getname(shell, shell->i, shell->j, cmd_index);
 	temp = ft_strjoin(getcwd(cwd, sizeof(cwd)), name);
 	free(name);
 	name = temp;
-	if (isdoubleredi(args, '>') == 2)
-		shell->cmd[cmd_index]->out = open(name, O_CREAT | O_RDWR | O_APPEND, 0666);
+	return (name);
+}
+
+int	ret_redi_err(char *name)
+{
+	str_err("minishell: syntax error near unexpected token `newline'", NULL);
+	free(name);
+	return (1);
+}
+
+int	redirection(t_shell *shell, int cmd_index)
+{
+	char	*name;
+
+	name = reset_redinput(shell, cmd_index);
+	name = redinput_name_two(shell, cmd_index);
+	if (name == NULL)
+		return (ret_redi_err(name));
+	if (isdoubleredi(shell->cmd[cmd_index]->args, '>') == 2)
+		shell->cmd[cmd_index]->out = open(name, O_CREAT | O_RDWR | O_APPEND,
+				0666);
 	else
-		shell->cmd[cmd_index]->out = open(name, O_CREAT | O_RDWR | O_TRUNC, 0666);
+		shell->cmd[cmd_index]->out = open(name, O_CREAT | O_RDWR | O_TRUNC,
+				0666);
 	dup2(shell->cmd[cmd_index]->out, STDOUT_FILENO);
 	close(shell->cmd[cmd_index]->out);
+	shell->cmd[cmd_index]->args = redirection_arg(shell, cmd_index,
+			shell->cmd[cmd_index]->namei, shell->cmd[cmd_index]->namej);
 	free(name);
-}
-
-void	redirection_input(t_shell *shell, char **args, int cmd_index)
-{
-	char	*name;
-	char	*temp;
-	char	cwd[PATH_MAX];
-
-	name = NULL;
-	isrediorpipe(shell, args, '<');
-	name = getname(shell, args, shell->i, shell->j, cmd_index);
-	temp = ft_strjoin(getcwd(cwd, sizeof(cwd)), name);
-	free(name);
-	name = temp;
-	shell->cmd[cmd_index]->in = open(name, O_RDONLY);
-	dup2(shell->cmd[cmd_index]->in, STDIN_FILENO);
-	close(shell->cmd[cmd_index]->in);
-	free(name);
-	int i;
-	i = 0;
-	while (i++ < 10000000);
+	if (ft_strchr(shell->cmd[cmd_index]->name, '>'))
+	{
+		ft_cmd_name_changer(shell, cmd_index);
+		dir_exist(shell, cmd_index, NULL, NULL);
+	}
+	if (isrediorpipe(shell, cmd_index, '>') == 1)
+		return (redirection(shell, cmd_index));
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 10:50:02 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/09 10:41:05 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/16 12:57:28 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,9 @@ char	*format_envp(char *value, int size, int is_new)
 	{
 		arg = ft_substr(value, size + 1, ft_strlen(value));
 		var = ft_substr(value, 0, size + 1);
-		ret = ft_strjoin(var, append('\"', arg, '\"'));
-		free(arg);
-		free(var);
+		ret = ft_strjoin(var, append('\0', arg, '\0'));
+		ft_free_tab(arg);
+		ft_free_tab(var);
 	}
 	else if (is_new && ft_strchr(value, '=') == NULL)
 		ret = ft_strjoin(value, "=\'\'");
@@ -93,5 +93,6 @@ void	set_envp(t_shell *shell, char **envp)
 		return ;
 	while (++i < args_counter(envp))
 		shell->envp[i] = format_envp(envp[i], is_env_valid(envp[i]), 0);
+	shell->envp[i] = NULL;
 	shell->current_path = ft_strdup(getenv("PWD"));
 }

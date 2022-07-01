@@ -19,8 +19,10 @@ void	close_loop(t_shell *shell)
 	i = -1;
 	while (++i < shell->cmd_count)
 	{
-		close(shell->cmd[i]->out);
-		close(shell->cmd[i]->in);
+		if (shell->cmd[i]->out != -1)
+			close(shell->cmd[i]->out);
+		if (shell->cmd[i]->in != -1)
+			close(shell->cmd[i]->in);
 	}
 }
 
@@ -43,4 +45,25 @@ void	is_pipe(char *line, t_shell *shell)
 	}
 	shell->ispipe = pipe;
 	shell->redi = redi;
+}
+
+static void	ft_duper(t_shell *shell, int cmd_index)
+{
+	shell->fd_in = dup(STDIN_FILENO);
+	heredoc(shell, cmd_index);
+}
+
+void	is_heredoc(t_shell *shell, int i)
+{
+	shell->cmd[i]->heredoc = 0;
+	if (isdoubleredi(shell->cmd[i]->args, '<') == 2)
+		ft_duper(shell, i);
+}
+
+void	ft_dup_unlink(t_shell *shell, int i)
+{
+	unlink("temp_minishell");
+	dup2(shell->fd_in, STDIN_FILENO);
+	close(shell->fd_in);
+	shell->cmd[i]->heredoc = 0;
 }

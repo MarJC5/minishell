@@ -6,7 +6,7 @@
 /*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 20:27:21 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/09 16:40:34 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/20 16:34:34 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static void	sort_export(t_shell *shell)
 	ft_free_multi_tab(env_dup);
 }
 
-void	*add_envp(t_shell *shell, int size, char *value)
+void	add_envp(t_shell *shell, int size, char *value)
 {
 	int		i;
 	char	**ret;
@@ -69,16 +69,16 @@ void	*add_envp(t_shell *shell, int size, char *value)
 	i = -1;
 	ret = malloc((size + 2) * sizeof(char *));
 	if (!ret)
-		return (NULL);
+		return ;
 	while (++i < (size - 1))
 	{
 		ret[i] = ft_strdup(shell->envp[i]);
 		ft_free_tab(shell->envp[i]);
 	}
+	free(shell->envp);
 	ret[i++] = value;
 	ret[i] = NULL;
 	shell->envp = ret;
-	return (ret);
 }
 
 void	export(t_shell *shell, int cmd_index)
@@ -86,17 +86,14 @@ void	export(t_shell *shell, int cmd_index)
 	int	i;
 
 	i = 0;
-	g_exit_stat = 0;
+	g_exit_stat = 1;
 	if (shell->cmd[cmd_index]->args_count == 1)
 		sort_export(shell);
 	else if (shell->cmd[cmd_index]->args_count > 1)
 	{
 		if (shell->cmd[cmd_index]->args[1][0] == '=')
-		{
-			g_exit_stat = 1;
 			str_err("export: not valid in this context: ",
 				shell->cmd[cmd_index]->args[1]);
-		}
 		else
 		{
 			while (shell->cmd[cmd_index]->args[++i])
@@ -104,6 +101,7 @@ void	export(t_shell *shell, int cmd_index)
 				update_envp(shell, shell->cmd[cmd_index]->args[i],
 					args_counter(shell->envp),
 					is_env_valid(shell->cmd[cmd_index]->args[i]));
+				g_exit_stat = 0;
 			}
 		}
 	}

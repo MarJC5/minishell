@@ -38,8 +38,17 @@ FILES	=	main.c \
 			res/utils_2.c \
 			res/free.c \
 			res/ascii.c \
+			parsing/dollar_replace.c \
+			parsing/dollar_utils.c \
+			parsing/pars_dollar.c \
+			parsing/pars_dollars_utils.c \
 			parsing/pars_args.c \
+			parsing/pars_remove.c \
+			parsing/pars_space_2.c \
+			parsing/pars_space.c \
+			parsing/quote_utils_2.c \
 			parsing/quote_utils.c \
+			parsing/replace_args.c \
 			builtins/env.c \
 			builtins/cd.c \
 			builtins/echo.c \
@@ -47,12 +56,15 @@ FILES	=	main.c \
 			builtins/pwd.c \
 			builtins/unset.c \
 			builtins/exit.c \
-			builtins/utils/echo_utils.c \
 			builtins/utils/env_utils.c \
 			builtins/utils/env_var.c \
 			builtins/utils/init_func.c \
 			redirection/redirection.c \
+			redirection/heredoc.c \
+			redirection/utils_2.c \
 			redirection/utils.c \
+			redirection/redi_args.c \
+			redirection/redinput.c \
 			pipe/pipe.c \
 			pipe/pipe_utils.c \
 			path/path.c \
@@ -90,11 +102,15 @@ clean:
 fclean: clean
 	@$(MAKE) -C ./newlibft fclean
 	@$(RM) $(NAME)
+	@${RM} -r ${NAME}.dSYM
 	@echo "[$(ORANGE)$(NAME)$(RESET)] fclean: $(GREEN)OK$(RESET)"
 
 re: fclean all
 
+leaks:
+	leaks -atExit -- ./$(NAME)
+
 valgrind:
 	valgrind --leak-check=full ./$(NAME)
 
-.PHONY: all clean fclean re valgrind
+.PHONY: all debug clean fclean re valgrind leaks

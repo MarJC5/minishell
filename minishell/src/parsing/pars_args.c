@@ -6,56 +6,89 @@
 /*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 08:46:53 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/15 11:38:48 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/16 12:52:52 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-int	check_read_quote(char *str)
-{
-	if (quote_counter(str, '\"') == 1
-		|| quote_counter(str, '\'') == 1)
-	{
-		g_exit_stat = 127;
-		str_err("minishell: syntax error", NULL);
-		return (EXIT_FAILURE);
-	}
-	return (EXIT_SUCCESS);
-}
-
 void	pars_cmd_name_quote(char *str)
 {
 	if (quote_counter(str, '\"') == 0)
 		remove_char(str, '\"');
-	else if (quote_counter(str, '\'') == 0)
+	if (quote_counter(str, '\'') == 0)
 		remove_char(str, '\'');
 }
 
-char	**pars_join(t_shell *shell, char *args, char c, int cmd_index)
+int	quote_finder_char(t_shell *shell, int cmd_index, int i)
 {
-	int		i;
-	char	**tmp;
+	while (shell->cmd[cmd_index]->args[i][shell->eqj])
+	{
+		if (shell->cmd[cmd_index]->args[i][shell->eqj] == '\"'
+			|| shell->cmd[cmd_index]->args[i][shell->eqj] == '\'')
+		{
+			shell->sq = shell->cmd[cmd_index]->args[i][shell->eqj];
+			shell->sqj = shell->eqj;
+			shell->eqj = 0;
+			shell->eq = '\0';
+			return (1);
+		}
+		shell->eqj++;
+	}
+	return (0);
+}
+
+char	*ft_join_quote(t_shell *shell, int cmd_index, int *i)
+{
+	char	*tmp;
 	char	*merge;
-	char	*new_args;
+	int		c;
+
+	c = 0;
+	tmp = ft_strdup("");
+	while (*i < args_counter(shell->cmd[cmd_index]->args) - 1 && c == 0)
+	{
+		pars_dollars(shell, cmd_index, *i, NULL);
+		quote_finder_two(shell, shell->cmd[cmd_index]->args[*i], 1);
+		if (shell->eq != '\0')
+		{
+			if (quote_finder_char(shell, cmd_index, *i) == 0)
+			{
+				c = 1;
+			}
+		}
+		merge = ft_strjoin(tmp, shell->cmd[cmd_index]->args[*i]);
+		ft_free_tab(tmp);
+		tmp = ft_strdup(merge);
+		free(merge);
+		*i += 1;
+	}
+	return (tmp);
+}
+
+void	pars_args_split(t_shell *shell, char *args, int cmd_index)
+{
+	int	i;
 
 	i = 0;
-	tmp = ft_split(args, c);
-	merge = ft_strdup("");
-	while (tmp[i])
+	shell->err_quote = 0;
+	if (ft_strchr(args, '\'') || ft_strchr(args, '\"'))
 	{
-		new_args = ft_strjoin(merge, append('\"', tmp[i], '\"'));
-		free(merge);
-		merge = ft_strdup(new_args);
-		free(new_args);
-		i++;
+		shell->cmd[cmd_index]->args = ft_split_with_delimiter(args, ' ');
+		if (quote_counter_sign(shell->cmd[cmd_index]->args, 0, 0, 0) == '\0')
+			shell->cmd[cmd_index]->args = pars_space(shell, 0, 0, cmd_index);
+		else
+		{
+			shell->err_quote = 1;
+			str_err("minishell: Erreur missing quote", &shell->sq);
+		}
 	}
-	i = (int)ft_strlen(merge) - (int)ft_strlen(shell->cmd[cmd_index]->name);
-	shell->cmd[cmd_index]->pars_args = ft_substr(merge,
-			ft_strlen(shell->cmd[cmd_index]->name) + 1, i);
-	shell->cmd[cmd_index]->quotted = 1;
-	free(merge);
-	return (tmp);
+	else
+	{
+		shell->cmd[cmd_index]->args = ft_split(args, ' ');
+		while (shell->cmd[cmd_index]->args[i])
+			pars_dollars(shell, cmd_index, i++, NULL);
+	}
 }
 
 void	pars_args(t_shell *shell, char *args, int cmd_index)
@@ -67,17 +100,13 @@ void	pars_args(t_shell *shell, char *args, int cmd_index)
 	shell->cmd[cmd_index]->shell = shell;
 	shell->cmd[cmd_index]->in = -1;
 	shell->cmd[cmd_index]->out = -1;
+	shell->cmd[cmd_index]->heredoc = 0;
 	shell->cmd[cmd_index]->pid = -1;
 	shell->cmd[cmd_index]->cmd_pos = cmd_index;
-	shell->cmd[cmd_index]->name = arg_to_lower(ft_strdup(tmp[0]));
+	shell->cmd[cmd_index]->quotted = 0;
+	shell->cmd[cmd_index]->name = ft_strdup(tmp[0]);
 	pars_cmd_name_quote(shell->cmd[cmd_index]->name);
-	shell->cmd[cmd_index]->pars_args = NULL;
-	if (ft_strchr(args, '\"') != NULL)
-		shell->cmd[cmd_index]->args = pars_join(shell, args, '\"', cmd_index);
-	else if (ft_strchr(args, '\'') != NULL)
-		shell->cmd[cmd_index]->args = pars_join(shell, args, '\'', cmd_index);
-	else
-		shell->cmd[cmd_index]->args = ft_split(args, ' ');
+	pars_args_split(shell, args, cmd_index);
 	shell->cmd[cmd_index]->args_count = args_counter(
 			shell->cmd[cmd_index]->args);
 	shell->cmd_count++;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 12:05:05 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/13 22:48:56 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/20 16:36:13 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static int	found_env(t_shell *shell, int env_size, char *value)
 	return (pos);
 }
 
-void	*remove_envp(t_shell *shell, char *value, int size)
+void	remove_envp(t_shell *shell, char *value, int size)
 {
 	int		i;
 	char	**ret;
@@ -48,32 +48,34 @@ void	*remove_envp(t_shell *shell, char *value, int size)
 	i = -1;
 	ret = malloc((size) * sizeof(char *));
 	if (!ret)
-		return (NULL);
+		return ;
 	while (++i < (size - 1))
 	{
 		if (i < found_env(shell, env_name_size(value), value))
 			ret[i] = ft_strdup(shell->envp[i]);
 		else if (shell->envp[i + 1] != NULL)
 			ret[i] = ft_strdup(shell->envp[i + 1]);
-		ft_free_tab(shell->envp[i]);
 	}
-	ft_free_tab(shell->envp[i]);
 	ret[i] = NULL;
+	ft_free_multi_tab(shell->envp);
 	shell->envp = ret;
-	return (ret);
 }
 
 void	unset(t_shell *shell, int cmd_index)
 {
+	int	i;
+
+	i = 0;
+	g_exit_stat = 1;
 	if (shell->cmd[cmd_index]->args_count > 1)
 	{
-		g_exit_stat = 0;
-		remove_envp(shell, shell->cmd[cmd_index]->args[1],
-			args_counter(shell->envp));
+		while (shell->cmd[cmd_index]->args[++i])
+		{
+			remove_envp(shell, shell->cmd[cmd_index]->args[i],
+				args_counter(shell->envp));
+			g_exit_stat = 0;
+		}
 	}
 	else
-	{
-		g_exit_stat = 1;
 		str_err("unset: not enough arguments", NULL);
-	}
 }

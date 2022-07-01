@@ -12,18 +12,18 @@
 
 #include "../../inc/minishell.h"
 
-int	isrediorpipe(t_shell *shell, char **args, char sign)
+int	isrediorpipe(t_shell *shell, int cmd_index, char sign)
 {
 	int	i;
 	int	j;
 
 	i = 0;
-	while (args[i])
+	while (shell->cmd[cmd_index]->args[i])
 	{
 		j = 0;
-		while (args[i][j])
+		while (shell->cmd[cmd_index]->args[i][j])
 		{
-			if (args[i][j] == sign)
+			if (shell->cmd[cmd_index]->args[i][j] == sign)
 			{
 				shell->i = i;
 				shell->j = j;
@@ -60,30 +60,65 @@ int	isdoubleredi(char **args, char sign)
 	return (0);
 }
 
-char	*getname(t_shell *shell, char **args, int i, int j, int cmd_index)
+int	ft_more_redi(char **args, char sign)
 {
+	int	i;
+	int	j;
+	int	count;
+
+	i = 0;
+	count = 0;
+	while (args[i])
+	{
+		j = 0;
+		while (args[i][j])
+		{
+			if (args[i][j] == sign)
+			{
+				count++;
+				if (count == 3)
+					return (1);
+			}
+			else
+				count = 0;
+			j++;
+		}
+		i++;
+	}
+	return (0);
+}
+
+void	set_var_struct(t_shell *shell, int i, int j, int cmd_index)
+{
+	shell->cmd[cmd_index]->namei = i;
+	shell->cmd[cmd_index]->namej = j;
+}
+
+char	*getname(t_shell *shell, int i, int j, int cmd_index)
+{
+	char	**args;
 	char	*name;
 	int		g;
 
 	g = 0;
+	args = shell->cmd[cmd_index]->args;
 	if (args[i][j + 1] && args[i][j + 1] != '>' && args[i][j + 1] != '<')
 		name = malloc(ft_strlen(&args[i][++j]) + 2);
-	else if (args[i][j + 1] == '>' && args[i][j + 1] == '<' && args[i][j + 3])
+	else if (ft_check_getname(args, i, j))
 		name = malloc(ft_strlen(&args[i][j += 2]) + 2);
 	else
 	{
 		if (args[i + 1])
-		{
 			name = malloc(ft_strlen(args[++i]) + 2);
-			j = 0;
-		}
 		else
 			return (NULL);
+		j = 0;
 	}
 	name[g++] = '/';
 	while (args[i][j] && args[i][j] != '>' && args[i][j] != '<')
 		name[g++] = args[i][j++];
 	name[g] = '\0';
-	redirection_arg(shell, cmd_index, i, j);
+	ft_redo_char3(name);
+	set_var_struct(shell, i, j, cmd_index);
 	return (name);
 }

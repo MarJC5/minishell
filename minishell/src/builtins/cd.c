@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmartin <jmartin@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 14:47:44 by jmartin           #+#    #+#             */
-/*   Updated: 2022/05/03 14:39:48 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/20 16:33:48 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,28 @@
 
 void	ft_cd(t_shell *shell, int cmd_index)
 {
-	int	i;
-
-	i = 0;
-	g_exit_stat = 0;
-	while (shell->cmd[cmd_index]->args[i])
+	env_updater(shell, "OLDPWD", getcwd(shell->current_path, 100));
+	if (shell->cmd[cmd_index]->args[1] != NULL
+		|| shell->cmd[cmd_index]->args_count == 1)
 	{
-		if (shell->cmd[cmd_index]->args[i][0] == 'c'
-			&& shell->cmd[cmd_index]->args[i][1] == 'd'
-			&& shell->cmd[cmd_index]->args[i][2] == '\0')
-			break ;
-		i++;
+		if (shell->cmd[cmd_index]->args_count == 1)
+		{
+			g_exit_stat = 0;
+			chdir("/");
+			env_updater(shell, "PWD", getcwd(shell->current_path, 100));
+			ft_printf("%s\n", shell->current_path);
+		}
+		else
+		{
+			g_exit_stat = chdir(shell->cmd[cmd_index]->args[1]);
+			env_updater(shell, "PWD", getcwd(shell->current_path, 100));
+			if (g_exit_stat == -1)
+				str_perr("cd: ", shell->cmd[cmd_index]->args[1]);
+			else
+			{
+				g_exit_stat = 0;
+				ft_printf("%s\n", shell->current_path);
+			}
+		}
 	}
-	i++;
-	if (chdir(shell->cmd[cmd_index]->args[i]) == -1)
-	{
-		g_exit_stat = 1;
-		str_err("cd: ", shell->cmd[cmd_index]->args[i]);
-	}
-	else
-		chdir(shell->cmd[cmd_index]->args[i]);
-	ft_printf("%s\n", getcwd(shell->current_path, 100));
 }

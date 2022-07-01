@@ -14,9 +14,10 @@
 
 int	handle_out(t_shell *shell, int cmd_index)
 {
-	if (isrediorpipe(shell, shell->cmd[cmd_index]->args, '>') == 1)
+	if (isrediorpipe(shell, cmd_index, '>') == 1)
 	{
-		redirection(shell, shell->cmd[cmd_index]->args, cmd_index);
+		redirection(shell, cmd_index);
+		ft_redo_char(shell, cmd_index);
 		return (1);
 	}
 	if (shell->cmd[cmd_index]->out != -1)
@@ -29,9 +30,13 @@ int	handle_out(t_shell *shell, int cmd_index)
 
 int	handle_in(t_shell *shell, int cmd_index)
 {
-	if (isrediorpipe(shell, shell->cmd[cmd_index]->args, '<') == 1)
+	if (isrediorpipe(shell, cmd_index, '<') == 1)
 	{
-		redirection_input(shell, shell->cmd[cmd_index]->args, cmd_index);
+		if (shell->cmd[cmd_index]->heredoc == 1)
+			;
+		else
+			redirection_input(shell, cmd_index);
+		ft_redo_char(shell, cmd_index);
 		return (1);
 	}
 	if (shell->cmd[cmd_index]->in != -1)
@@ -44,15 +49,19 @@ int	handle_in(t_shell *shell, int cmd_index)
 
 void	child_process(t_shell *shell, int cmd_index)
 {
-	char	**path;
-
-	path = path_finder(shell);
 	shell->out_status = handle_out(shell, cmd_index);
 	shell->in_status = handle_in(shell, cmd_index);
 	close_loop(shell);
-	open_dir(shell, path, shell->cmd[cmd_index]->name, cmd_index);
-	free(path);
+	check_access(shell, cmd_index);
+	g_exit_stat = shell->exit_status;
 	exit(EXIT_SUCCESS);
+}
+
+static void	ft_norme(t_shell *shell, int *fd, int i)
+{
+	pipe(fd);
+	shell->cmd[i]->out = fd[1];
+	shell->cmd[i + 1]->in = fd[0];
 }
 
 void	pipex(t_shell *shell)
@@ -62,24 +71,23 @@ void	pipex(t_shell *shell)
 
 	i = -1;
 	while (++i < shell->cmd_count - 1)
-	{
-		pipe(fd);
-		shell->cmd[i]->out = fd[1];
-		shell->cmd[i + 1]->in = fd[0];
-	}
+		ft_norme(shell, fd, i);
 	i = -1;
 	while (++i < shell->cmd_count)
 	{
+		is_heredoc(shell, i);
 		shell->cmd[i]->pid = fork();
 		if (shell->cmd[i]->pid == 0)
 			child_process(shell, i);
+		if (shell->cmd[i]->heredoc == 1)
+			ft_dup_unlink(shell, i);
 	}
 	close_loop(shell);
-	i = 0;
-	while (i < shell->cmd_count)
+	i = -1;
+	while (++i < shell->cmd_count)
 	{
+		g_exit_stat = -1;
 		waitpid(shell->cmd[i]->pid, &shell->exit_status, 0);
 		exit_status(shell->exit_status);
-		i++;
 	}
 }

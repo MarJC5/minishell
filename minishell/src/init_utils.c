@@ -6,31 +6,61 @@
 /*   By: jmartin <jmartin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 21:16:18 by jmartin           #+#    #+#             */
-/*   Updated: 2022/06/15 11:55:23 by jmartin          ###   ########.fr       */
+/*   Updated: 2022/06/21 16:55:42 by jmartin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-void	old_fd(t_shell *shell, int i)
+void	old_fd(t_shell *shell)
 {
-	if (i == 1)
+	int	i;
+
+	i = 0;
+	if (ft_more_redi(shell->cmd[0]->args, '>') == 1)
 	{
-		shell->fd = dup(STDOUT_FILENO);
-		redirection(shell, shell->cmd[0]->args, 0);
+		str_err("minishell: syntax error near unexpected token `>'", NULL);
+		return ;
+	}
+	shell->fd = dup(STDOUT_FILENO);
+	i = redirection(shell, 0);
+	ft_redo_char(shell, 0);
+	if (i == 0)
+	{
+		init_func(shell, 0);
 		shell->cmd[0]->func(shell, 0);
-		dup2(shell->fd, STDOUT_FILENO);
 	}
-	else
+	dup2(shell->fd, STDOUT_FILENO);
+	close(shell->fd);
+}
+
+void	old_fd_two(t_shell *shell)
+{
+	shell->redinput_err = 0;
+	if (ft_more_redi(shell->cmd[0]->args, '<') == 1)
 	{
-		shell->fd = dup(STDIN_FILENO);
-		redirection_input(shell, shell->cmd[0]->args, 0);
-		if (shell->redi >= 1)
-			old_fd(shell, 1);
-		else
-			shell->cmd[0]->func(shell, 0);
-		dup2(shell->fd, STDIN_FILENO);
+		str_err("minishell: syntax error near unexpected token `<'", NULL);
+		return ;
 	}
+	shell->fd_in = dup(STDIN_FILENO);
+	if (isdoubleredi(shell->cmd[0]->args, '<') == 2)
+		heredoc(shell, 0);
+	else if (redirection_input(shell, 0) == 1)
+		return ;
+	if (shell->redi >= 1)
+		old_fd(shell);
+	else if (shell->redinput_err == 0)
+	{
+		ft_redo_char(shell, 0);
+		init_func(shell, 0);
+		shell->cmd[0]->func(shell, 0);
+	}
+	if (shell->cmd[0]->heredoc == 1)
+		unlink("temp_minishell");
+	shell->cmd[0]->heredoc = 0;
+	shell->redinput_err = 0;
+	dup2(shell->fd_in, STDIN_FILENO);
+	close(shell->fd_in);
 }
 
 static void	split_pipe_cmd(t_shell *shell, char *args)
@@ -40,19 +70,13 @@ static void	split_pipe_cmd(t_shell *shell, char *args)
 
 	i = 0;
 	tmp = ft_split(args, '|');
-	shell->cmd_count = 0;
 	while (tmp[i])
 	{
-		if (quote_counter(tmp[i], '\"') == 0)
-			rm_quote_out(tmp[i], '\"');
-		if (quote_counter(tmp[i], '\'') == 0)
-			rm_quote_out(tmp[i], '\'');
 		if (ft_isspace(tmp[i]))
 		{
 			pars_args(shell, tmp[i], i);
 			init_func(shell, i);
-			shell->cmd[0]->start = 1;
-			shell->cmd[i]->quotted = 0;
+			shell->cmd[i]->start = 1;
 		}
 		i++;
 	}
@@ -63,13 +87,15 @@ void	init_cmd(t_shell *shell, char *args)
 {
 	int	j;
 
+	replace_spec_char(args, 0, 0, '\0');
+	if (pipe_tester(shell, args) == 1 || heredoc_tester(shell, args) == 1)
+		return ;
+	shell->redinput = ft_strchr(args, '<');
 	is_pipe(args, shell);
 	if (shell->ispipe >= 1)
 		j = ++shell->ispipe;
 	else
 		j = 1;
-	shell->bcklash_n = 0;
-	shell->cmd_count = 0;
 	shell->cmd = malloc(j * sizeof(t_cmd));
 	if (!shell->cmd)
 		return ;
@@ -78,10 +104,10 @@ void	init_cmd(t_shell *shell, char *args)
 		pars_args(shell, args, 0);
 		init_func(shell, 0);
 		shell->cmd[0]->start = 1;
-		shell->cmd[0]->quotted = 0;
 	}
 	else if (j > 1)
 		split_pipe_cmd(shell, args);
+	ft_free_tab(args);
 }
 
 char	*init_read(t_shell *shell)
@@ -99,10 +125,10 @@ char	*init_read(t_shell *shell)
 		details = ft_strjoin(getenv("USER"), join_d);
 	join_p = ft_strjoin(details, " $ ");
 	prompt = ft_strjoin("\033[1;36mminishell\033[1;37m@\033[1;32m", join_p);
-	free(details);
-	free(join_d);
-	free(join_p);
-	free(prompt);
+	ft_free_tab(details);
+	ft_free_tab(join_d);
+	ft_free_tab(join_p);
+	ft_free_tab(prompt);
 	return (readline(
 			"\033[1;36mminishell\033[1;37m@\033[1;32m42lausanne\033[0m: $ "));
 }

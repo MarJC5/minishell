@@ -34,7 +34,7 @@ echo "~"
 
 # More quote testing !
 "/bin/"date
-'/bin'date
+'/bin/'date
 
 # builtins
 echo "Hello"

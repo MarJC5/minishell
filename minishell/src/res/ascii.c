@@ -31,6 +31,13 @@ int	heredoc_while(char *str, int i)
 {
 	while (str[i])
 	{
+		if (str[i] && (str[i] == '\"' || str[i] == '\''))
+		{
+			if (str[i + 1] && str[i + 1] == str[i])
+			{
+				return (1);
+			}
+		}
 		if (str[i] == ' ')
 			i++;
 		else if (str[i] == '>')
@@ -54,7 +61,7 @@ int	heredoc_tester(t_shell *shell, char *str)
 			{
 				if (heredoc_while(str, i + 2) == 1)
 				{
-					str_err("minishell: syntax error near unexpected token `>'",
+					str_err("minishell: syntax error near unexpected token `<'",
 						NULL);
 					shell->err_quote = 1;
 					shell->err_pipe = 1;

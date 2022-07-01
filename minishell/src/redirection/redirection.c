@@ -14,8 +14,9 @@
 
 void	ft_cmd_name_changer(t_shell *shell, int cmd_index)
 {
+	if (!shell->cmd[cmd_index]->args[0])
+		return ;
 	ft_free_tab(shell->cmd[cmd_index]->name);
-	shell->cmd[cmd_index]->name = NULL;
 	shell->cmd[cmd_index]->name = ft_strdup(shell->cmd[cmd_index]->args[0]);
 }
 

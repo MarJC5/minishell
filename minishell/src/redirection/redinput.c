@@ -37,6 +37,8 @@ char	*redinput_name(t_shell *shell, int cmd_index)
 
 void	ft_cmd_name_changer_eco_line(t_shell *shell, int cmd_index)
 {
+	if (!shell->cmd[cmd_index]->args[0])
+		return ;
 	ft_cmd_name_changer(shell, cmd_index);
 	dir_exist(shell, cmd_index, NULL, NULL);
 }

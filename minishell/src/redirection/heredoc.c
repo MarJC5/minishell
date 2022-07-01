@@ -30,9 +30,12 @@ char	*ft_get_keyword(t_shell *shell, char **str, int cmd_index)
 		name = malloc(ft_strlen(str[++i]) + 1);
 		j = 0;
 	}
+	else
+		return (NULL);
 	while (str[i][j] && str[i][j] != '>' && str[i][j] != '<')
 		name[g++] = str[i][j++];
 	name[g] = '\0';
+	ft_redo_char3(name);
 	shell->cmd[cmd_index]->namei = i;
 	shell->cmd[cmd_index]->namej = j;
 	return (name);
@@ -71,6 +74,12 @@ void	heredoc(t_shell *shell, int cmd_index)
 			O_CREAT | O_RDWR | O_APPEND, 0666);
 	shell->cmd[cmd_index]->heredoc = 1;
 	kw = ft_get_keyword(shell, shell->cmd[cmd_index]->args, cmd_index);
+	if (kw == NULL)
+	{
+		shell->redinput_err = 1;
+		str_err("minishell: syntax error near unexpected token `newline'", NULL);
+		return ;
+	}
 	while_heredoc(shell, kw, cmd_index);
 	ft_free_tab(kw);
 	shell->cmd[cmd_index]->args = redirection_arg(shell, cmd_index,

@@ -52,6 +52,12 @@ int	redirection_input(t_shell *shell, int cmd_index)
 	shell->cmd[cmd_index]->namej = 0;
 	isrediorpipe(shell, cmd_index, '<');
 	name = redinput_name(shell, cmd_index);
+	if (name == NULL)
+	{
+		str_err("minishell: syntax error near unexpected token `newline'", NULL);
+		free(name);
+		return (1);
+	}
 	shell->cmd[cmd_index]->in = open(name, O_RDONLY);
 	dup2(shell->cmd[cmd_index]->in, STDIN_FILENO);
 	if (shell->cmd[cmd_index]->in != -1)

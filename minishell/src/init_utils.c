@@ -83,6 +83,20 @@ static void	split_pipe_cmd(t_shell *shell, char *args)
 	ft_free_multi_tab(tmp);
 }
 
+int	heredoc_while(char *str, int i)
+{
+	while (str[i])
+	{
+		if (str[i] == ' ')
+			i++;
+		else if (str[i] == '>')
+			return (1);
+		else
+			return (0);
+	}
+	return (1);
+}
+
 int	heredoc_tester(t_shell *shell, char *str)
 {
 	int	i;
@@ -94,7 +108,7 @@ int	heredoc_tester(t_shell *shell, char *str)
 		{
 			if (str[i + 1] && str[i + 1] == '<')
 			{
-				if (str[i + 2] && str[i + 2] == '>')
+				if (heredoc_while(str, i + 2) == 1)
 				{
 					str_err("minishell: syntax error near unexpected token `>'",
 						NULL);
